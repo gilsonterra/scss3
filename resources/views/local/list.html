@@ -1,0 +1,10 @@
+{% extends "base.html" %} 
+
+{% block content %}
+    <local-list grid="{ JSON.parse('{{ grid | json_encode }}') }"></local-list >
+{% endblock %}
+
+{% block js %}                            
+    <script src="{{ base_url }}/tags/pagination.html" ></script>  
+    <script src="{{ base_url }}/tags/local/list.html" ></script>    
+{% endblock %}

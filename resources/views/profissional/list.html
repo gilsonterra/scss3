@@ -1,0 +1,10 @@
+{% extends "base.html" %} 
+
+{% block content %}
+    <profissional-list grid="{ JSON.parse('{{ grid | json_encode }}') }"></profissional-list >
+{% endblock %}
+
+{% block js %}                                    
+    <script src="{{ base_url }}/tags/pagination.html" ></script>  
+    <script src="{{ base_url }}/tags/profissional/list.html" ></script>    
+{% endblock %}

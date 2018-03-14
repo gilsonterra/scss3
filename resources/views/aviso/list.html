@@ -1,0 +1,11 @@
+{% extends "base.html" %} 
+
+{% block content %}
+    <aviso-list grid="{ JSON.parse('{{ grid | json_encode }}') }"></aviso-list >
+{% endblock %}
+
+{% block js %}                                
+    <script src="{{ base_url }}/tags/raw.html" ></script> 
+    <script src="{{ base_url }}/tags/pagination.html" ></script>  
+    <script src="{{ base_url }}/tags/aviso/list.html" ></script>    
+{% endblock %}

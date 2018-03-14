@@ -1,0 +1,37 @@
+{% extends "base.html" %} {% block content %}
+<div id="aviso-form"></div>
+{% endblock %} 
+
+
+{% block css %}
+    <link rel="stylesheet" href="{{ base_url }}/css/pell.min.css">
+{% endblock %}
+
+{% block js %}
+<script src="{{ base_url }}/js/pell.js"></script>
+<script src="{{ base_url }}/tags/aviso/form.html"></script>
+
+<script type="text/javascript">
+    window.onload = function () {
+        APP.load.css(BASE_URL + '/css/sweetalert2.min.css');            
+        APP.load.js(BASE_URL + '/js/sweetalert2.min.js');
+        APP.load.js(BASE_URL + '/js/pell.js');
+    }
+</script>
+
+<script>
+    var codigo = '{{ codigo }}';        
+    
+    if (codigo) {                   
+        APP.ajaxPostRequest(BASE_URL + '/aviso/buscar/', JSON.stringify({'codigo': codigo}),
+            function (json) {                           
+                riot.mount('#aviso-form', 'aviso-form', {
+                    'dados': json[0]
+                });
+            }
+        );
+    } else {
+        riot.mount('#aviso-form', 'aviso-form');
+    }
+</script>
+{% endblock %}

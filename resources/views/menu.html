@@ -1,0 +1,73 @@
+<div class="container-menu">
+    <div class="container grid-xl">
+        <header class="navbar hide-sm">
+            <section class="navbar-section ">
+                <a href="{{ base_url }}/inicio" class="navbar-brand mr-2 chip bg-ligth">SCSS</a>
+                <a href="{{ base_url }}/inicio" class="btn btn-link btn-menu">Início</a>
+                <a href="{{ base_url }}/paciente/listar" class="btn btn-link btn-menu">Usuário</a>
+                <a href="{{ base_url }}/atividade-tecnica/listar" class="btn btn-link btn-menu">Atividades Técnicas</a>
+                <div class="dropdown">
+                    <a href="#" class="btn btn-link btn-menu dropdown-toggle" tabindex="0">
+                        Relatórios
+                        <i class="icon icon-caret"></i>
+                    </a>
+                    <ul class="menu">
+                        <li class="menu-item">
+                        </li>
+                    </ul>
+                </div>
+                {% if usuario_sessao.admin == 1 %}
+                <div class="dropdown">
+                    <a href="#" class="btn btn-link btn-menu dropdown-toggle" tabindex="0">
+                        Configurações
+                        <i class="icon icon-caret"></i>
+                    </a>
+                    <ul class="menu">
+                        <li class="menu-item">
+                            <a href="{{ base_url }}/local/listar">Local</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="{{ base_url }}/profissional/listar">Profissional</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="{{ base_url }}/aviso/listar">Aviso</a>
+                        </li>
+                    </ul>
+                </div>
+                {% endif %}
+                <a href="{{ base_url }}/login/logout" class="btn btn-link btn-menu">
+                    <i class="icon icon-shutdown"></i>
+                    Sair
+                </a>
+            </section>
+            <section class="navbar-center">
+
+            </section>
+            <section class="navbar-section">
+                <span class="text-secondary">{{ usuario_sessao['nome'] }}</span>
+            </section>
+        </header>
+        <header class="navbar show-sm">
+            <section class="navbar-section">
+                <label class="navbar-brand mr-2 chip bg-ligth">SCSS</label>
+                <select class="form-select" onchange="window.location.href = this.value">
+                    <option value="">Selecione o menu</option>
+                    <option value="{{ base_url }}/inicio">Início</option>
+                    <option value="{{ base_url }}/paciente/listar">Usuário</option>
+                    <option value="{{ base_url }}/atividade-tecnica/listar">Atividades Técnicas</option>
+                    <optgroup label="Relatórios">
+                        <option value="">ddd</option>
+                    </optgroup>
+                    {% if usuario_sessao.admin == 1 %}
+                    <optgroup label="Configurações">
+                        <option value="{{ base_url }}/local/listar">Local</option>
+                        <option value="{{ base_url }}/profissional/listar">Profissional</option>
+                        <option value="{{ base_url }}/aviso/listar">Aviso</option>
+                    </optgroup>
+                    {% endif %}
+                    <option value="{{ base_url }}/login/logout">Sair</option>
+                </select>
+            </section>
+        </header>
+    </div>
+</div>
