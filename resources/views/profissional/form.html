@@ -5,10 +5,10 @@
 {% endblock %}
 
 {% block js %}            
-    <script src="{{ base_url }}/js/auto-complete.min.js"></script>
-    <script src="{{ base_url }}/tags/form-autocomplete.html"></script>  
-    <script src="{{ base_url }}/tags/pagination.html"></script>            
-    <script src="{{ base_url }}/tags/profissional/form.html" ></script>   
+    <script src="{{ base_url }}/js/auto-complete.min.js" defer></script>
+    <script src="{{ base_url }}/tags/form-autocomplete.html" defer></script>  
+    <script src="{{ base_url }}/tags/pagination.html" defer></script>            
+    <script src="{{ base_url }}/tags/profissional/form.html" defer></script>   
     <script type="text/javascript">
         window.onload = function () {
             APP.load.css(BASE_URL + '/css/sweetalert2.min.css');            
