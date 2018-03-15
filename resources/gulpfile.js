@@ -20,8 +20,7 @@ gulp.task('clean', function () {
 
 gulp.task('critical-css', function () {
     return gulp.src([
-            'node_modules/spectre.css/dist/spectre.min.css',
-            'node_modules/spectre.css/dist/spectre-icons.min.css',
+            'node_modules/spectre.css/dist/spectre.min.css',            
             'css/app.css'
         ])
         .pipe(minifier({
@@ -35,6 +34,7 @@ gulp.task('critical-css', function () {
 
 gulp.task('css', function () {
     return gulp.src([            
+            'node_modules/spectre.css/dist/spectre-icons.min.css',
             'node_modules/sweetalert2/dist/sweetalert2.min.css',
             'node_modules/js-autocomplete/auto-complete.css',
             'node_modules/pell/dist/pell.min.css'            
