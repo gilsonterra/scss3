@@ -1,6 +1,7 @@
 {% extends "base.html" %} 
 
 {% block content %}
+
 <paciente-form dados="{ JSON.parse('{{ dados | json_encode }}') }"></paciente-form>
 {% endblock %} 
 

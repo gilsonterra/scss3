@@ -11,8 +11,19 @@
                 </div>
             </div>
             <div class="card-body">
-                <fieldset>
-                    <legend>Dados Pessoais</legend>
+                <ul class="tab">
+                    <li class="tab-item active">
+                        <a href="#">IDENTIFICAÇÃO&nbsp;&nbsp;&nbsp;</a>
+                    </li>
+                    <li class="tab-item">
+                        <a href="#" class="badge" data-badge="9">INTERVENÇÕES&nbsp;&nbsp;&nbsp;</a>
+                    </li>
+                    <li class="tab-item">
+                        <a href="#">ENTREVISTAS&nbsp;&nbsp;&nbsp;</a>
+                    </li>
+                </ul>     
+                <br>           
+                <fieldset>                    
                     <div class="columns">
                         <div class="column col-2 col-md-12">
                             <div class="form-group { errors.cod_prnt ? 'has-error' : '' }">
@@ -195,7 +206,7 @@
                     console.log(json);
                     if (json.message) {
                         swal(json.message).then(function () {
-                            
+
                         });
                     }
 
