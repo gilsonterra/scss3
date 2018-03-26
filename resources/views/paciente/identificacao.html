@@ -2,12 +2,12 @@
 
 {% block content %}
 
-<paciente-form dados="{ JSON.parse('{{ dados | json_encode }}') }"></paciente-form>
+<paciente-identificacao dados="{ JSON.parse('{{ dados | json_encode }}') }"></paciente-identificacao>
 {% endblock %} 
 
 {% block js %}
 <script src="{{ base_url }}/tags/paciente/form-select-uf.html"></script>
-<script src="{{ base_url }}/tags/paciente/form.html"></script>
+<script src="{{ base_url }}/tags/paciente/identificacao.html"></script>
 <script type="text/javascript">
     window.onload = function () {
         APP.load.css(BASE_URL + '/css/sweetalert2.min.css');        

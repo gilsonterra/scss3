@@ -52,7 +52,7 @@
                             <td class="hide-sm">{ d.nome_social }</td>
                             <td class="hide-sm">{ d.data_nasc_pac }</td>
                             <td>
-                                <a href="{ url }/editar/{ d.codigo_paciente }" if="{ d.tipo == 'SCSS'}" title="Selecionar para alterar" class="btn btn-link">
+                                <a href="{ url }/visualizar/{ d.codigo_paciente }" if="{ d.tipo == 'SCSS'}" title="Selecionar para alterar" class="btn btn-link">
                                     <span class="text-success">Alterar</span> 
                                 </a>
                                 <a href="{ url }/importar-scac/{ d.cod_prnt }" if="{ d.tipo == 'SAMIS'}" title="Importar do SAMIS" class="btn btn-link">

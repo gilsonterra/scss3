@@ -6,7 +6,11 @@
         "illuminate/pagination": "^5.5",
         "yajra/laravel-oci8": "^5.5",
         "christianklisch/slim-minify": "^0.5.0",
-        "respect/validation": "^1.1"        
+        "respect/validation": "^1.1"
+    },
+    "require-dev": {
+        "phpmd/phpmd": "@stable",
+        "squizlabs/php_codesniffer": "3.*"
     },
     "autoload": {
         "psr-4": {

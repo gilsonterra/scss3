@@ -1,0 +1,16 @@
+{% extends "base.html" %} 
+
+{% block content %}
+
+<paciente-index dados="{ JSON.parse('{{ dados | json_encode }}') }"></paciente-index>
+{% endblock %} 
+
+{% block js %}
+<script src="{{ base_url }}/tags/paciente/form-select-uf.html"></script>
+<script src="{{ base_url }}/tags/paciente/index.html"></script>
+<script type="text/javascript">
+    window.onload = function () {
+        APP.load.css(BASE_URL + '/css/sweetalert2.min.css');        
+    }
+</script>
+{% endblock %}

@@ -29,19 +29,31 @@ final class PacienteController extends BaseController
     {        
         $data = [];
         $obj = $this->repository->importarSCAC($args['cod_prnt']);                
-        header('Location: ' . $this->container['router']->pathFor('paciente.edit', ['codigo_paciente' => $obj['codigo_paciente']]));
+        header('Location: ' . $this->container['router']->pathFor('paciente.index', ['codigo_paciente' => $obj['codigo_paciente']]));
         return $response;
     }
 
-    public function createView(Request $request, Response $response, $args)
+    public function indexView(Request $request, Response $response, $args)
     {
-        return $this->viewRender($response, 'paciente/form.html');
+        $data['dados'] = $this->repository->findById($args['codigo_paciente'])->toArray();
+        return $this->viewRender($response, 'paciente/index.html', $data);
+    }
+
+    public function identificacaoView(Request $request, Response $response, $args)
+    {
+        $data['dados'] = $this->repository->findById($args['codigo_paciente'])->toArray();
+        return $this->viewRender($response, 'paciente/identificacao.html', $data);
     }
 
     public function editView(Request $request, Response $response, $args)
     {
         $data['dados'] = $this->repository->findById($args['codigo_paciente'])->toArray();
-        return $this->viewRender($response, 'paciente/form.html', $data);
+        return $this->viewRender($response, 'paciente/identificacao.html', $data);
+    }
+
+    public function createView(Request $request, Response $response, $args)
+    {
+        return $this->viewRender($response, 'paciente/identificacao.html');
     }
 
     public function store(Request $request, Response $response, $args)

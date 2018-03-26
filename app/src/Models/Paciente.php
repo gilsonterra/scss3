@@ -12,11 +12,11 @@ class Paciente extends Model
     protected $guarded    = array('codigo_paciente');
     protected $primaryKey = 'codigo_paciente';
     protected $fillable   = [
-        'acompanhante',            
-        'cns', 
+        'acompanhante',
+        'cns',
         'cod_muni_ibge',
         'cod_muni_ibge_cont',
-        'cod_prnt',                
+        'cod_prnt',
         'end_pac',
         'end_pac_contato',
         'data_nasc_pac',
@@ -42,12 +42,36 @@ class Paciente extends Model
     public function getDataNascPacAttribute($value)
     {
         $date = date_create_from_format('Y-m-d H:i:s', $value);
-        return $date ? $date->format('d/m/Y') : null;;
+        return $date ? $date->format('d/m/Y') : null;
+        ;
     }
 
     public function setDataNascPacAttribute($value)
     {
         $date                                  = date_create_from_format('d/m/Y', $value);
         $this->attributes['data_nasc_pac'] = $date->format('Y-m-d');
+    }
+
+    public function endereco()
+    {
+        return $this->hasOne('App\Models\Municipio', 'cod_ibge', 'cod_muni_ibge');
+    }
+
+    public function enderecoContato()
+    {
+        return $this->hasOne('App\Models\Municipio', 'cod_ibge', 'cod_muni_ibge_cont');
+    }
+
+    public function acompanhamentos()
+    {
+        return $this->hasMany('App\Models\Acompanhamento', 'codigo_paciente', 'codigo_paciente')
+            ->orderBy('data_cadastro', 'DESC');
+    }
+
+    public function entrevistas()
+    {
+        return $this->hasMany('App\Models\Entrevista', 'codigo_paciente', 'codigo_paciente')
+            ->orderBy('data_cadastro', 'DESC')
+            ->where('status', '=', 1);
     }
 }

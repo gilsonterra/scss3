@@ -1,4 +1,4 @@
-<paciente-form>
+<paciente-identificacao>
     <form onsubmit="{ onSubmit }">
         <div class="card">
             <div class="card-header">
@@ -6,24 +6,14 @@
                     <div class="float-left">Paciente: { dados.nome_social || dados.nome_pac }</div>
                     <div class="float-right">
                         <button type="submit" class="btn btn-primary mr-1">Salvar</button>
-                        <a href="{ url }/listar" class="btn btn-secondary">Cancelar</a>
+                        <a href="{ url }/listar" if="{ !dados.codigo_paciente }" class="btn btn-secondary">Cancelar</a>
+                        <a href="{ url }/visualizar/{ dados.codigo_paciente }" if="{ dados.codigo_paciente }" class="btn btn-secondary">Voltar</a>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <ul class="tab">
-                    <li class="tab-item active">
-                        <a href="#">IDENTIFICAÇÃO&nbsp;&nbsp;&nbsp;</a>
-                    </li>
-                    <li class="tab-item">
-                        <a href="#" class="badge" data-badge="9">INTERVENÇÕES&nbsp;&nbsp;&nbsp;</a>
-                    </li>
-                    <li class="tab-item">
-                        <a href="#">ENTREVISTAS&nbsp;&nbsp;&nbsp;</a>
-                    </li>
-                </ul>     
-                <br>           
-                <fieldset>                    
+                <fieldset>
+                    <legend>Identificação</legend>
                     <div class="columns">
                         <div class="column col-2 col-md-12">
                             <div class="form-group { errors.cod_prnt ? 'has-error' : '' }">
@@ -218,4 +208,4 @@
                 });
         }
     </script>
-</paciente-form>
+</paciente-identificacao>

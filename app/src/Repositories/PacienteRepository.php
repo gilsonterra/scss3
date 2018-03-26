@@ -40,7 +40,15 @@ final class PacienteRepository extends BaseRepository
      */
     public function findById($id)
     {
-        return $this->modelPaciente->findOrFail($id);
+        return $this->modelPaciente
+            ->with('endereco')
+            ->with('enderecoContato')
+            ->with('acompanhamentos.local')
+            ->with('acompanhamentos.profissional')
+            ->with('acompanhamentos.acompanhamentoItem.categoria')
+            ->with('entrevistas.local')
+            ->with('entrevistas.profissional')
+            ->findOrFail($id);
     }
 
 
@@ -53,7 +61,7 @@ final class PacienteRepository extends BaseRepository
      */
     public function fetchAll(array $where = array(), $paginate = false, $page = 1)
     {        
-        $query = $this->modelViewPaciente->newQuery();
+        $query = $this->modelViewPaciente->newQuery();        
         $query->orderBy('tipo', 'DESC');
 
         // Where
