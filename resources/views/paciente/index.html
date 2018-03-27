@@ -1,16 +1,35 @@
-{% extends "base.html" %} 
-
-{% block content %}
-
-<paciente-index dados="{ JSON.parse('{{ dados | json_encode }}') }"></paciente-index>
-{% endblock %} 
-
-{% block js %}
-<script src="{{ base_url }}/tags/paciente/form-select-uf.html"></script>
-<script src="{{ base_url }}/tags/paciente/index.html"></script>
+{% extends "base.html" %} {% block content %}
+<paciente-view></paciente-view>
+{% endblock %} {% block js %}
+<script src="{{ base_url }}/tags/paciente/view.html"></script>
+<script src="{{ base_url }}/tags/paciente/view-identificacao.html"></script>
+<script src="{{ base_url }}/tags/paciente/view-acompanhamentos.html"></script>
+<script src="{{ base_url }}/tags/paciente/view-entrevistas.html"></script>
 <script type="text/javascript">
     window.onload = function () {
-        APP.load.css(BASE_URL + '/css/sweetalert2.min.css');        
+        APP.load.css(BASE_URL + '/css/sweetalert2.min.css');
+    };
+
+    var codigo_paciente = '{{ codigo_paciente }}';
+    if (codigo_paciente) {        
+        var data = {};
+        data.joins = [
+            'endereco',
+            'enderecoContato',
+            'acompanhamentos.local',
+            'acompanhamentos.profissional',
+            'acompanhamentos.acompanhamentoItem.categoria',
+            'entrevistas.local',
+            'entrevistas.profissional'
+        ];        
+
+        APP.ajaxPostRequest(BASE_URL + '/paciente/find/' + codigo_paciente, JSON.stringify(data),
+            function (json) {
+                riot.mount('paciente-view', {
+                    'dados': json
+                });
+            }
+        );
     }
 </script>
 {% endblock %}

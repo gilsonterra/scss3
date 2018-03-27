@@ -53,13 +53,18 @@ $app->group('/aviso', function () {
 ->add(new AuthMiddleware($app->getContainer()));
 
 $app->group('/paciente', function () {
-    $this->get('/listar[/]', 'App\Controllers\PacienteController:listView');    
-    $this->get('/criar', 'App\Controllers\PacienteController:createView');    
+    $this->get('/listar[/]', 'App\Controllers\PacienteController:listView');     
+    $this->get('/acompanhamento/{codigo_paciente}', 'App\Controllers\PacienteController:acompanhamentoView');    
     $this->get('/identificacao/{codigo_paciente}', 'App\Controllers\PacienteController:identificacaoView');    
     $this->get('/visualizar/{codigo_paciente}', 'App\Controllers\PacienteController:indexView')->setName('paciente.index');
     $this->post('/persistir/[{codigo_paciente}]', 'App\Controllers\PacienteController:store');
     $this->post('/buscar[/]', 'App\Controllers\PacienteController:fetchAll');
+    $this->post('/find/{codigo_paciente}', 'App\Controllers\PacienteController:find');    
     $this->get('/importar-scac/{cod_prnt}', 'App\Controllers\PacienteController:importarSCAC');
+})->add(new AuthMiddleware($app->getContainer()));
+
+$app->group('/acompanhamento', function () {
+    $this->post('/buscar[/]', 'App\Controllers\AcompanhamentoController:fetchAll');
 })->add(new AuthMiddleware($app->getContainer()));
 
 $app->group('/municipio', function () {

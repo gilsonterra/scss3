@@ -1,0 +1,47 @@
+<paciente-view-acompanhamentos>
+    <fieldset>
+        <legend class="badge" data-badge="{ acompanhamentos.length }">Acompanhamentos </legend>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td style="width:100px;">Data</td>
+                    <td style="width:250px;">Local</td>
+                    <td style="width:100px;">Profissional</td>
+                    <td>Categoria</td>
+                    <td>Acompanhamento</td>
+                    <td style="width:80px;"></td>
+                </tr>
+                <tr each="{ a in acompanhamentos }">
+                    <td class="text-bold">{ a.data_cadastro }</td>
+                    <td class="text-bold">{ a.local.descricao }</td>
+                    <td class="text-bold">{ a.profissional.nome }</td>
+                    <td class="text-bold">{ a.acompanhamento_item.categoria.descricao }</td>
+                    <td class="text-bold">{ a.acompanhamento_item.descricao }</td>
+                    <td>
+                        <div class="dropdown">
+                            <a href="javascript:;" class="btn btn-link btn-menu dropdown-toggle" tabindex="0">
+                                Ações
+                                <i class="icon icon-caret"></i>
+                            </a>
+                            <ul class="menu">
+                                <li class="menu-item">
+                                    <a href="">Visualizar</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="">Alterar</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="">Excluir</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </fieldset>
+    <script>
+        var tag = this;
+        tag.acompanhamentos = opts.acompanhamentos || [];
+    </script>
+</paciente-view-acompanhamentos>

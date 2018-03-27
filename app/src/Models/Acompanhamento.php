@@ -30,4 +30,9 @@ class Acompanhamento extends Model
     {
         return $this->hasOne('App\Models\AcompanhamentoItem', 'codigo', 'fk_acompanhamento');
     }
+
+    public function paciente()
+    {
+        return $this->belongsTo('App\Models\Paciente', 'codigo_paciente', 'codigo_paciente');
+    }
 }

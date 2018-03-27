@@ -53,3 +53,11 @@ $container['App\Controllers\MunicipioController'] = function ($container) {
     
     return new App\Controllers\MunicipioController($container, $repository);
 };
+
+$container['App\Controllers\AcompanhamentoController'] = function ($container) {    
+    $model = new App\Models\Acompanhamento();    
+    $repository = new App\Repositories\AcompanhamentoRepository($model);    
+    $validator = new App\Validators\AcompanhamentoValidator();      
+    
+    return new App\Controllers\AcompanhamentoController($container, $repository, $validator);
+};

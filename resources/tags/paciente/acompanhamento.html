@@ -1,0 +1,113 @@
+<paciente-acompanhamento>
+    <form onsubmit="{ onSubmit }">
+        <div class="card">
+            <div class="card-header">
+                <div class="float-left">
+                    <div class="card-title h5">Intervenção</div>
+                    <div class="card-subtitle text-gray h3"></div>
+                </div>
+                <div class="float-right">
+                    <button type="submit" class="btn btn-primary mr-1">Salvar</button>
+                    <a href="{ url }/listar" if="{ !dados.codigo_paciente }" class="btn btn-secondary">Cancelar</a>
+                    <a href="{ url }/visualizar/{ dados.codigo_paciente }" if="{ dados.codigo_paciente }" class="btn btn-secondary">Voltar</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="columns">
+                    <div class="column col-2 col-md-12">
+                        <div class="form-group { errors.cod_prnt ? 'has-error' : '' }">
+                            <label class="form-label" for="cod_prnt">Prontuário</label>
+                            <input type="text" disabled name="cod_prnt" maxlength="20" value="{ dados.cod_prnt }" class="form-input">
+                            <div class="form-input-hint" if="{ errors.cod_prnt }" each="{ e in errors.cod_prnt }">- { e }</div>
+                        </div>
+                    </div>
+                    <div class="column col-4 col-md-12">
+                        <div class="form-group">
+                            <label class="form-label" for="nome_pac">Nome</label>
+                            <input type="text" maxlength="100" value="{ dados.nome_pac }" class="form-input" disabled>                            
+                        </div>
+                    </div>
+                    <div class="column col-2 col-md-12">
+                        <div class="form-group { errors.data_cadastro ? 'has-error' : '' }">
+                            <label class="form-label" for="data_cadastro">Data Cadastro</label>
+                            <input type="text" name="data_cadastro" maxlength="100" value="{ dados.data_cadastro }" class="form-input">
+                            <div class="form-input-hint" if="{ errors.data_cadastro }" each="{ e in errors.data_cadastro }">- { e }</div>
+                        </div>
+                    </div>
+                    <div class="column col-4 col-md-12">
+                        <div class="form-group { errors.fk_local ? 'has-error' : '' }">
+                            <label class="form-label" for="fk_local">Local</label>
+                            <input type="text" name="fk_local" maxlength="100" value="{ dados.fk_local }" class="form-input">
+                            <div class="form-input-hint" if="{ errors.fk_local }" each="{ e in errors.fk_local }">- { e }</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column col-2 col-md-12">
+                        <div class="form-group { errors.tipo_faturamento ? 'has-error' : '' }">
+                            <label class="form-label" for="tipo_faturamento">Tipo</label>
+                            <select name="tipo_faturamento" id="tipo_faturamento" class="form-select" required>
+                                <option value=""></option>
+                                <option value="E">Externo</option>
+                                <option value="I">Interno</option>
+                            </select>
+                            <div class="form-input-hint" if="{ errors.tipo_faturamento }" each="{ e in errors.tipo_faturamento }">- { e }</div>
+                        </div>
+                    </div>
+                    <div class="column col-4 col-md-12">
+                        <div class="form-group { errors.categoria_acompanhamento ? 'has-error' : '' }">
+                            <label class="form-label" for="categoria_acompanhamento">Categoria</label>
+                            <select name="categoria_acompanhamento" class="form-select"></select>
+                            <div class="form-input-hint" if="{ errors.categoria_acompanhamento }" each="{ e in errors.categoria_acompanhamento }">- { e }</div>
+                        </div>
+                    </div>
+                    <div class="column col-6 col-md-12">
+                        <div class="form-group { errors.fk_acompanhamento ? 'has-error' : '' }">
+                            <label class="form-label" for="fk_acompanhamento">Acompanhamento</label>
+                            <select name="fk_acompanhamento" class="form-select"></select>
+                            <div class="form-input-hint" if="{ errors.fk_acompanhamento }" each="{ e in errors.fk_acompanhamento }">- { e }</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column col-12 col-md-12">
+                        <div class="form-group { errors.relato ? 'has-error' : '' }">
+                            <label class="form-label" for="relato">Relato</label>
+                            <textarea name="relato" rows="5" class="form-input"></textarea>
+                            <div class="form-input-hint" if="{ errors.relato }" each="{ e in errors.relato }">- { e }</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script>
+        var tag = this;
+        tag.url = BASE_URL + '/acompanhamento';
+        tag.errors = opts.errors || {};
+        tag.dados = opts.dados || {};
+        tag.codigo = opts.dados ? opts.dados.codigo_paciente : '';
+        tag.onSubmit = onSubmit;
+
+        function onSubmit(event) {
+            event.preventDefault();
+            var form = event.target;
+            var data = APP.serializeJson(form);
+
+            APP.ajaxPostRequest(tag.url + '/persistir/' + tag.codigo, JSON.stringify(data),
+                function (json) {                    
+                    if (json.message) {
+                        swal(json.message).then(function () {
+
+                        });
+                    }
+
+                    if (json.errors) {
+                        tag.update({
+                            'errors': json.errors
+                        });
+                    }
+                });
+        }
+    </script>
+</paciente-acompanhamento>

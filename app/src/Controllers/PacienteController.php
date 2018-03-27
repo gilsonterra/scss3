@@ -21,39 +21,35 @@ final class PacienteController extends BaseController
     }
 
     public function listView(Request $request, Response $response, $args)
-    {        
+    {
         return $this->viewRender($response, 'paciente/list.html');
     }
 
     public function importarSCAC(Request $request, Response $response, $args)
-    {        
+    {
         $data = [];
-        $obj = $this->repository->importarSCAC($args['cod_prnt']);                
+        $obj = $this->repository->importarSCAC($args['cod_prnt']);
         header('Location: ' . $this->container['router']->pathFor('paciente.index', ['codigo_paciente' => $obj['codigo_paciente']]));
         return $response;
     }
 
     public function indexView(Request $request, Response $response, $args)
     {
-        $data['dados'] = $this->repository->findById($args['codigo_paciente'])->toArray();
+        $data['codigo_paciente'] = $args['codigo_paciente'];
         return $this->viewRender($response, 'paciente/index.html', $data);
     }
 
     public function identificacaoView(Request $request, Response $response, $args)
     {
-        $data['dados'] = $this->repository->findById($args['codigo_paciente'])->toArray();
+        $data['codigo_paciente'] = $args['codigo_paciente'];
         return $this->viewRender($response, 'paciente/identificacao.html', $data);
     }
 
-    public function editView(Request $request, Response $response, $args)
+    public function acompanhamentoView(Request $request, Response $response, $args)
     {
-        $data['dados'] = $this->repository->findById($args['codigo_paciente'])->toArray();
-        return $this->viewRender($response, 'paciente/identificacao.html', $data);
-    }
-
-    public function createView(Request $request, Response $response, $args)
-    {
-        return $this->viewRender($response, 'paciente/identificacao.html');
+        $data['codigo_paciente'] = $args['codigo_paciente'];
+        $data['codigo'] = $args['codigo'];
+        return $this->viewRender($response, 'paciente/acompanhamento.html', $data);
     }
 
     public function store(Request $request, Response $response, $args)
@@ -76,6 +72,17 @@ final class PacienteController extends BaseController
     {
         $data = $request->getParams();
         $data = $this->repository->fetchAll($data, $data['paginate'], $data['page'])->toArray();
+        return $this->jsonRender($response, 200, $data);
+    }
+
+    public function find(Request $request, Response $response, $args)
+    {
+        $codigoPaciente = $args['codigo_paciente'];
+        $joins = $request->getParam('joins', []);
+        $columns = $request->getParam('columns', ['*']);
+        
+        $data = $this->repository->findById($codigoPaciente, $joins, $columns)->toArray();
+
         return $this->jsonRender($response, 200, $data);
     }
 }

@@ -2,13 +2,15 @@
     <form onsubmit="{ onSubmit }">
         <div class="card">
             <div class="card-header">
-                <div class="card-title h3">
-                    <div class="float-left">Paciente: { dados.nome_social || dados.nome_pac }</div>
-                    <div class="float-right">
-                        <button type="submit" class="btn btn-primary mr-1">Salvar</button>
-                        <a href="{ url }/listar" if="{ !dados.codigo_paciente }" class="btn btn-secondary">Cancelar</a>
-                        <a href="{ url }/visualizar/{ dados.codigo_paciente }" if="{ dados.codigo_paciente }" class="btn btn-secondary">Voltar</a>
-                    </div>
+                <div class="float-left">
+                    <div class="card-title h5">Paciente</div>
+                    <div class="card-subtitle text-gray h3">{ dados.nome_social || dados.nome_pac || '-' }</div>
+                </div>
+                <div class="float-right">
+                    <button type="submit" if="{ !dados.codigo_paciente }" class="btn btn-primary mr-1">Salvar</button>
+                    <button type="submit" if="{ dados.codigo_paciente }" class="btn btn-primary mr-1">Alterar</button>
+                    <a href="{ url }/listar" if="{ !dados.codigo_paciente }" class="btn btn-secondary">Cancelar</a>
+                    <a href="{ url }/visualizar/{ dados.codigo_paciente }" if="{ dados.codigo_paciente }" class="btn btn-secondary">Voltar</a>
                 </div>
             </div>
             <div class="card-body">
@@ -77,7 +79,6 @@
                                 <div class="form-input-hint" if="{ errors.cns }" each="{ e in errors.cns }">- { e }</div>
                             </div>
                         </div>
-
                     </div>
                     <div class="columns">
                         <div class="column col-2 col-md-12">
@@ -193,13 +194,14 @@
 
             APP.ajaxPostRequest(tag.url + '/persistir/' + tag.codigo, JSON.stringify(data),
                 function (json) {
-                    console.log(json);
                     if (json.message) {
                         swal(json.message).then(function () {
-
+                            if (json.message.type == 'success') {
+                                window.location.href = tag.url + '/visualizar/' + tag.codigo;
+                            }
                         });
                     }
-
+                    
                     if (json.errors) {
                         tag.update({
                             'errors': json.errors

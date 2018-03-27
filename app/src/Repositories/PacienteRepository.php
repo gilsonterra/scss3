@@ -2,10 +2,8 @@
 
 namespace App\Repositories;
 
-
 use App\Models\Paciente;
 use App\Models\ViewPaciente;
-
 
 final class PacienteRepository extends BaseRepository
 {
@@ -15,7 +13,7 @@ final class PacienteRepository extends BaseRepository
      */
     protected $modelPaciente;
 
-    /**           
+    /**
      * @var ViewPaciente
      */
     protected $modelViewPaciente;
@@ -38,17 +36,9 @@ final class PacienteRepository extends BaseRepository
      * @param int $id
      * @return void
      */
-    public function findById($id)
+    public function findById($id, array $joins = array(), array $columns = array('*'))
     {
-        return $this->modelPaciente
-            ->with('endereco')
-            ->with('enderecoContato')
-            ->with('acompanhamentos.local')
-            ->with('acompanhamentos.profissional')
-            ->with('acompanhamentos.acompanhamentoItem.categoria')
-            ->with('entrevistas.local')
-            ->with('entrevistas.profissional')
-            ->findOrFail($id);
+        return $this->modelPaciente->with($joins)->findOrFail($id, $columns);
     }
 
 
@@ -60,8 +50,8 @@ final class PacienteRepository extends BaseRepository
      * @return void
      */
     public function fetchAll(array $where = array(), $paginate = false, $page = 1)
-    {        
-        $query = $this->modelViewPaciente->newQuery();        
+    {
+        $query = $this->modelViewPaciente->newQuery();
         $query->orderBy('tipo', 'DESC');
 
         // Where
@@ -102,7 +92,7 @@ final class PacienteRepository extends BaseRepository
     {
         $message = $this->createMessage('Paciente criado com sucesso.', 'Sucesso', BaseRepository::SUCCESS);
 
-        try {            
+        try {
             $this->modelPaciente->create($data);
         } catch (\Exception $e) {
             $message = $this->createMessage('Erro ao criar um Paciente. ' . $e->getMessage(), 'Erro', BaseRepository::ERROR);
@@ -132,11 +122,10 @@ final class PacienteRepository extends BaseRepository
         $queryPaciente = $paciente->newQuery();
 
         $importado = $queryPaciente->where('cod_prnt', '=', $codPrnt)->first();
-        if (!$importado) {            
-            $dadosSCAC = $pacienteSCAC->find($codPrnt)->toArray();            
+        if (!$importado) {
+            $dadosSCAC = $pacienteSCAC->find($codPrnt)->toArray();
             $paciente->fill($dadosSCAC)->save();
-        }
-        else{
+        } else {
             $paciente = $importado;
         }
 

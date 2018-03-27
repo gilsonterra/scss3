@@ -1,0 +1,54 @@
+<paciente-view>
+    <div class="card">
+        <div class="card-header">
+            <div class="float-left">
+                <div class="card-title h5">Paciente</div>
+                <div class="card-subtitle text-gray h3">{ dados.nome_social || dados.nome_pac || '-' }</div>
+            </div>
+            <div class="float-right">
+                <div class="dropdown mr-1">
+                    <a href="javascript:;" class="btn btn-primary btn-menu dropdown-toggle" tabindex="0">
+                        Ações
+                        <i class="icon icon-caret"></i>
+                    </a>
+                    <ul class="menu">
+                        <li class="menu-item">
+                            <a href="{ url }/identificacao/{ dados.codigo_paciente }">Alterar Dados</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="{ url }/acompanhamento/{ dados.codigo_paciente }">Nova Intervenção</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="{ url }/entrevista/{ dados.codigo_paciente }">Nova Entrevista</a>
+                        </li>
+                    </ul>
+                </div>
+                <a href="{ url }/listar" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <paciente-view-identificacao dados="{ dados }"></paciente-view-identificacao>
+            <paciente-view-acompanhamentos acompanhamentos="{ dados.acompanhamentos }"></paciente-view-acompanhamentos>
+            <paciente-view-entrevistas entrevistas="{ dados.entrevistas }"></paciente-view-entrevistas>
+        </div>
+    </div>
+
+    <style>
+        .form-group span {
+            font-weight: bold;
+            min-height: 15px;
+        }
+    </style>
+
+    <script>
+        var tag = this;
+        tag.url = BASE_URL + '/paciente';
+        tag.dados = opts.dados || {
+            endereco_contato: {},
+            endereco: {},
+            entrevistas: [],
+            acompanhamentos: []
+        };
+    </script>
+
+</paciente-view>
