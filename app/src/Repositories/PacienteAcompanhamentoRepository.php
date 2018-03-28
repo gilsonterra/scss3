@@ -6,7 +6,7 @@ use App\Models\Acompanhamento;
 
 use Illuminate\Pagination\AbstractPaginator as Paginator;
 
-final class AcompanhamentoRepository extends BaseRepository
+final class PacienteAcompanhamentoRepository extends BaseRepository
 {
     /**
      * @var Local
@@ -56,17 +56,6 @@ final class AcompanhamentoRepository extends BaseRepository
     }
 
     /**
-     * Find by Id
-     *
-     * @param int $id
-     * @return void
-     */
-    public function findById($id)
-    {
-        return $this->model->findOrFail($id);
-    }
-
-    /**
      * Create
      *
      * @param array $data
@@ -97,7 +86,7 @@ final class AcompanhamentoRepository extends BaseRepository
         $message = $this->createMessage('Intervenção alterado com sucesso.', 'Sucesso', BaseRepository::SUCCESS);
 
         try {
-            $query = $this->findById($id);
+            $query = $this->model->findOrFail($id);
             $query->fill($data)->save();
         } catch (\Exception $e) {
             $message = $this->createMessage('Erro ao alterar o intervenção.' . $e->getMessage(), 'Erro', BaseRepository::ERROR);

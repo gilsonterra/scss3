@@ -23,12 +23,19 @@ abstract class BaseRepository
         return $query->paginate(self::ITEMS_PER_PAGE);
     }
 
-    public function createMessage($text, $title = '', $type = self::INFO)
+    public function createMessage($text, $title = '', $type = self::INFO, $data = array())
     {
-        return [
+        $return = [
             'text'  => $text,
             'title' => $title,
             'type'  => $type
         ];
+
+
+        if(!empty($data)){
+            $return['data'] = $data;
+        }
+
+        return $return;
     }
 }

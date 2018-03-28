@@ -5,27 +5,26 @@ namespace App\Validators;
 use Respect\Validation\Validator as v;
 use Respect\Validation\Exceptions\NestedValidationException;
 
-final class PacienteValidator extends BaseValidator
+final class PacienteAcompanhamentoValidator extends BaseValidator
 {
     public function valid($data)
     {
         $errors = [];
         $messages = [
-            'nome_pac'      => 'Campo obrigatório.',
-            'sexo_pac'          => 'Campo obrigatório.',
-            'data_nasc_pac' => 'Campo obrigatório.',
+            'relato'                 => 'Campo obrigatório.',
+            'data_cadastro.notEmpty' => 'Campo obrigatório.',
+            'data_cadastro.date'     => 'Formato da data é inválido (DD/MM/AAAA).',
         ];
 
         try {
-            v::key('nome_pac', v::stringType()->notEmpty())
-                ->key('sexo_pac', v::stringType()->notEmpty())
-                ->key('data_nasc_pac', v::stringType()->notEmpty())
+            v::key('relato', v::stringType()->notEmpty())
+                ->key('data_cadastro', v::date('d/m/Y')->notEmpty())
                 ->assert($data);
         } catch (NestedValidationException $e) {
             $messagesException = $e->findMessages($messages);
             $errors = $this->createArrayMessage($data, $messagesException);
         }
-    
+        
         return $errors;
     }
 }

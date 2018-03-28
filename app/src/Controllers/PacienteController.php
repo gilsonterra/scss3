@@ -6,14 +6,13 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Container as Container;
 use App\Repositories\PacienteRepository;
-use App\Validators\PacienteValidator;
 
 final class PacienteController extends BaseController
 {
     protected $repository;
     protected $validator;
 
-    public function __construct(Container $container, PacienteRepository $repository, PacienteValidator $validator)
+    public function __construct(Container $container, PacienteRepository $repository)
     {
         parent::__construct($container);
         $this->repository = $repository;
@@ -37,35 +36,6 @@ final class PacienteController extends BaseController
     {
         $data['codigo_paciente'] = $args['codigo_paciente'];
         return $this->viewRender($response, 'paciente/index.html', $data);
-    }
-
-    public function identificacaoView(Request $request, Response $response, $args)
-    {
-        $data['codigo_paciente'] = $args['codigo_paciente'];
-        return $this->viewRender($response, 'paciente/identificacao.html', $data);
-    }
-
-    public function acompanhamentoView(Request $request, Response $response, $args)
-    {
-        $data['codigo_paciente'] = $args['codigo_paciente'];
-        $data['codigo'] = $args['codigo'];
-        return $this->viewRender($response, 'paciente/acompanhamento.html', $data);
-    }
-
-    public function store(Request $request, Response $response, $args)
-    {
-        $data['dados'] = $request->getParams();
-        $data['errors'] = $this->validator->valid($data['dados']);
-
-        if (empty($data['errors'])) {
-            if (empty($args['codigo_paciente'])) {
-                $data['message'] = $this->repository->create($data['dados']);
-            } else {
-                $data['message'] = $this->repository->edit($args['codigo_paciente'], $data['dados']);
-            }
-        }
-
-        return $this->jsonRender($response, 200, $data);
     }
 
     public function fetchAll(Request $request, Response $response, $args)

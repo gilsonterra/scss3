@@ -41,10 +41,9 @@ $container['App\Controllers\AvisoController'] = function ($container) {
 $container['App\Controllers\PacienteController'] = function ($container) {    
     $modelPaciente = new App\Models\Paciente();    
     $modelViewPaciente = new App\Models\ViewPaciente();    
-    $repository = new App\Repositories\PacienteRepository($modelPaciente, $modelViewPaciente);    
-    $validator = new App\Validators\PacienteValidator();
+    $repository = new App\Repositories\PacienteRepository($modelPaciente, $modelViewPaciente);        
 
-    return new App\Controllers\PacienteController($container, $repository, $validator);
+    return new App\Controllers\PacienteController($container, $repository);
 };
 
 $container['App\Controllers\MunicipioController'] = function ($container) {    
@@ -54,10 +53,25 @@ $container['App\Controllers\MunicipioController'] = function ($container) {
     return new App\Controllers\MunicipioController($container, $repository);
 };
 
-$container['App\Controllers\AcompanhamentoController'] = function ($container) {    
-    $model = new App\Models\Acompanhamento();    
-    $repository = new App\Repositories\AcompanhamentoRepository($model);    
-    $validator = new App\Validators\AcompanhamentoValidator();      
+$container['App\Controllers\AcompanhamentoCategoriaController'] = function ($container) {    
+    $model = new App\Models\AcompanhamentoCategoria();    
+    $repository = new App\Repositories\AcompanhamentoCategoriaRepository($model);        
     
-    return new App\Controllers\AcompanhamentoController($container, $repository, $validator);
+    return new App\Controllers\AcompanhamentoCategoriaController($container, $repository);
+};
+
+$container['App\Controllers\PacienteIdentificacaoController'] = function ($container) {    
+    $model = new App\Models\Paciente();    
+    $repository = new App\Repositories\PacienteIdentificacaoRepository($model);    
+    $validator = new App\Validators\PacienteIdentificacaoValidator();      
+    
+    return new App\Controllers\PacienteIdentificacaoController($container, $repository, $validator);
+};
+
+$container['App\Controllers\PacienteAcompanhamentoController'] = function ($container) {    
+    $model = new App\Models\Acompanhamento();    
+    $repository = new App\Repositories\PacienteAcompanhamentoRepository($model);    
+    $validator = new App\Validators\PacienteAcompanhamentoValidator();      
+    
+    return new App\Controllers\PacienteAcompanhamentoController($container, $repository, $validator);
 };

@@ -88,38 +88,17 @@ final class PacienteRepository extends BaseRepository
         return $data;
     }
 
-    public function create(array $data)
-    {
-        $message = $this->createMessage('Paciente criado com sucesso.', 'Sucesso', BaseRepository::SUCCESS);
-
-        try {
-            $this->modelPaciente->create($data);
-        } catch (\Exception $e) {
-            $message = $this->createMessage('Erro ao criar um Paciente. ' . $e->getMessage(), 'Erro', BaseRepository::ERROR);
-        }
-
-        return $message;
-    }
-
-    public function edit($id, array $data)
-    {
-        $message = $this->createMessage('Paciente alterado com sucesso.', 'Sucesso', BaseRepository::SUCCESS);
-
-        try {
-            $query = $this->findByID($id);
-            $query->fill($data)->save();
-        } catch (\Exception $e) {
-            $message = $this->createMessage('Erro ao alterar o Paciente. ' . $e->getMessage(), 'Erro', BaseRepository::ERROR);
-        }
-
-        return $message;
-    }
-
+    /**
+     * Importar dados do SCAC
+     *
+     * @param int $codPrnt
+     * @return void
+     */
     public function importarSCAC($codPrnt)
     {
         $pacienteSCAC = new ViewPaciente();
         $paciente = new Paciente();
-        $queryPaciente = $paciente->newQuery();
+        $queryPaciente = $this->modelPaciente->newQuery();
 
         $importado = $queryPaciente->where('cod_prnt', '=', $codPrnt)->first();
         if (!$importado) {

@@ -9,7 +9,7 @@
                 <div class="float-right">
                     <button type="submit" class="btn btn-primary mr-1">Salvar</button>
                     <a href="{ url }/listar" if="{ !dados.codigo_paciente }" class="btn btn-secondary">Cancelar</a>
-                    <a href="{ url }/visualizar/{ dados.codigo_paciente }" if="{ dados.codigo_paciente }" class="btn btn-secondary">Voltar</a>
+                    <a href="{ BASE_URL }/paciente/visualizar/{ dados.codigo_paciente }" if="{ dados.codigo_paciente }" class="btn btn-secondary">Voltar</a>
                 </div>
             </div>
             <div class="card-body">
@@ -46,7 +46,7 @@
                     <div class="column col-2 col-md-12">
                         <div class="form-group { errors.tipo_faturamento ? 'has-error' : '' }">
                             <label class="form-label" for="tipo_faturamento">Tipo</label>
-                            <select name="tipo_faturamento" id="tipo_faturamento" class="form-select" required>
+                            <select name="tipo_faturamento" id="tipo_faturamento" class="form-select">
                                 <option value=""></option>
                                 <option value="E">Externo</option>
                                 <option value="I">Interno</option>
@@ -57,14 +57,19 @@
                     <div class="column col-4 col-md-12">
                         <div class="form-group { errors.categoria_acompanhamento ? 'has-error' : '' }">
                             <label class="form-label" for="categoria_acompanhamento">Categoria</label>
-                            <select name="categoria_acompanhamento" class="form-select"></select>
+                            <select name="categoria_acompanhamento" class="form-select" onchange="{ onChangeCategoria }">
+                                <option value=""></option>
+                                <option each="{ c in acompanhamentoCategoria }" value="{ c.codigo }">{ c.descricao }</option>
+                            </select>
                             <div class="form-input-hint" if="{ errors.categoria_acompanhamento }" each="{ e in errors.categoria_acompanhamento }">- { e }</div>
                         </div>
                     </div>
                     <div class="column col-6 col-md-12">
                         <div class="form-group { errors.fk_acompanhamento ? 'has-error' : '' }">
                             <label class="form-label" for="fk_acompanhamento">Acompanhamento</label>
-                            <select name="fk_acompanhamento" class="form-select"></select>
+                            <select name="fk_acompanhamento" class="form-select">                                
+                                <option each="{ i in acompanhamentoItem }" value="{ i.codigo }">{ i.descricao }</option>
+                            </select>
                             <div class="form-input-hint" if="{ errors.fk_acompanhamento }" each="{ e in errors.fk_acompanhamento }">- { e }</div>
                         </div>
                     </div>
@@ -83,11 +88,41 @@
     </form>
     <script>
         var tag = this;
-        tag.url = BASE_URL + '/acompanhamento';
+        tag.url = BASE_URL + '/paciente/acompanhamento';
         tag.errors = opts.errors || {};
         tag.dados = opts.dados || {};
         tag.codigo = opts.dados ? opts.dados.codigo_paciente : '';
+        tag.acompanhamentoCategoria = [];        
+        tag.acompanhamentoItem = [];
+        tag.onChangeCategoria = onChangeCategoria;
         tag.onSubmit = onSubmit;
+        tag.on('mount', onMount);
+
+        function onMount(){
+            _buscaAcompanhamentoCategoria();
+        }
+
+        function _buscaAcompanhamentoCategoria(){
+            var data = {};
+            data.tipo = 'U';
+            APP.ajaxPostRequest(BASE_URL + '/acompanhamento-categoria/buscar', JSON.stringify(data),
+                function (json) {
+                    tag.update({'acompanhamentoCategoria': json});
+                }
+            );
+        }
+
+        function onChangeCategoria(event){
+            var categoria = event.target.value;
+            var items = [];
+            tag.acompanhamentoCategoria.map(function(item){
+                if(item.codigo == categoria){
+                    items = item.acompanhamento_item;
+                }
+            });
+            
+            tag.update({'acompanhamentoItem': items});
+        }
 
         function onSubmit(event) {
             event.preventDefault();

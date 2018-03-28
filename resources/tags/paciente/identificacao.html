@@ -9,8 +9,8 @@
                 <div class="float-right">
                     <button type="submit" if="{ !dados.codigo_paciente }" class="btn btn-primary mr-1">Salvar</button>
                     <button type="submit" if="{ dados.codigo_paciente }" class="btn btn-primary mr-1">Alterar</button>
-                    <a href="{ url }/listar" if="{ !dados.codigo_paciente }" class="btn btn-secondary">Cancelar</a>
-                    <a href="{ url }/visualizar/{ dados.codigo_paciente }" if="{ dados.codigo_paciente }" class="btn btn-secondary">Voltar</a>
+                    <a href="{ BASE_URL }/paciente/listar" if="{ !dados.codigo_paciente }" class="btn btn-secondary">Cancelar</a>
+                    <a href="{ BASE_URL }/paciente/visualizar/{ dados.codigo_paciente }" if="{ dados.codigo_paciente }" class="btn btn-secondary">Voltar</a>
                 </div>
             </div>
             <div class="card-body">
@@ -179,7 +179,7 @@
     </form>
     <script>
         var tag = this;
-        tag.url = BASE_URL + '/paciente';
+        tag.url = BASE_URL + '/paciente/identificacao';
         tag.errors = opts.errors || {};
         tag.dados = opts.dados || {};
         tag.codigo = opts.dados ? opts.dados.codigo_paciente : '';
@@ -189,25 +189,33 @@
 
         function onSubmit(event) {
             event.preventDefault();
+
             var form = event.target;
             var data = APP.serializeJson(form);
+            var dataParam = JSON.stringify(data);
 
-            APP.ajaxPostRequest(tag.url + '/persistir/' + tag.codigo, JSON.stringify(data),
-                function (json) {
-                    if (json.message) {
-                        swal(json.message).then(function () {
-                            if (json.message.type == 'success') {
-                                window.location.href = tag.url + '/visualizar/' + tag.codigo;
-                            }
-                        });
-                    }
-                    
-                    if (json.errors) {
-                        tag.update({
-                            'errors': json.errors
-                        });
+            APP.ajaxPostRequest(tag.url + '/persistir/' + tag.codigo, dataParam, _onSuccess, _onError);
+        }
+
+        function _onSuccess(json) {
+            if (json.message) {
+                swal(json.message).then(function () {
+                    if (json.message.type == 'success') {
+                        window.location.href = BASE_URL + '/paciente/visualizar/' + json.message.data.codigo_paciente;
                     }
                 });
+            }
+
+            if (json.errors) {
+                tag.update({
+                    'errors': json.errors
+                });
+            }
+        }
+
+        function _onError(errorText) {
+            var json = JSON.parse(errorText);
+            swal(json);
         }
     </script>
 </paciente-identificacao>
