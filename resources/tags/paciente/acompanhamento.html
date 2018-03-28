@@ -1,5 +1,7 @@
 <paciente-acompanhamento>
     <form onsubmit="{ onSubmit }">
+        <input type="hidden" name="codigo_paciente" value="{ dados.codigo_paciente }">
+        <input type="hidden" name="fk_profissional" value="{ fk_profissional }">
         <div class="card">
             <div class="card-header">
                 <div class="float-left">
@@ -24,20 +26,23 @@
                     <div class="column col-4 col-md-12">
                         <div class="form-group">
                             <label class="form-label" for="nome_pac">Nome</label>
-                            <input type="text" maxlength="100" value="{ dados.nome_pac }" class="form-input" disabled>                            
+                            <input type="text" maxlength="100" value="{ dados.nome_pac }" class="form-input" disabled>
                         </div>
                     </div>
                     <div class="column col-2 col-md-12">
                         <div class="form-group { errors.data_cadastro ? 'has-error' : '' }">
                             <label class="form-label" for="data_cadastro">Data Cadastro</label>
-                            <input type="text" name="data_cadastro" maxlength="100" value="{ dados.data_cadastro }" class="form-input">
+                            <input type="text" name="data_cadastro" maxlength="100" value="{ dados.data_cadastro || APP.dataAtualPtBr() }" class="form-input" required>
                             <div class="form-input-hint" if="{ errors.data_cadastro }" each="{ e in errors.data_cadastro }">- { e }</div>
                         </div>
                     </div>
                     <div class="column col-4 col-md-12">
                         <div class="form-group { errors.fk_local ? 'has-error' : '' }">
                             <label class="form-label" for="fk_local">Local</label>
-                            <input type="text" name="fk_local" maxlength="100" value="{ dados.fk_local }" class="form-input">
+                            <select name="fk_local" class="form-select" required>
+                                <option value=""></option>
+                                <option each="{ l in locais }" value="{ l.codigo }">{ l.descricao }</option>
+                            </select>
                             <div class="form-input-hint" if="{ errors.fk_local }" each="{ e in errors.fk_local }">- { e }</div>
                         </div>
                     </div>
@@ -46,7 +51,7 @@
                     <div class="column col-2 col-md-12">
                         <div class="form-group { errors.tipo_faturamento ? 'has-error' : '' }">
                             <label class="form-label" for="tipo_faturamento">Tipo</label>
-                            <select name="tipo_faturamento" id="tipo_faturamento" class="form-select">
+                            <select name="tipo_faturamento" id="tipo_faturamento" class="form-select" required>
                                 <option value=""></option>
                                 <option value="E">Externo</option>
                                 <option value="I">Interno</option>
@@ -57,7 +62,7 @@
                     <div class="column col-4 col-md-12">
                         <div class="form-group { errors.categoria_acompanhamento ? 'has-error' : '' }">
                             <label class="form-label" for="categoria_acompanhamento">Categoria</label>
-                            <select name="categoria_acompanhamento" class="form-select" onchange="{ onChangeCategoria }">
+                            <select class="form-select" onchange="{ onChangeCategoria }" required>
                                 <option value=""></option>
                                 <option each="{ c in acompanhamentoCategoria }" value="{ c.codigo }">{ c.descricao }</option>
                             </select>
@@ -67,7 +72,7 @@
                     <div class="column col-6 col-md-12">
                         <div class="form-group { errors.fk_acompanhamento ? 'has-error' : '' }">
                             <label class="form-label" for="fk_acompanhamento">Acompanhamento</label>
-                            <select name="fk_acompanhamento" class="form-select">                                
+                            <select name="fk_acompanhamento" class="form-select" required>
                                 <option each="{ i in acompanhamentoItem }" value="{ i.codigo }">{ i.descricao }</option>
                             </select>
                             <div class="form-input-hint" if="{ errors.fk_acompanhamento }" each="{ e in errors.fk_acompanhamento }">- { e }</div>
@@ -78,7 +83,7 @@
                     <div class="column col-12 col-md-12">
                         <div class="form-group { errors.relato ? 'has-error' : '' }">
                             <label class="form-label" for="relato">Relato</label>
-                            <textarea name="relato" rows="5" class="form-input"></textarea>
+                            <textarea name="relato" rows="5" class="form-input" required></textarea>
                             <div class="form-input-hint" if="{ errors.relato }" each="{ e in errors.relato }">- { e }</div>
                         </div>
                     </div>
@@ -92,36 +97,54 @@
         tag.errors = opts.errors || {};
         tag.dados = opts.dados || {};
         tag.codigo = opts.dados ? opts.dados.codigo_paciente : '';
-        tag.acompanhamentoCategoria = [];        
+        tag.acompanhamentoCategoria = [];
         tag.acompanhamentoItem = [];
+        tag.locais = [];
         tag.onChangeCategoria = onChangeCategoria;
         tag.onSubmit = onSubmit;
+        tag.fk_profissional = null;
         tag.on('mount', onMount);
 
-        function onMount(){
+        function onMount() {
             _buscaAcompanhamentoCategoria();
+            _buscaLocal()
         }
 
-        function _buscaAcompanhamentoCategoria(){
+        function _buscaAcompanhamentoCategoria() {
             var data = {};
             data.tipo = 'U';
             APP.ajaxPostRequest(BASE_URL + '/acompanhamento-categoria/buscar', JSON.stringify(data),
                 function (json) {
-                    tag.update({'acompanhamentoCategoria': json});
+                    tag.update({
+                        'acompanhamentoCategoria': json
+                    });
                 }
             );
         }
 
-        function onChangeCategoria(event){
+        function _buscaLocal() {
+            APP.ajaxGetRequest(BASE_URL + '/session',
+                function (json) {
+                    tag.update({
+                        'locais': json.usuario_sessao.locais,
+                        'fk_profissional': json.usuario_sessao.codigo
+                    });
+                }
+            );
+        }
+
+        function onChangeCategoria(event) {
             var categoria = event.target.value;
             var items = [];
-            tag.acompanhamentoCategoria.map(function(item){
-                if(item.codigo == categoria){
+            tag.acompanhamentoCategoria.map(function (item) {
+                if (item.codigo == categoria) {
                     items = item.acompanhamento_item;
                 }
             });
-            
-            tag.update({'acompanhamentoItem': items});
+
+            tag.update({
+                'acompanhamentoItem': items
+            });
         }
 
         function onSubmit(event) {
@@ -130,10 +153,10 @@
             var data = APP.serializeJson(form);
 
             APP.ajaxPostRequest(tag.url + '/persistir/' + tag.codigo, JSON.stringify(data),
-                function (json) {                    
+                function (json) {
                     if (json.message) {
                         swal(json.message).then(function () {
-
+                            window.location.href = BASE_URL + '/paciente/visualizar/' + tag.codigo;
                         });
                     }
 

@@ -23,37 +23,6 @@ final class PacienteAcompanhamentoRepository extends BaseRepository
         $this->model = $model;
     }
 
-    /**
-     * Fetch All
-     *
-     * @param array $where
-     * @param boolean $paginate
-     * @param integer $page
-     * @return void
-     */
-    public function fetchAll(array $where = array(), $paginate = false, $page = 1)
-    {
-        $query = $this->model->newQuery();             
-
-        // Where
-        if (!empty($where['codigo_paciente'])) {
-            $query->where('codigo_paciente', '=', $where['codigo_paciente']);
-        }
-
-        if (!empty($where['codigo'])) {
-            $query->where('codigo', '=', $where['codigo']);
-        }
-
-        $query->where('status', '=', ($where['status'] === '0') ? '0' : '1');
-
-        if ($paginate) {
-            $data = $this->paginate($query, $page);
-        } else {
-            $data = $query->get();
-        }
-
-        return $data;
-    }
 
     /**
      * Create

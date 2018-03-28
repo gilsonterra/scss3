@@ -16,6 +16,12 @@ class Acompanhamento extends Model
         return $date ? $date->format('d/m/Y') : null;
     }
 
+    public function setDataCadastroAttribute($value)
+    {
+        $date = date_create_from_format('d/m/Y', $value);
+        $this->attributes['data_cadastro'] = $date->format('Y-m-d');
+    }
+
     public function local()
     {
         return $this->hasOne('App\Models\Local', 'codigo', 'fk_local');

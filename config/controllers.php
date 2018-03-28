@@ -1,5 +1,9 @@
 <?php
 
+$container['App\Controllers\SessionController'] = function ($container) {        
+    return new App\Controllers\SessionController($container);
+};
+
 $container['App\Controllers\LoginController'] = function ($container) {
     $model = new App\Models\Profissional();    
     $validator = new App\Validators\LoginValidator();

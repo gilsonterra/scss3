@@ -132,6 +132,24 @@ APP.urlParams = function (json) {
 }
 
 
+APP.dataAtualPtBr = function () {
+    var today = new Date();
+    var dd = today.getDate();
+
+    var mm = today.getMonth() + 1;
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+
+    return dd + '/' + mm + '/' + yyyy;
+}
+
+
 APP.load = (function () {
     // Function which returns a function: https://davidwalsh.name/javascript-functions
     function _load(tag) {

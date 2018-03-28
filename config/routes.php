@@ -22,6 +22,34 @@ $app->group('/inicio', function () {
     $this->get('[/]', 'App\Controllers\InicioController:indexView')->setName('inicio');    
 })->add(new AuthMiddleware($app->getContainer()));
 
+$app->group('/paciente', function () {
+    $this->get('/listar[/]', 'App\Controllers\PacienteController:listView');                 
+    $this->get('/visualizar/{codigo_paciente}', 'App\Controllers\PacienteController:indexView')->setName('paciente.index');    
+    $this->post('/buscar[/]', 'App\Controllers\PacienteController:fetchAll');
+    $this->post('/find/{codigo_paciente}', 'App\Controllers\PacienteController:find');    
+    $this->get('/importar-scac/{cod_prnt}', 'App\Controllers\PacienteController:importarSCAC');
+
+    $this->group('/identificacao', function(){
+        $this->get('/criar', 'App\Controllers\PacienteIdentificacaoController:createView');
+        $this->get('/editar/{codigo_paciente}', 'App\Controllers\PacienteIdentificacaoController:editView');
+        $this->post('/persistir/[{codigo_paciente}]', 'App\Controllers\PacienteIdentificacaoController:store');
+    });
+
+    $this->group('/acompanhamento', function(){
+        $this->get('/criar/{codigo_paciente}', 'App\Controllers\PacienteAcompanhamentoController:createView');
+        $this->get('/editar/{codigo_paciente}/{codigo}', 'App\Controllers\PacienteAcompanhamentoController:editView');
+        $this->post('/persistir/{codigo_paciente}[/{codigo}]', 'App\Controllers\PacienteAcompanhamentoController:store');
+    });
+    
+})->add(new AuthMiddleware($app->getContainer()));
+
+$app->group('/acompanhamento-categoria', function () {
+    $this->post('/buscar[/]', 'App\Controllers\AcompanhamentoCategoriaController:fetchAll');    
+})->add(new AuthMiddleware($app->getContainer()));
+
+$app->post('/municipio/buscar[/]', 'App\Controllers\MunicipioController:fetchAll')->add(new AuthMiddleware($app->getContainer()));
+$app->get('/session', 'App\Controllers\SessionController:get')->add(new AuthMiddleware($app->getContainer()));
+
 $app->group('/local', function () {
     $this->get('/listar[/]', 'App\Controllers\LocalController:listView');
     $this->get('/criar', 'App\Controllers\LocalController:createView');
@@ -51,39 +79,6 @@ $app->group('/aviso', function () {
 })
 ->add(new AdministrativoMiddleware($app->getContainer()))
 ->add(new AuthMiddleware($app->getContainer()));
-
-$app->group('/paciente', function () {
-    $this->get('/listar[/]', 'App\Controllers\PacienteController:listView');                 
-    $this->get('/visualizar/{codigo_paciente}', 'App\Controllers\PacienteController:indexView')->setName('paciente.index');    
-    $this->post('/buscar[/]', 'App\Controllers\PacienteController:fetchAll');
-    $this->post('/find/{codigo_paciente}', 'App\Controllers\PacienteController:find');    
-    $this->get('/importar-scac/{cod_prnt}', 'App\Controllers\PacienteController:importarSCAC');
-
-    $this->group('/identificacao', function(){
-        $this->get('/criar', 'App\Controllers\PacienteIdentificacaoController:createView');
-        $this->get('/editar/{codigo_paciente}', 'App\Controllers\PacienteIdentificacaoController:editView');
-        $this->post('/persistir/[{codigo_paciente}]', 'App\Controllers\PacienteIdentificacaoController:store');
-    });
-
-    $this->group('/acompanhamento', function(){
-        $this->get('/criar/{codigo_paciente}', 'App\Controllers\PacienteAcompanhamentoController:createView');
-        $this->get('/editar/{codigo_paciente}/{codigo}', 'App\Controllers\PacienteAcompanhamentoController:editView');
-        $this->post('/persistir/{codigo_paciente}[/{codigo}]', 'App\Controllers\PacienteAcompanhamentoController:store');
-    });
-    
-})->add(new AuthMiddleware($app->getContainer()));
-
-$app->group('/acompanhamento', function () {
-    $this->post('/buscar[/]', 'App\Controllers\AcompanhamentoController:fetchAll');
-})->add(new AuthMiddleware($app->getContainer()));
-
-$app->group('/acompanhamento-categoria', function () {
-    $this->post('/buscar[/]', 'App\Controllers\AcompanhamentoCategoriaController:fetchAll');    
-})->add(new AuthMiddleware($app->getContainer()));
-
-$app->group('/municipio', function () {
-    $this->post('/buscar[/]', 'App\Controllers\MunicipioController:fetchAll');
-})->add(new AuthMiddleware($app->getContainer()));
 
 $app->get('/info', function () {
     phpinfo();

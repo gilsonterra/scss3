@@ -2,8 +2,8 @@
     <form onsubmit="{ onSearch }" ref="formulario" autocomplete="off">
         <div class="card">
             <div class="card-header">
-                <div class="card-title h3">
-                    <div class="float-left">Usuários</div>
+                <div class="card-title h5">
+                    <div class="float-left">Busca Usuário</div>
                     <div class="float-right">
                         <a href="{ url }/identificacao/criar" class="btn btn-primary">Novo</a>
                     </div>
@@ -126,9 +126,9 @@
             onRequest(tag.grid.prev_page_url);
         }
 
-        function validationRequest(obj) {
+        function validationRequest(obj) {            
             for (name in obj) {
-                if (obj[name] != undefined && obj[name] != '') {
+                if ( name != 'paginate' && (obj[name] != undefined && obj[name] != '')) {
                     return true;
                 }
             }

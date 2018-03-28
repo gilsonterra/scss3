@@ -39,10 +39,10 @@ final class PacienteAcompanhamentoController extends BaseController
         $data['errors'] = $this->validator->valid($data['dados']);
 
         if (empty($data['errors'])) {
-            if (empty($args['codigo_paciente'])) {
+            if (empty($args['codigo'])) {
                 $data['message'] = $this->repository->create($data['dados']);
             } else {
-                $data['message'] = $this->repository->edit($args['codigo_paciente'], $data['dados']);
+                $data['message'] = $this->repository->edit($args['codigo'], $data['dados']);
             }
         }
 

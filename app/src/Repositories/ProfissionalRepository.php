@@ -53,6 +53,7 @@ final class ProfissionalRepository extends BaseRepository
     public function fetchAll(array $where = array(), $paginate = false, $page = 1)
     {
         $query = $this->model->newQuery();
+        $query->with('locais');
         $query->orderByRaw('UPPER(nome)', 'asc');
 
         // Where
