@@ -28,8 +28,8 @@
         </div>
         <div class="card-body">
             <paciente-view-identificacao dados="{ dados }"></paciente-view-identificacao>
-            <paciente-view-acompanhamentos acompanhamentos="{ dados.acompanhamentos }"></paciente-view-acompanhamentos>
-            <paciente-view-entrevistas entrevistas="{ dados.entrevistas }"></paciente-view-entrevistas>
+            <paciente-view-acompanhamentos acompanhamentos="{ dados.acompanhamentos }" usuario-sessao="{ usuarioSessao }"></paciente-view-acompanhamentos>
+            <paciente-view-entrevistas entrevistas="{ dados.entrevistas }" usuario-sessao="{ usuarioSessao }"></paciente-view-entrevistas>
         </div>
     </div>
 
@@ -42,13 +42,14 @@
 
     <script>
         var tag = this;
-        tag.url = BASE_URL + '/paciente';
+        tag.url = BASE_URL + '/paciente';        
         tag.dados = opts.dados || {
             endereco_contato: {},
             endereco: {},
             entrevistas: [],
             acompanhamentos: []
         };
+        tag.usuarioSessao = opts.usuarioSessao || {};        
     </script>
 
 </paciente-view>

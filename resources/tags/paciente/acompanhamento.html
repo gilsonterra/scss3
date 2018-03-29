@@ -9,7 +9,8 @@
                     <div class="card-subtitle text-gray h3">{ paciente.cod_prnt || '' } - { paciente.nome_social || paciente.nome_pac }</div>
                 </div>
                 <div class="float-right">
-                    <button type="submit" class="btn btn-primary mr-1">Salvar</button>
+                        <button type="submit" if="{ !acompanhamento.codigo }" class="btn btn-primary mr-1">Salvar</button>
+                        <button type="submit" if="{ acompanhamento.codigo }" class="btn btn-primary mr-1">Alterar</button>
                     <a href="{ url }/listar" if="{ !paciente.codigo_paciente }" class="btn btn-secondary">Cancelar</a>
                     <a href="{ BASE_URL }/paciente/visualizar/{ paciente.codigo_paciente }" if="{ paciente.codigo_paciente }" class="btn btn-secondary">Voltar</a>
                 </div>
@@ -52,7 +53,7 @@
                             <label class="form-label" for="categoria_acompanhamento">Categoria</label>
                             <select class="form-select" onchange="{ onChangeCategoria }" required>
                                 <option value=""></option>
-                                <option each="{ c in acompanhamentoCategorias }" value="{ c.codigo }" selected="{ acompanhamento.acompanhamento_item.categoria.codigo == c.codigo }">{ c.descricao }</option>
+                                <option each="{ c in acompanhamentoCategorias }" value="{ c.codigo }" selected="{ acompanhamento.acompanhamento_item ? acompanhamento.acompanhamento_item.categoria.codigo == c.codigo : '' }">{ c.descricao }</option>
                             </select>
                             <div class="form-input-hint" if="{ errors.categoria_acompanhamento }" each="{ e in errors.categoria_acompanhamento }">- { e }</div>
                         </div>
@@ -82,8 +83,7 @@
     <script>
         var tag = this;
         tag.url = BASE_URL + '/paciente/acompanhamento';
-        tag.errors = opts.errors || {};
-        tag.dados = opts.dados || {};
+        tag.errors = opts.errors || {};        
         tag.paciente = opts.paciente || {};
         tag.acompanhamento = opts.acompanhamento || {};
         tag.acompanhamentoCategorias = [];
@@ -110,7 +110,7 @@
                         'acompanhamentoCategorias': json
                     });
 
-                    if (tag.acompanhamento.acompanhamento_item.categoria.codigo) {
+                    if (tag.acompanhamento.acompanhamento_item  && tag.acompanhamento.acompanhamento_item.categoria.codigo) {
                         _buscaAcompanhamentoItem(tag.acompanhamento.acompanhamento_item.categoria.codigo);
                     }
                 }

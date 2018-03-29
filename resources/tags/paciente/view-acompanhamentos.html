@@ -27,8 +27,8 @@
                                 <li class="menu-item">
                                     <a href="{ url }/editar/{ a.codigo_paciente }/{ a.codigo }">Alterar</a>
                                 </li>
-                                <li class="menu-item">
-                                    <a href="">Excluir</a>
+                                <li class="menu-item" if="{ usuarioSessao.admin == '1' }">
+                                    <a href="javascript:;" onclick="{ excluir }">Excluir</a>
                                 </li>
                             </ul>
                         </div>
@@ -40,6 +40,13 @@
     <script>
         var tag = this;        
         tag.url = BASE_URL + '/paciente/acompanhamento';
-        tag.acompanhamentos = opts.acompanhamentos || [];        
+        tag.acompanhamentos = opts.acompanhamentos || [];  
+        tag.usuarioSessao = opts.usuarioSessao || {};
+        tag.excluir = excluir;
+
+        function excluir(event){
+            
+        }
+
     </script>
 </paciente-view-acompanhamentos>
