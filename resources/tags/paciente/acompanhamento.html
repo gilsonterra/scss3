@@ -1,70 +1,58 @@
 <paciente-acompanhamento>
     <form onsubmit="{ onSubmit }">
-        <input type="hidden" name="codigo_paciente" value="{ dados.codigo_paciente }">
+        <input type="hidden" name="codigo_paciente" value="{ paciente.codigo_paciente }">
         <input type="hidden" name="fk_profissional" value="{ fk_profissional }">
         <div class="card">
             <div class="card-header">
                 <div class="float-left">
                     <div class="card-title h5">Intervenção</div>
-                    <div class="card-subtitle text-gray h3"></div>
+                    <div class="card-subtitle text-gray h3">{ paciente.cod_prnt || '' } - { paciente.nome_social || paciente.nome_pac }</div>
                 </div>
                 <div class="float-right">
                     <button type="submit" class="btn btn-primary mr-1">Salvar</button>
-                    <a href="{ url }/listar" if="{ !dados.codigo_paciente }" class="btn btn-secondary">Cancelar</a>
-                    <a href="{ BASE_URL }/paciente/visualizar/{ dados.codigo_paciente }" if="{ dados.codigo_paciente }" class="btn btn-secondary">Voltar</a>
+                    <a href="{ url }/listar" if="{ !paciente.codigo_paciente }" class="btn btn-secondary">Cancelar</a>
+                    <a href="{ BASE_URL }/paciente/visualizar/{ paciente.codigo_paciente }" if="{ paciente.codigo_paciente }" class="btn btn-secondary">Voltar</a>
                 </div>
             </div>
             <div class="card-body">
                 <div class="columns">
                     <div class="column col-2 col-md-12">
-                        <div class="form-group { errors.cod_prnt ? 'has-error' : '' }">
-                            <label class="form-label" for="cod_prnt">Prontuário</label>
-                            <input type="text" disabled name="cod_prnt" maxlength="20" value="{ dados.cod_prnt }" class="form-input">
-                            <div class="form-input-hint" if="{ errors.cod_prnt }" each="{ e in errors.cod_prnt }">- { e }</div>
-                        </div>
-                    </div>
-                    <div class="column col-4 col-md-12">
-                        <div class="form-group">
-                            <label class="form-label" for="nome_pac">Nome</label>
-                            <input type="text" maxlength="100" value="{ dados.nome_pac }" class="form-input" disabled>
-                        </div>
-                    </div>
-                    <div class="column col-2 col-md-12">
                         <div class="form-group { errors.data_cadastro ? 'has-error' : '' }">
                             <label class="form-label" for="data_cadastro">Data Cadastro</label>
-                            <input type="text" name="data_cadastro" maxlength="100" value="{ dados.data_cadastro || APP.dataAtualPtBr() }" class="form-input" required>
+                            <input type="text" name="data_cadastro" maxlength="100" value="{ acompanhamento.data_cadastro || APP.dataAtualPtBr() }" class="form-input"
+                                required>
                             <div class="form-input-hint" if="{ errors.data_cadastro }" each="{ e in errors.data_cadastro }">- { e }</div>
                         </div>
                     </div>
                     <div class="column col-4 col-md-12">
+                        <div class="form-group { errors.tipo_faturamento ? 'has-error' : '' }">
+                            <label class="form-label" for="tipo_faturamento">Tipo</label>
+                            <select name="tipo_faturamento" id="tipo_faturamento" class="form-select" required>
+                                <option value=""></option>
+                                <option value="E" selected="{ acompanhamento.tipo_faturamento == 'E' }">EXTERNO</option>
+                                <option value="I" selected="{ acompanhamento.tipo_faturamento == 'I'}">INTERNO</option>
+                            </select>
+                            <div class="form-input-hint" if="{ errors.tipo_faturamento }" each="{ e in errors.tipo_faturamento }">- { e }</div>
+                        </div>
+                    </div>
+                    <div class="column col-6 col-md-12">
                         <div class="form-group { errors.fk_local ? 'has-error' : '' }">
                             <label class="form-label" for="fk_local">Local</label>
                             <select name="fk_local" class="form-select" required>
                                 <option value=""></option>
-                                <option each="{ l in locais }" value="{ l.codigo }">{ l.descricao }</option>
+                                <option each="{ l in locais }" value="{ l.codigo }" selected="{ acompanhamento.fk_local == l.codigo  }">{ l.descricao }</option>
                             </select>
                             <div class="form-input-hint" if="{ errors.fk_local }" each="{ e in errors.fk_local }">- { e }</div>
                         </div>
                     </div>
                 </div>
                 <div class="columns">
-                    <div class="column col-2 col-md-12">
-                        <div class="form-group { errors.tipo_faturamento ? 'has-error' : '' }">
-                            <label class="form-label" for="tipo_faturamento">Tipo</label>
-                            <select name="tipo_faturamento" id="tipo_faturamento" class="form-select" required>
-                                <option value=""></option>
-                                <option value="E">Externo</option>
-                                <option value="I">Interno</option>
-                            </select>
-                            <div class="form-input-hint" if="{ errors.tipo_faturamento }" each="{ e in errors.tipo_faturamento }">- { e }</div>
-                        </div>
-                    </div>
-                    <div class="column col-4 col-md-12">
+                    <div class="column col-6 col-md-12">
                         <div class="form-group { errors.categoria_acompanhamento ? 'has-error' : '' }">
                             <label class="form-label" for="categoria_acompanhamento">Categoria</label>
                             <select class="form-select" onchange="{ onChangeCategoria }" required>
                                 <option value=""></option>
-                                <option each="{ c in acompanhamentoCategoria }" value="{ c.codigo }">{ c.descricao }</option>
+                                <option each="{ c in acompanhamentoCategorias }" value="{ c.codigo }" selected="{ acompanhamento.acompanhamento_item.categoria.codigo == c.codigo }">{ c.descricao }</option>
                             </select>
                             <div class="form-input-hint" if="{ errors.categoria_acompanhamento }" each="{ e in errors.categoria_acompanhamento }">- { e }</div>
                         </div>
@@ -73,7 +61,7 @@
                         <div class="form-group { errors.fk_acompanhamento ? 'has-error' : '' }">
                             <label class="form-label" for="fk_acompanhamento">Acompanhamento</label>
                             <select name="fk_acompanhamento" class="form-select" required>
-                                <option each="{ i in acompanhamentoItem }" value="{ i.codigo }">{ i.descricao }</option>
+                                <option each="{ i in acompanhamentoItems }" value="{ i.codigo }" selected="{ acompanhamento.fk_acompanhamento == i.codigo }">{ i.descricao }</option>
                             </select>
                             <div class="form-input-hint" if="{ errors.fk_acompanhamento }" each="{ e in errors.fk_acompanhamento }">- { e }</div>
                         </div>
@@ -83,7 +71,7 @@
                     <div class="column col-12 col-md-12">
                         <div class="form-group { errors.relato ? 'has-error' : '' }">
                             <label class="form-label" for="relato">Relato</label>
-                            <textarea name="relato" rows="5" class="form-input" required></textarea>
+                            <textarea name="relato" rows="5" class="form-input" required>{ acompanhamento.relato }</textarea>
                             <div class="form-input-hint" if="{ errors.relato }" each="{ e in errors.relato }">- { e }</div>
                         </div>
                     </div>
@@ -96,18 +84,21 @@
         tag.url = BASE_URL + '/paciente/acompanhamento';
         tag.errors = opts.errors || {};
         tag.dados = opts.dados || {};
-        tag.codigo = opts.dados ? opts.dados.codigo_paciente : '';
-        tag.acompanhamentoCategoria = [];
-        tag.acompanhamentoItem = [];
+        tag.paciente = opts.paciente || {};
+        tag.acompanhamento = opts.acompanhamento || {};
+        tag.acompanhamentoCategorias = [];
+        tag.acompanhamentosItems = [];
+
         tag.locais = [];
+        tag.fk_profissional = null;
+
         tag.onChangeCategoria = onChangeCategoria;
         tag.onSubmit = onSubmit;
-        tag.fk_profissional = null;
         tag.on('mount', onMount);
 
         function onMount() {
             _buscaAcompanhamentoCategoria();
-            _buscaLocal()
+            _buscaLocal();
         }
 
         function _buscaAcompanhamentoCategoria() {
@@ -116,8 +107,12 @@
             APP.ajaxPostRequest(BASE_URL + '/acompanhamento-categoria/buscar', JSON.stringify(data),
                 function (json) {
                     tag.update({
-                        'acompanhamentoCategoria': json
+                        'acompanhamentoCategorias': json
                     });
+
+                    if (tag.acompanhamento.acompanhamento_item.categoria.codigo) {
+                        _buscaAcompanhamentoItem(tag.acompanhamento.acompanhamento_item.categoria.codigo);
+                    }
                 }
             );
         }
@@ -127,36 +122,48 @@
                 function (json) {
                     tag.update({
                         'locais': json.usuario_sessao.locais,
-                        'fk_profissional': json.usuario_sessao.codigo
+                        'fk_profissional': json.usuario_sessao.codigo,
                     });
                 }
             );
         }
 
-        function onChangeCategoria(event) {
-            var categoria = event.target.value;
+        function _buscaAcompanhamentoItem(categoria) {
             var items = [];
-            tag.acompanhamentoCategoria.map(function (item) {
+            tag.acompanhamentoCategorias.map(function (item) {
                 if (item.codigo == categoria) {
                     items = item.acompanhamento_item;
                 }
             });
 
             tag.update({
-                'acompanhamentoItem': items
+                'acompanhamentoItems': items
             });
+        }
+
+        function onChangeCategoria(event) {
+            var categoria = event.target.value;
+            _buscaAcompanhamentoItem(categoria);
         }
 
         function onSubmit(event) {
             event.preventDefault();
             var form = event.target;
             var data = APP.serializeJson(form);
+            var serializeData = JSON.stringify(data);
+            var url = tag.url + '/persistir/' + tag.paciente.codigo_paciente;
 
-            APP.ajaxPostRequest(tag.url + '/persistir/' + tag.codigo, JSON.stringify(data),
+            if(tag.acompanhamento.codigo){
+                url += '/' + tag.acompanhamento.codigo;
+            }
+
+            APP.ajaxPostRequest(url, serializeData,
                 function (json) {
                     if (json.message) {
                         swal(json.message).then(function () {
-                            window.location.href = BASE_URL + '/paciente/visualizar/' + tag.codigo;
+                            if (json.message.type == 'success') {
+                                window.location.href = BASE_URL + '/paciente/visualizar/' + tag.paciente.codigo_paciente;
+                            }
                         });
                     }
 

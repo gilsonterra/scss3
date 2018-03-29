@@ -25,10 +25,7 @@
                             </a>
                             <ul class="menu">
                                 <li class="menu-item">
-                                    <a href="">Visualizar</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="">Alterar</a>
+                                    <a href="{ url }/editar/{ a.codigo_paciente }/{ a.codigo }">Alterar</a>
                                 </li>
                                 <li class="menu-item">
                                     <a href="">Excluir</a>
@@ -41,7 +38,8 @@
         </table>
     </fieldset>
     <script>
-        var tag = this;
-        tag.acompanhamentos = opts.acompanhamentos || [];
+        var tag = this;        
+        tag.url = BASE_URL + '/paciente/acompanhamento';
+        tag.acompanhamentos = opts.acompanhamentos || [];        
     </script>
 </paciente-view-acompanhamentos>

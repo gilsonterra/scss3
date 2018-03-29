@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Paciente;
 use App\Models\Acompanhamento;
 
 use Illuminate\Pagination\AbstractPaginator as Paginator;
@@ -9,20 +10,47 @@ use Illuminate\Pagination\AbstractPaginator as Paginator;
 final class PacienteAcompanhamentoRepository extends BaseRepository
 {
     /**
-     * @var Local
+     * @var Acompanhamento
      */
     protected $model;
 
     /**
-     * Constructor
      *
-     * @param Acompanhamento $model
+     * @var Paciente
      */
-    public function __construct(Acompanhamento $model)
+    protected $modelPaciente;
+
+    /**
+     * @param Acompanhamento $model
+     * @param Paciente $modelPaciente
+     */
+    public function __construct(Acompanhamento $model, Paciente $modelPaciente)
     {
         $this->model = $model;
+        $this->modelPaciente = $modelPaciente;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function fetchAll(array $where = array())
+    {
+        $query = $this->modelPaciente->newQuery();
+        $query->with(['acompanhamentos' => function ($q) use ($where) {
+            if (!empty($where['codigo'])) {
+                $q->where('codigo', '=', $where['codigo']);
+            }
+        }]);
+
+        // Where
+        if (!empty($where['codigo_paciente'])) {
+            $query->where('codigo_paciente', '=', $where['codigo_paciente']);
+        }
+
+        return $query->first();
+    }
 
     /**
      * Create
@@ -34,7 +62,7 @@ final class PacienteAcompanhamentoRepository extends BaseRepository
     {
         $message = $this->createMessage('Intervenção criado com sucesso.', 'Sucesso', BaseRepository::SUCCESS);
 
-        try {            
+        try {
             $this->model->create($data);
         } catch (\Exception $e) {
             $message = $this->createMessage('Erro ao criar uma Intervenção.' . $e->getMessage(), 'Erro', BaseRepository::ERROR);

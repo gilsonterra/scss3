@@ -39,6 +39,7 @@ $app->group('/paciente', function () {
         $this->get('/criar/{codigo_paciente}', 'App\Controllers\PacienteAcompanhamentoController:createView');
         $this->get('/editar/{codigo_paciente}/{codigo}', 'App\Controllers\PacienteAcompanhamentoController:editView');
         $this->post('/persistir/{codigo_paciente}[/{codigo}]', 'App\Controllers\PacienteAcompanhamentoController:store');
+        $this->post('/buscar[/]', 'App\Controllers\PacienteAcompanhamentoController:fetchAll');
     });
     
 })->add(new AuthMiddleware($app->getContainer()));

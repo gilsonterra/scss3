@@ -39,7 +39,7 @@ final class PacienteRepository extends BaseRepository
     public function findById($id, array $joins = array(), array $columns = array('*'))
     {
         return $this->modelPaciente->with($joins)->findOrFail($id, $columns);
-    }
+    }    
 
 
     /**

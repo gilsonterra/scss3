@@ -1,11 +1,10 @@
 {% extends "base.html" %} 
 
 {% block content %}
-<div id="paciente-acompanhamento"></div>
+    <div id="paciente-acompanhamento"></div>
 {% endblock %} 
 
 {% block js %}
-<script src="{{ base_url }}/tags/paciente/form-select-uf.html"></script>
 <script src="{{ base_url }}/tags/paciente/acompanhamento.html"></script>
 <script type="text/javascript">
     window.onload = function () {
@@ -13,19 +12,26 @@
     };
 
     var codigo_paciente = '{{ codigo_paciente }}';
-    if (codigo_paciente) {
-        var data = {
-            'columns': ['nome_pac', 'codigo_paciente', 'cod_prnt']
-        };
-        APP.ajaxPostRequest(BASE_URL + '/paciente/find/' + codigo_paciente, JSON.stringify(data),
-            function (json) {
-                riot.mount('#paciente-acompanhamento', 'paciente-acompanhamento', {
-                    'dados': json
+    var codigo = '{{ codigo }}';
+    var data = {
+        'columns': ['nome_pac', 'nome_social', 'codigo_paciente', 'cod_prnt'],
+        'joins': ['acompanhamentos.acompanhamentoItem.categoria']
+    };
+
+    APP.ajaxPostRequest(BASE_URL + '/paciente/find/' + codigo_paciente, JSON.stringify(data),
+        function (json) {
+            var acompanhamento = {};
+            if(codigo){
+                acompanhamento = json.acompanhamentos.find(function(a){
+                    return a.codigo == codigo;                    
                 });
             }
-        );
-    } else {
-        riot.mount('#paciente-acompanhamento', 'paciente-acompanhamento');
-    }
+            console.log(acompanhamento);
+            riot.mount('#paciente-acompanhamento', 'paciente-acompanhamento', {
+                'paciente': json,
+                'acompanhamento': acompanhamento
+            });
+        }
+    );
 </script>
 {% endblock %}

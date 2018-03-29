@@ -33,11 +33,18 @@ final class PacienteAcompanhamentoController extends BaseController
         return $this->viewRender($response, 'paciente/acompanhamento.html', $data);
     }
 
+    public function fetchAll(Request $request, Response $response, $args)
+    {
+        $data = $request->getParams();
+        $data = $this->repository->fetchAll($data, $data['paginate'], $data['page'])->toArray();
+        return $this->jsonRender($response, 200, $data);
+    }
+
     public function store(Request $request, Response $response, $args)
     {
         $data['dados'] = $request->getParams();
         $data['errors'] = $this->validator->valid($data['dados']);
-
+                
         if (empty($data['errors'])) {
             if (empty($args['codigo'])) {
                 $data['message'] = $this->repository->create($data['dados']);

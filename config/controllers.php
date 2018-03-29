@@ -74,7 +74,8 @@ $container['App\Controllers\PacienteIdentificacaoController'] = function ($conta
 
 $container['App\Controllers\PacienteAcompanhamentoController'] = function ($container) {    
     $model = new App\Models\Acompanhamento();    
-    $repository = new App\Repositories\PacienteAcompanhamentoRepository($model);    
+    $modelPaciente = new App\Models\Paciente();    
+    $repository = new App\Repositories\PacienteAcompanhamentoRepository($model, $modelPaciente);    
     $validator = new App\Validators\PacienteAcompanhamentoValidator();      
     
     return new App\Controllers\PacienteAcompanhamentoController($container, $repository, $validator);
