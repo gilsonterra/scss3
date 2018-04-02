@@ -1,5 +1,6 @@
 <paciente-identificacao>
     <form onsubmit="{ onSubmit }">
+        <input type="hidden" name="fk_profissional" value="{ session.codigo }">
         <div class="card">
             <div class="card-header">
                 <div class="float-left">
@@ -120,7 +121,7 @@
                         <div class="column col-2 col-md-12">
                             <div class="form-group">
                                 <label class="form-label" for="fone_pac">Telefone</label>
-                                <input type="text" name="fone_pac" maxlength="14" value="{ dados.fone_pac }" class="form-input">
+                                <input type="text" name="fone_pac" maxlength="15" value="{ dados.fone_pac }" class="form-input fone">
                             </div>
                         </div>
                         <div class="column col-4 col-md-12">
@@ -132,7 +133,7 @@
                         <div class="column col-2 col-md-12">
                             <div class="form-group">
                                 <label class="form-label" for="fone_pac_3">Telefone</label>
-                                <input type="text" name="fone_pac_3" maxlength="14" value="{ dados.fone_pac_3 }" class="form-input">
+                                <input type="text" name="fone_pac_3" maxlength="15" value="{ dados.fone_pac_3 }" class="form-input fone">
                             </div>
                         </div>
                         <div class="column col-4 col-md-12">
@@ -151,7 +152,7 @@
                         <div class="column col-2 col-md-12">
                             <div class="form-group">
                                 <label class="form-label" for="fone_pac_2">Telefone</label>
-                                <input type="text" name="fone_pac_2" maxlength="14" value="{ dados.fone_pac_2 }" class="form-input">
+                                <input type="text" name="fone_pac_2" maxlength="15" value="{ dados.fone_pac_2 }" class="form-input fone">
                             </div>
                         </div>
                         <div class="column col-4 col-md-12">
@@ -163,7 +164,7 @@
                         <div class="column col-2 col-md-12">
                             <div class="form-group">
                                 <label class="form-label" for="fone_pac_4">Telefone</label>
-                                <input type="text" name="fone_pac_4" maxlength="14" value="{ dados.fone_pac_4 }" class="form-input">
+                                <input type="text" name="fone_pac_4" maxlength="15" value="{ dados.fone_pac_4 }" class="form-input fone">
                             </div>
                         </div>
                         <div class="column col-4 col-md-12">
@@ -184,8 +185,32 @@
         tag.dados = opts.dados || {};
         tag.codigo = opts.dados ? opts.dados.codigo_paciente : '';
         tag.onSubmit = onSubmit;
+        tag.session = APP.getSession() || {};
         tag.estados = [];
         tag.estadosCont = [];
+        tag.on('mount', onMount);
+
+        function onMount() {
+            _setMaskFone();
+        }
+
+        function _setMaskFone() {
+            var telMask = ['(99) 9999-99999', '(99) 99999-9999'];
+            var tel = document.querySelectorAll('.fone');
+            VMasker(tel).maskPattern(telMask[0]);
+            tel.forEach(function (el) {
+                el.addEventListener('input', _inputHandler.bind(undefined, telMask, 14), false);
+            });
+        }
+
+        function _inputHandler(masks, max, event) {
+            var c = event.target;
+            var v = c.value.replace(/\D/g, '');
+            var m = c.value.length > max ? 1 : 0;
+            VMasker(c).unMask();
+            VMasker(c).maskPattern(masks[m]);
+            c.value = VMasker.toPattern(v, masks[m]);
+        }
 
         function onSubmit(event) {
             event.preventDefault();

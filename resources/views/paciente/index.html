@@ -1,10 +1,10 @@
 {% extends "base.html" %} {% block content %}
-<div id="paciente-view"></div>
+<div id="paciente-visualizacao"></div>
 {% endblock %} {% block js %}
-<script src="{{ base_url }}/tags/paciente/view.html"></script>
-<script src="{{ base_url }}/tags/paciente/view-identificacao.html"></script>
-<script src="{{ base_url }}/tags/paciente/view-acompanhamentos.html"></script>
-<script src="{{ base_url }}/tags/paciente/view-entrevistas.html"></script>
+<script src="{{ base_url }}/tags/paciente/visualizacao.html"></script>
+<script src="{{ base_url }}/tags/paciente/visualizacao/visualizacao-identificacao.html"></script>
+<script src="{{ base_url }}/tags/paciente/visualizacao/visualizacao-acompanhamentos.html"></script>
+<script src="{{ base_url }}/tags/paciente/visualizacao/visualizacao-entrevistas.html"></script>
 <script type="text/javascript">
     window.onload = function () {
         APP.load.css(BASE_URL + '/css/sweetalert2.min.css');
@@ -14,6 +14,7 @@
     if (codigo_paciente) {
         var data = {};
         data.joins = [
+            'profissional',
             'endereco',
             'enderecoContato',
             'acompanhamentos.local',
@@ -22,16 +23,12 @@
             'entrevistas.local',
             'entrevistas.profissional'
         ];
-        APP.ajaxGetRequest(BASE_URL + '/session',
-            function (jsonSession) {
-                APP.ajaxPostRequest(BASE_URL + '/paciente/find/' + codigo_paciente, JSON.stringify(data),
-                    function (json) {
-                        riot.mount('#paciente-view', 'paciente-view', {
-                            'dados': json,
-                            'usuarioSessao': jsonSession.usuario_sessao
-                        });
-                    }
-                );
+        APP.ajaxPostRequest(BASE_URL + '/paciente/find/' + codigo_paciente, JSON.stringify(data),
+            function (json) {
+                riot.mount('#paciente-visualizacao', 'paciente-visualizacao', {
+                    'dados': json,
+                    'usuarioSessao': APP.getSession()
+                });
             }
         );
 

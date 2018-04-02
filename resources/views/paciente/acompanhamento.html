@@ -1,14 +1,16 @@
 {% extends "base.html" %} 
 
 {% block content %}
-    <div id="paciente-acompanhamento"></div>
+<div id="paciente-acompanhamento"></div>
 {% endblock %} 
 
 {% block js %}
+<script src="{{ base_url }}/tags/form-select-locais-sessao.html"></script>
 <script src="{{ base_url }}/tags/paciente/acompanhamento.html"></script>
+
 <script type="text/javascript">
     window.onload = function () {
-        APP.load.css(BASE_URL + '/css/sweetalert2.min.css');
+        APP.load.css(BASE_URL + '/css/sweetalert2.min.css');        
     };
 
     var codigo_paciente = '{{ codigo_paciente }}';
@@ -21,9 +23,9 @@
     APP.ajaxPostRequest(BASE_URL + '/paciente/find/' + codigo_paciente, JSON.stringify(data),
         function (json) {
             var acompanhamento = {};
-            if(codigo){
-                acompanhamento = json.acompanhamentos.find(function(a){
-                    return a.codigo == codigo;                    
+            if (codigo) {
+                acompanhamento = json.acompanhamentos.find(function (a) {
+                    return a.codigo == codigo;
                 });
             }
             console.log(acompanhamento);

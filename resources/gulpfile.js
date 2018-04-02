@@ -65,7 +65,8 @@ gulp.task('js', function () {
     return gulp.src([            
             'node_modules/sweetalert2/dist/sweetalert2.min.js',
             'node_modules/js-autocomplete/auto-complete.min.js',   
-            'node_modules/pell/dist/pell.js'            
+            'node_modules/pell/dist/pell.js',            
+            'node_modules/vanilla-masker/build/vanilla-masker.min.js'
         ])
         .pipe(minifier({
             minify: true,

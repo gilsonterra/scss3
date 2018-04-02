@@ -42,17 +42,20 @@
         var tag = this;
         tag.url = BASE_URL + '/login';
         tag.errors = opts.errors || {};        
-        tag.onSubmit = onSubmit;
+        tag.onSubmit = onSubmit;        
 
         function onSubmit(event) {
             event.preventDefault();
+            APP.setSession({});    
+            
             var form = event.target;
             var data = APP.serializeJson(form);
 
             APP.ajaxPostRequest(tag.url + '/login/', JSON.stringify(data),
                 function (json) {
                     if (json.message) {
-                        if (json.message.type == 'success') {
+                        if (json.message.type == 'success') {                            
+                            APP.setSession(json.message.data.usuario_sessao);                          
                             window.location.href = BASE_URL + '/inicio';
                         }
                         else{

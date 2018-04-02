@@ -39,6 +39,7 @@ $app->group('/paciente', function () {
         $this->get('/criar/{codigo_paciente}', 'App\Controllers\PacienteAcompanhamentoController:createView');
         $this->get('/editar/{codigo_paciente}/{codigo}', 'App\Controllers\PacienteAcompanhamentoController:editView');
         $this->post('/persistir/{codigo_paciente}[/{codigo}]', 'App\Controllers\PacienteAcompanhamentoController:store');
+        $this->get('/excluir/{codigo}', 'App\Controllers\PacienteAcompanhamentoController:delete');
         $this->post('/buscar[/]', 'App\Controllers\PacienteAcompanhamentoController:fetchAll');
     });
     
@@ -49,7 +50,6 @@ $app->group('/acompanhamento-categoria', function () {
 })->add(new AuthMiddleware($app->getContainer()));
 
 $app->post('/municipio/buscar[/]', 'App\Controllers\MunicipioController:fetchAll')->add(new AuthMiddleware($app->getContainer()));
-$app->get('/session', 'App\Controllers\SessionController:get')->add(new AuthMiddleware($app->getContainer()));
 
 $app->group('/local', function () {
     $this->get('/listar[/]', 'App\Controllers\LocalController:listView');

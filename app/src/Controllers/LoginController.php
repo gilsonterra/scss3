@@ -35,8 +35,9 @@ final class LoginController extends BaseController
                 $data['message'] = $this->repository->createMessage('Login ou senha inválidos!', 'Alerta', 'warning');
             }
             else{
-                $data['message'] = $this->repository->createMessage('Autenticado com sucesso', 'Sucess', 'success');
-                $this->container->sessionHelper->set(['usuario_sessao' => $profissional->toArray()]);
+                $sessao['usuario_sessao'] = $profissional->toArray();
+                $data['message'] = $this->repository->createMessage('Autenticado com sucesso', 'Sucess', 'success', $sessao);
+                $this->container->sessionHelper->set($sessao);
             }            
         }
 

@@ -55,4 +55,10 @@ final class PacienteAcompanhamentoController extends BaseController
 
         return $this->jsonRender($response, 200, $data);
     }
+
+    public function delete(Request $request, Response $response, $args)
+    {        
+        $data = $this->repository->delete($args['codigo']);
+        return $this->jsonRender($response, 200, $data);
+    }
 }

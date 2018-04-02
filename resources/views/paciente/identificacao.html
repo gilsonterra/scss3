@@ -1,26 +1,30 @@
 {% extends "base.html" %} 
 
 {% block content %}
-<paciente-identificacao></paciente-identificacao>
+<div id="paciente-identificacao"></div>
 {% endblock %} 
 
 {% block js %}
+<script src="{{ base_url }}/js/vanilla-masker.min.js"></script>
 <script src="{{ base_url }}/tags/form-select-uf.html"></script>
 <script src="{{ base_url }}/tags/paciente/identificacao.html"></script>
 <script type="text/javascript">
     window.onload = function () {
-        APP.load.css(BASE_URL + '/css/sweetalert2.min.css');        
+        APP.load.css(BASE_URL + '/css/sweetalert2.min.css');                
     };
 
     var codigo_paciente = '{{ codigo_paciente }}';
     if (codigo_paciente) {
         APP.ajaxPostRequest(BASE_URL + '/paciente/find/' + codigo_paciente,{},
             function (json) {
-                riot.mount('paciente-identificacao', {
+                riot.mount('#paciente-identificacao', 'paciente-identificacao', {
                     'dados': json
                 });
             }
         );
+    }
+    else{
+        riot.mount('#paciente-identificacao', 'paciente-identificacao');
     }
 </script>
 {% endblock %}

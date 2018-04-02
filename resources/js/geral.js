@@ -150,6 +150,16 @@ APP.dataAtualPtBr = function () {
 }
 
 
+APP.setSession = function (data) {
+    window.sessionStorage.setItem('session', JSON.stringify(data));
+}
+
+APP.getSession = function () {
+    var session = window.sessionStorage.getItem('session');
+    return session ? JSON.parse(session) : {};
+}
+
+
 APP.load = (function () {
     // Function which returns a function: https://davidwalsh.name/javascript-functions
     function _load(tag) {

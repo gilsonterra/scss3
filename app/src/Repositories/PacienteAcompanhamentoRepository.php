@@ -91,4 +91,24 @@ final class PacienteAcompanhamentoRepository extends BaseRepository
 
         return $message;
     }
+
+    /**
+     * Excluir (inativa) o registro
+     *
+     * @param [type] $id
+     * @return void
+     */
+    public function delete($id)
+    {
+        $message = $this->createMessage('Intervenção excluida com sucesso.', 'Sucesso', BaseRepository::SUCCESS);
+
+        try {
+            $query = $this->model->findOrFail($id);
+            $query->fill(['status' => 0])->save();
+        } catch (\Exception $e) {
+            $message = $this->createMessage('Erro ao excluir a intervenção.' . $e->getMessage(), 'Erro', BaseRepository::ERROR);
+        }
+
+        return $message;
+    }
 }

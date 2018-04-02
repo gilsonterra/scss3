@@ -1,7 +1,7 @@
 <paciente-acompanhamento>
     <form onsubmit="{ onSubmit }">
         <input type="hidden" name="codigo_paciente" value="{ paciente.codigo_paciente }">
-        <input type="hidden" name="fk_profissional" value="{ fk_profissional }">
+        <input type="hidden" name="fk_profissional" value="{ session.codigo }">
         <div class="card">
             <div class="card-header">
                 <div class="float-left">
@@ -9,8 +9,8 @@
                     <div class="card-subtitle text-gray h3">{ paciente.cod_prnt || '' } - { paciente.nome_social || paciente.nome_pac }</div>
                 </div>
                 <div class="float-right">
-                        <button type="submit" if="{ !acompanhamento.codigo }" class="btn btn-primary mr-1">Salvar</button>
-                        <button type="submit" if="{ acompanhamento.codigo }" class="btn btn-primary mr-1">Alterar</button>
+                    <button type="submit" if="{ !acompanhamento.codigo }" class="btn btn-primary mr-1">Salvar</button>
+                    <button type="submit" if="{ acompanhamento.codigo }" class="btn btn-primary mr-1">Alterar</button>
                     <a href="{ url }/listar" if="{ !paciente.codigo_paciente }" class="btn btn-secondary">Cancelar</a>
                     <a href="{ BASE_URL }/paciente/visualizar/{ paciente.codigo_paciente }" if="{ paciente.codigo_paciente }" class="btn btn-secondary">Voltar</a>
                 </div>
@@ -37,14 +37,7 @@
                         </div>
                     </div>
                     <div class="column col-6 col-md-12">
-                        <div class="form-group { errors.fk_local ? 'has-error' : '' }">
-                            <label class="form-label" for="fk_local">Local</label>
-                            <select name="fk_local" class="form-select" required>
-                                <option value=""></option>
-                                <option each="{ l in locais }" value="{ l.codigo }" selected="{ acompanhamento.fk_local == l.codigo  }">{ l.descricao }</option>
-                            </select>
-                            <div class="form-input-hint" if="{ errors.fk_local }" each="{ e in errors.fk_local }">- { e }</div>
-                        </div>
+                        <form-select-locais-sessao errors="{ errors.fk_local }" name="fk_local" val="{ acompanhamento.fk_local }"></form-select-locais-sessao>
                     </div>
                 </div>
                 <div class="columns">
@@ -83,22 +76,18 @@
     <script>
         var tag = this;
         tag.url = BASE_URL + '/paciente/acompanhamento';
-        tag.errors = opts.errors || {};        
+        tag.errors = opts.errors || {};
         tag.paciente = opts.paciente || {};
         tag.acompanhamento = opts.acompanhamento || {};
         tag.acompanhamentoCategorias = [];
         tag.acompanhamentosItems = [];
-
-        tag.locais = [];
-        tag.fk_profissional = null;
-
+        tag.session = APP.getSession() || {};
         tag.onChangeCategoria = onChangeCategoria;
         tag.onSubmit = onSubmit;
         tag.on('mount', onMount);
 
         function onMount() {
             _buscaAcompanhamentoCategoria();
-            _buscaLocal();
         }
 
         function _buscaAcompanhamentoCategoria() {
@@ -110,20 +99,9 @@
                         'acompanhamentoCategorias': json
                     });
 
-                    if (tag.acompanhamento.acompanhamento_item  && tag.acompanhamento.acompanhamento_item.categoria.codigo) {
+                    if (tag.acompanhamento.acompanhamento_item && tag.acompanhamento.acompanhamento_item.categoria.codigo) {
                         _buscaAcompanhamentoItem(tag.acompanhamento.acompanhamento_item.categoria.codigo);
                     }
-                }
-            );
-        }
-
-        function _buscaLocal() {
-            APP.ajaxGetRequest(BASE_URL + '/session',
-                function (json) {
-                    tag.update({
-                        'locais': json.usuario_sessao.locais,
-                        'fk_profissional': json.usuario_sessao.codigo,
-                    });
                 }
             );
         }
@@ -153,7 +131,7 @@
             var serializeData = JSON.stringify(data);
             var url = tag.url + '/persistir/' + tag.paciente.codigo_paciente;
 
-            if(tag.acompanhamento.codigo){
+            if (tag.acompanhamento.codigo) {
                 url += '/' + tag.acompanhamento.codigo;
             }
 
