@@ -1,68 +1,43 @@
 <paciente-visualizacao>
-    <div class="card">
-        <div class="card-header">
-            <div class="float-left">
-                <div class="card-title h5">Paciente</div>
-                <div class="card-subtitle text-gray h3">
-                    { dados.nome_social || dados.nome_pac || '-' }
-                </div>
-            </div>
-            <div class="float-right">
-                <a href="{ url }/identificacao/editar/{ dados.codigo_paciente }" class="btn btn-primary mr-1">Alterar Identificação</a>
-                <a href="{ url }/acompanhamento/criar/{ dados.codigo_paciente }" class="btn btn-primary mr-1">Nova Intervenção</a>
-                <div class="dropdown mr-1">
-                    <a href="javascript:;" class="btn btn-primary btn-menu dropdown-toggle" tabindex="0">
-                        Nova Entrevista
-                        <i class="icon icon-caret"></i>
-                    </a>
-                    <ul class="menu" style="min-width: 310px">
-                        <li class="menu-item">
-                            <a href="">Adulto</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="">Adulto/Maternidade</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="">Adulto/Cuidado Paliativos</a>
-                        </li>
-                        <li class="menu-item">
-                            <div class="divider"></div>
-                        </li>
-                        <li class="menu-item">
-                            <a href="">Criança e Adolescente</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="">Criança e Adolescente/Maternidade</a>
-                        </li>
-                    </ul>
-                </div>
-                <a href="{ url }/listar" class="btn btn-secondary">Cancelar</a>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="columns">
-                <div class="column col-2 col-md-12">
-                    <div class="form-group}">
-                        <label class="form-label" for="cod_prnt">Atualizado em:</label>
-                        <b>{ dados.data_alteracao || dados.data_cadastro }</b>
+    <p>
+        <div class="card">
+            <div class="card-body">
+                <div class="columns">
+                    <div class="column col-6 col-md-12">
+                        <label class="form-label">Paciente</label>
+                        <span class="text-gray h3">{ dados.nome_social || dados.nome_pac }</span>
                     </div>
-                </div>
-                <div class="column col-4 col-md-12">
-                    <div class="form-group}">
-                        <label class="form-label" for="cod_prnt">Atualizado por:</label>
-                        <b>{ dados.profissional ? dados.profissional.nome : '-' }</b>
+                    <div class="column col-2 col-md-12">
+                        <div class="form-group">
+                            <label class="form-label" for="cod_prnt">Atualizado em:</label>
+                            <b>{ dados.data_alteracao || dados.data_cadastro }</b>
+                        </div>
+                    </div>
+                    <div class="column col-2 col-md-12">
+                        <div class="form-group">
+                            <label class="form-label" for="cod_prnt">Atualizado por:</label>
+                            <b>{ dados.profissional ? dados.profissional.nome : '-' }</b>
+                        </div>
+                    </div>
+                    <div class="column col-2 col-md-12">
+                        <div class="float-right">
+                            <a href="{ url }/listar" class="btn btn-secondary">Cancelar</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </p>
+    <p>
+        <paciente-visualizacao-identificacao dados="{ dados }"></paciente-visualizacao-identificacao>
+    </p>
+    <p>
+        <paciente-visualizacao-acompanhamentos acompanhamentos="{ dados.acompanhamentos }" codigo-paciente="{ dados.codigo_paciente }"></paciente-visualizacao-acompanhamentos>
+    </p>
 
-    <br>
-    <paciente-visualizacao-identificacao dados="{ dados }"></paciente-visualizacao-identificacao>
-    <br>
-    <paciente-visualizacao-acompanhamentos acompanhamentos="{ dados.acompanhamentos }" usuario-sessao="{ usuarioSessao }"></paciente-visualizacao-acompanhamentos>
-    <br>
-    <paciente-visualizacao-entrevistas entrevistas="{ dados.entrevistas }" usuario-sessao="{ usuarioSessao }"></paciente-visualizacao-entrevistas>
+    <p>
+        <paciente-visualizacao-entrevistas entrevistas="{ dados.entrevistas }" codigo-paciente="{ dados.codigo_paciente }"></paciente-visualizacao-entrevistas>
+    </p>
 
 
     <style>

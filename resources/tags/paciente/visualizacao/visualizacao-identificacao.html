@@ -1,7 +1,17 @@
 <paciente-visualizacao-identificacao>
     <div class="card">
         <div class="card-header">
-            <div class="card-title h5 text-uppercase">Identificação </div>
+            <div class="float-left">
+                <div class="card-title h4 text-uppercase">
+                    Identificação
+                </div>
+            </div>
+            <div class="float-right">
+                <a href="{ url }/editar/{ dados.codigo_paciente }" class="btn btn-primary mr-1">
+                    <i class="icon icon-edit"></i>
+                    Alterar
+                </a>
+            </div>
         </div>
         <div class="card-body">
             <div class="columns">
@@ -186,6 +196,7 @@
     </div>
     <script>
         var tag = this;
+        tag.url = BASE_URL + '/paciente/identificacao';
         tag.dados = opts.dados || {};
     </script>
 </paciente-visualizacao-identificacao>
