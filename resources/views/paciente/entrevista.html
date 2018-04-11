@@ -1,0 +1,32 @@
+{% extends "base.html" %} {% block content %}
+<div id="paciente-entrevista"></div>
+{% endblock %} {% block js %}
+<script src="{{ base_url }}/tags/paciente/entrevista/aspecto-socioeconomico.html"></script>
+<script src="{{ base_url }}/tags/paciente/entrevista-adulto.html"></script>
+
+<script type="text/javascript">
+    window.onload = function () {
+        APP.load.css(BASE_URL + '/css/sweetalert2.min.css');
+    };
+
+    var codigo_paciente = '{{ codigo_paciente }}';
+    var tipo = '{{ tipo }}';
+    var data = {
+        'columns': ['nome_pac', 'nome_social', 'codigo_paciente', 'cod_prnt'],
+        'joins': []
+    };
+
+    APP.ajaxPostRequest(BASE_URL + '/paciente/find/' + codigo_paciente, JSON.stringify(data),
+        function (json) {
+            switch (tipo) {
+                case 'A':
+                    riot.mount('#paciente-entrevista', 'paciente-entrevista-adulto', {
+                        'paciente': json,
+                        'entrevista': {}
+                    });
+                    break;
+            }
+        }
+    );
+</script>
+{% endblock %}

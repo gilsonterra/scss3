@@ -105,6 +105,29 @@
                         </div>
                     </div>
                     <div class="columns">
+                        <div class="column col-2 col-md-12">
+                            <div class="form-group { errors.rg ? 'has-error' : '' }">
+                                <label class="form-label" for="rg">RG</label>
+                                <input type="text" name="rg" maxlength="10" value="{ dados.rg }" class="form-input">
+                                <div class="form-input-hint" if="{ errors.rg }" each="{ e in errors.rg }">- { e }</div>
+                            </div>
+                        </div>
+                        <div class="column col-4 col-md-12">
+                            <div class="form-group { errors.rg_org_exp ? 'has-error' : '' }">
+                                <label class="form-label" for="rg_org_exp">Órgão Expedidor</label>
+                                <input type="text" name="rg_org_exp" maxlength="10" value="{ dados.rg_org_exp }" class="form-input">
+                                <div class="form-input-hint" if="{ errors.rg_org_exp }" each="{ e in errors.rg_org_exp }">- { e }</div>
+                            </div>
+                        </div>
+                        <div class="column col-6 col-md-12">
+                            <div class="form-group { errors.cpf ? 'has-error' : '' }">
+                                <label class="form-label" for="cpf">CPF</label>
+                                <input type="text" name="cpf" id="cpf" maxlength="14" value="{ dados.cpf }" class="form-input">
+                                <div class="form-input-hint" if="{ errors.cpf }" each="{ e in errors.cpf }">- { e }</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
                         <div class="column col-12 col-md-12">
                             <div class="form-group { errors.observacoes ? 'has-error' : '' }">
                                 <label class="form-label" for="observacoes">Observação</label>
@@ -192,6 +215,7 @@
 
         function onMount() {
             _setMaskFone();
+            VMasker(document.getElementById('cpf')).maskPattern('999.999.999-99');
         }
 
         function _setMaskFone() {

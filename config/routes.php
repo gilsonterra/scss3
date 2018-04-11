@@ -42,6 +42,14 @@ $app->group('/paciente', function () {
         $this->get('/excluir/{codigo}', 'App\Controllers\PacienteAcompanhamentoController:delete');
         $this->post('/buscar[/]', 'App\Controllers\PacienteAcompanhamentoController:fetchAll');
     });
+
+    $this->group('/entrevista', function(){
+        $this->get('/criar/{tipo}/{codigo_paciente}', 'App\Controllers\PacienteEntrevistaController:createView');
+        $this->get('/editar/{tipo}/{codigo_paciente}/{codigo}', 'App\Controllers\PacienteEntrevistaController:editView');
+        $this->post('/persistir/{codigo_paciente}[/{codigo}]', 'App\Controllers\PacienteEntrevistaController:store');
+        $this->get('/excluir/{codigo}', 'App\Controllers\PacienteEntrevistaController:delete');
+        $this->post('/buscar[/]', 'App\Controllers\PacienteEntrevistaController:fetchAll');
+    });
     
 })->add(new AuthMiddleware($app->getContainer()));
 

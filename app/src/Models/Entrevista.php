@@ -21,13 +21,19 @@ class Entrevista extends Model
         $descricao = '';
         switch ($value) {
             case 'C':
-                $descricao = 'Criança/Adolescente';
+                $descricao = 'CRIANÇA E ADOLESCENTE';
+                break;
+            case 'CM':
+                $descricao = 'CRIANÇA E ADOLESCENTE / MATERNIDADE';
                 break;
             case 'A':
-                $descricao = 'Adulto';
+                $descricao = 'ADULTO';
                 break;
             case 'M':
-                $descricao = 'Maternidade';
+                $descricao = 'ADULTO / MATERNIDADE';
+                break;
+            case 'CP':
+                $descricao = 'ADULTO / CUIDADOS PALEATIVOS';
                 break;
         }
         return $descricao;

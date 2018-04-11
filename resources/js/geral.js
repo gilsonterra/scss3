@@ -11,6 +11,12 @@ APP.httpService = function (url, options, resolve, reject) {
 
     xhr.setRequestHeader("X-Requested-With", 'XMLHttpRequest');
 
+    if(reject == undefined){
+        reject = function(jsonText){
+            swal(JSON.parse(jsonText));
+        }
+    }
+
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             if (xhr.status == 200) {
@@ -151,11 +157,11 @@ APP.dataAtualPtBr = function () {
 
 
 APP.setSession = function (data) {
-    window.sessionStorage.setItem('session', JSON.stringify(data));
+    window.localStorage.setItem('session', JSON.stringify(data));
 }
 
 APP.getSession = function () {
-    var session = window.sessionStorage.getItem('session');
+    var session = window.localStorage.getItem('session');
     return session ? JSON.parse(session) : {};
 }
 

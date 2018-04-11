@@ -80,3 +80,12 @@ $container['App\Controllers\PacienteAcompanhamentoController'] = function ($cont
     
     return new App\Controllers\PacienteAcompanhamentoController($container, $repository, $validator);
 };
+
+$container['App\Controllers\PacienteEntrevistaController'] = function ($container) {    
+    $model = new App\Models\Entrevista();    
+    $modelPaciente = new App\Models\Paciente();    
+    $repository = new App\Repositories\PacienteEntrevistaRepository($model, $modelPaciente);    
+    $validator = new App\Validators\PacienteEntrevistaValidator();      
+    
+    return new App\Controllers\PacienteEntrevistaController($container, $repository, $validator);
+};

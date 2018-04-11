@@ -36,7 +36,10 @@ class Paciente extends Model
         'nome_social',
         'observacoes',
         'procedencia',
-        'sexo_pac'
+        'sexo_pac',
+        'rg',
+        'rg_org_exp',
+        'cpf'
     ];
 
     public function getDataCadastroAttribute($value)

@@ -1,0 +1,141 @@
+<paciente-entrevista-aspecto-socioeconomico>
+    <fieldset>
+        <legend>Aspectos Socioeconômicos</legend>
+        <div class="columns">
+            <div class="column col-8 col-md-12">
+                <label for="">Estado Cívil</label>
+                <div class="form-group">
+                    <label class="form-radio">
+                        <input type="radio" name="situacao_conjugal" value="SO">
+                        <i class="form-icon"></i> Solteiro(a)
+                    </label>
+                    <label class="form-radio">
+                        <input type="radio" name="situacao_conjugal" value="CA">
+                        <i class="form-icon"></i> Casado(a)
+                    </label>
+                    <label class="form-radio">
+                        <input type="radio" name="situacao_conjugal" value="DI">
+                        <i class="form-icon"></i> Divorciado(a)
+                    </label>
+                    <label class="form-radio">
+                        <input type="radio" name="situacao_conjugal" value="SE">
+                        <i class="form-icon"></i> Separado(a)
+                    </label>
+                    <label class="form-radio">
+                        <input type="radio" name="situacao_conjugal" value="UE">
+                        <i class="form-icon"></i> União Estável
+                    </label>
+                    <label class="form-radio">
+                        <input type="radio" name="situacao_conjugal" value="VI">
+                        <i class="form-icon"></i> Viúvo(a)
+                    </label>
+                    <label class="form-radio">
+                        <input type="radio" name="situacao_conjugal" value="OU">
+                        <i class="form-icon"></i> Outro
+                    </label>
+                </div>
+            </div>
+            <div class="column col-4 col-md-12">
+                <div class="form-group { errors.nome_companheiro ? 'has-error' : '' }">
+                    <label class="form-label" for="nome_companheiro">Nome do(a) esposo(a) ou companheiro(a)</label>
+                    <input type="text" name="nome_companheiro" maxlength="100" value="{ dados.nome_companheiro }" class="form-input">
+                    <div class="form-input-hint" if="{ errors.nome_companheiro }" each="{ e in errors.nome_companheiro }">- { e }</div>
+                </div>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column col-8 col-md-12">
+                <label for="">Situação Moradia</label>
+                <div class="form-group">
+                    <label class="form-radio">
+                        <input type="radio" name="situacao_moradia" value="P">
+                        <i class="form-icon"></i> Própria
+                    </label>
+                    <label class="form-radio">
+                        <input type="radio" name="situacao_moradia" value="CA">
+                        <i class="form-icon"></i> Cedida
+                    </label>
+                    <label class="form-radio">
+                        <input type="radio" name="situacao_moradia" value="DI">
+                        <i class="form-icon"></i> Alugada
+                    </label>
+                    <label class="form-radio">
+                        <input type="radio" name="situacao_moradia" value="SE">
+                        <i class="form-icon"></i> Financiada
+                    </label>
+                    <label class="form-radio">
+                        <input type="radio" name="situacao_moradia" value="UE">
+                        <i class="form-icon"></i> Situação de Rua
+                    </label>
+                    <label class="form-radio">
+                        <input type="radio" name="situacao_moradia" value="OU">
+                        <i class="form-icon"></i> Outro
+                    </label>
+                </div>
+            </div>
+            <div class="column col-4 col-md-12">
+                <div class="form-group { errors.nome_companheiro ? 'has-error' : '' }">
+                    <label class="form-label" for="nome_companheiro">Situação Moradia (outro)</label>
+                    <input type="text" name="nome_companheiro" maxlength="100" value="{ dados.nome_companheiro }" class="form-input">
+                    <div class="form-input-hint" if="{ errors.nome_companheiro }" each="{ e in errors.nome_companheiro }">- { e }</div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <hr>
+        <br>
+        <div class="columns">            
+            <div class="column col-3 col-md-12">
+                <div class="form-group { errors.situacao_conjugal ? 'has-error' : '' }">
+                    <label class="form-label" for="situacao_conjugal">Estado Civil</label>
+                    <select name="situacao_conjugal" class="form-select">
+                        <option value=""></option>
+                        <option value="SO">Solteiro(a)</option>
+                        <option value="CA">Casado(a)</option>
+                        <option value="DI">Divorciado(a)</option>
+                        <option value="SE">Separado(a)</option>
+                        <option value="UE">União Estável</option>
+                        <option value="VI">Viúvo(a)</option>
+                        <option value="NA">NSA</option>
+                        <option value="OU">Outro</option>
+                    </select>
+                    <div class="form-input-hint" if="{ errors.situacao_conjugal }" each="{ e in errors.situacao_conjugal }">- { e }</div>
+                </div>
+            </div>
+            <div class="column col-3 col-md-12">
+                <div class="form-group { errors.nome_companheiro ? 'has-error' : '' }">
+                    <label class="form-label" for="nome_companheiro">Nome do(a) esposo(a) ou companheiro(a)</label>
+                    <input type="text" name="nome_companheiro" maxlength="100" value="{ dados.nome_companheiro }" class="form-input">
+                    <div class="form-input-hint" if="{ errors.nome_companheiro }" each="{ e in errors.nome_companheiro }">- { e }</div>
+                </div>
+            </div>
+            <div class="column col-3 col-md-12">
+                <div class="form-group { errors.situacao_moradia ? 'has-error' : '' }">
+                    <label class="form-label" for="situacao_moradia">Situação Moradia</label>
+                    <select name="situacao_moradia" class="form-select">
+                        <option value=""></option>
+                        <option value="P">Própria</option>
+                        <option value="C">Cedida</option>
+                        <option value="A">Alugada</option>
+                        <option value="F">Financiada</option>
+                        <option value="S">Situação de Rua</option>
+                        <option value="O">Outro</option>
+                    </select>
+                    <div class="form-input-hint" if="{ errors.situacao_moradia }" each="{ e in errors.situacao_moradia }">- { e }</div>
+                </div>
+            </div>
+            <div class="column col-3 col-md-12">
+                <div class="form-group { errors.situacao_conjugal_outros ? 'has-error' : '' }">
+                    <label class="form-label" for="situacao_conjugal_outros">Situação Moradia (Outro)</label>
+                    <input type="text" name="situacao_conjugal_outros" maxlength="100" value="{ dados.situacao_conjugal_outros }" class="form-input">
+                    <div class="form-input-hint" if="{ errors.situacao_conjugal_outros }" each="{ e in errors.situacao_conjugal_outros }">- { e }</div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+    <script>
+        var tag = this;
+        tag.dados = opts.dados || {};
+        tag.errors = opts.errors || {};
+    </script>
+</paciente-entrevista-aspecto-socioeconomico>
