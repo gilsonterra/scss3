@@ -1,11 +1,11 @@
-<paciente-entrevista-adulto>
+<paciente-entrevista-crianca>
     <form onsubmit="{ onSubmit }">
         <input type="hidden" name="codigo_paciente" value="{ paciente.codigo_paciente }">
         <input type="hidden" name="fk_profissional" value="{ session.codigo }">
         <div class="card">
             <div class="card-header">
                 <div class="float-left">
-                    <div class="card-title h5">Entrevista Social - Adulto</div>
+                    <div class="card-title h5">Entrevista Social - Criança e Adolescente</div>
                     <div class="card-subtitle text-gray h3">{ paciente.nome_social || paciente.nome_pac }</div>
                 </div>
                 <div class="float-right">
@@ -61,4 +61,4 @@
                 });
         }
     </script>
-</paciente-entrevista-adulto>
+</paciente-entrevista-crianca>

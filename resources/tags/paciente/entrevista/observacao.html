@@ -1,0 +1,16 @@
+<paciente-entrevista-observacao>
+    <div class="columns">
+        <div class="column col-12 col-md-12">
+            <div class="form-group { errors.observacao ? 'has-error' : '' }">
+                <label class="form-label" for="observacao">Observação</label>
+                <textarea class="form-input" name="observacao" rows="5"></textarea>
+                <div class="form-input-hint" if="{ errors.observacao }" each="{ e in errors.observacao }">- { e }</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var tag = this;
+        tag.dados = opts.dados || {};
+        tag.errors = opts.errors || {};
+    </script>
+</paciente-entrevista-observacao>

@@ -2,89 +2,6 @@
     <fieldset>
         <legend>Aspectos Socioeconômicos</legend>
         <div class="columns">
-            <div class="column col-8 col-md-12">
-                <label for="">Estado Cívil</label>
-                <div class="form-group">
-                    <label class="form-radio">
-                        <input type="radio" name="situacao_conjugal" value="SO">
-                        <i class="form-icon"></i> Solteiro(a)
-                    </label>
-                    <label class="form-radio">
-                        <input type="radio" name="situacao_conjugal" value="CA">
-                        <i class="form-icon"></i> Casado(a)
-                    </label>
-                    <label class="form-radio">
-                        <input type="radio" name="situacao_conjugal" value="DI">
-                        <i class="form-icon"></i> Divorciado(a)
-                    </label>
-                    <label class="form-radio">
-                        <input type="radio" name="situacao_conjugal" value="SE">
-                        <i class="form-icon"></i> Separado(a)
-                    </label>
-                    <label class="form-radio">
-                        <input type="radio" name="situacao_conjugal" value="UE">
-                        <i class="form-icon"></i> União Estável
-                    </label>
-                    <label class="form-radio">
-                        <input type="radio" name="situacao_conjugal" value="VI">
-                        <i class="form-icon"></i> Viúvo(a)
-                    </label>
-                    <label class="form-radio">
-                        <input type="radio" name="situacao_conjugal" value="OU">
-                        <i class="form-icon"></i> Outro
-                    </label>
-                </div>
-            </div>
-            <div class="column col-4 col-md-12">
-                <div class="form-group { errors.nome_companheiro ? 'has-error' : '' }">
-                    <label class="form-label" for="nome_companheiro">Nome do(a) esposo(a) ou companheiro(a)</label>
-                    <input type="text" name="nome_companheiro" maxlength="100" value="{ dados.nome_companheiro }" class="form-input">
-                    <div class="form-input-hint" if="{ errors.nome_companheiro }" each="{ e in errors.nome_companheiro }">- { e }</div>
-                </div>
-            </div>
-        </div>
-        <div class="columns">
-            <div class="column col-8 col-md-12">
-                <label for="">Situação Moradia</label>
-                <div class="form-group">
-                    <label class="form-radio">
-                        <input type="radio" name="situacao_moradia" value="P">
-                        <i class="form-icon"></i> Própria
-                    </label>
-                    <label class="form-radio">
-                        <input type="radio" name="situacao_moradia" value="CA">
-                        <i class="form-icon"></i> Cedida
-                    </label>
-                    <label class="form-radio">
-                        <input type="radio" name="situacao_moradia" value="DI">
-                        <i class="form-icon"></i> Alugada
-                    </label>
-                    <label class="form-radio">
-                        <input type="radio" name="situacao_moradia" value="SE">
-                        <i class="form-icon"></i> Financiada
-                    </label>
-                    <label class="form-radio">
-                        <input type="radio" name="situacao_moradia" value="UE">
-                        <i class="form-icon"></i> Situação de Rua
-                    </label>
-                    <label class="form-radio">
-                        <input type="radio" name="situacao_moradia" value="OU">
-                        <i class="form-icon"></i> Outro
-                    </label>
-                </div>
-            </div>
-            <div class="column col-4 col-md-12">
-                <div class="form-group { errors.nome_companheiro ? 'has-error' : '' }">
-                    <label class="form-label" for="nome_companheiro">Situação Moradia (outro)</label>
-                    <input type="text" name="nome_companheiro" maxlength="100" value="{ dados.nome_companheiro }" class="form-input">
-                    <div class="form-input-hint" if="{ errors.nome_companheiro }" each="{ e in errors.nome_companheiro }">- { e }</div>
-                </div>
-            </div>
-        </div>
-        <br>
-        <hr>
-        <br>
-        <div class="columns">            
             <div class="column col-3 col-md-12">
                 <div class="form-group { errors.situacao_conjugal ? 'has-error' : '' }">
                     <label class="form-label" for="situacao_conjugal">Estado Civil</label>
@@ -132,10 +49,111 @@
                 </div>
             </div>
         </div>
+        <div class="columns">
+            <div class="column col-3 col-md-12">
+                <div class="form-group { errors.escolaridade ? 'has-error' : '' }">
+                    <label class="form-label" for="escolaridade">Escolaridade</label>
+                    <select name="escolaridade" class="form-select">
+                        <option value="N">NSA</option>
+                        <option value="NSI">Não Soube Informar (NSI)</option>
+                        <option value="NA">Não Alfabetizado</option>
+                        <option value="EI">Educação Infantil</option>
+                        <option value="A">Alfabetizado</option>
+                        <option value="EFI">Ensino Fundamental Incompleto</option>
+                        <option value="EFC">Ensino Fundamental Completo</option>
+                        <option value="EMI">Ensino Médio Incompleto</option>
+                        <option value="EMC">Ensino Médio Completo</option>
+                        <option value="ESI">Ensino Superior Incompleto</option>
+                        <option value="ESC">Ensino Superior Completo</option>
+                        <option value="PG">Pós-Graduação</option>
+                    </select>
+                    <div class="form-input-hint" if="{ errors.escolaridade }" each="{ e in errors.escolaridade }">- { e }</div>
+                </div>
+            </div>
+            <div class="column col-3 col-md-12">
+                <div class="form-group { errors.situacao_funcional ? 'has-error' : '' }">
+                    <label class="form-label" for="situacao_funcional">Situação Funcional</label>
+                    <select name="situacao_funcional" class="form-select">
+                        <option value=""></option>
+                        <option value="E">Empregado</option>
+                        <option value="D">Desempregado</option>
+                        <option value="A">Autônomo</option>
+                        <option value="P">Previdênciário</option>
+                        <option value="I">Incapaz</option>
+                        <option value="N">NSI</option>
+                        <option value="O">Outro</option>
+                    </select>
+                    <div class="form-input-hint" if="{ errors.situacao_funcional }" each="{ e in errors.situacao_funcional }">- { e }</div>
+                </div>
+            </div>
+            <div class="column col-6 col-md-12">
+                <div class="form-group { errors.fk_profissao ? 'has-error' : '' }">
+                    <label class="form-label" for="fk_profissao">Profissão</label>
+                    <select name="fk_profissao" class="form-select">
+                        <option value=""></option>
+                    </select>
+                    <div class="form-input-hint" if="{ errors.fk_profissao }" each="{ e in errors.fk_profissao }">- { e }</div>
+                </div>
+            </div>
+        </div>
+        <div class="columns">
+            <div class="column col-3 col-md-12">
+                <div class="form-group { errors.filiado_rgps ? 'has-error' : '' }">
+                    <label class="form-label" for="filiado_rgps">É filiado(a) ao RGPS?</label>
+                    <select name="filiado_rgps" class="form-select">
+                        <option value=""></option>
+                        <option value="S">Sim</option>
+                        <option value="N">Não</option>
+                    </select>
+                    <div class="form-input-hint" if="{ errors.filiado_rgps }" each="{ e in errors.filiado_rgps }">- { e }</div>
+                </div>
+            </div>
+            <div class="column col-3 col-md-12">
+                <div class="form-group { errors.outro_regime ? 'has-error' : '' }">
+                    <label class="form-label" for="outro_regime">Outro regime</label>
+                    <input type="text" name="outro_regime" maxlength="100" value="{ dados.outro_regime }" class="form-input">
+                    <div class="form-input-hint" if="{ errors.outro_regime }" each="{ e in errors.outro_regime }">- { e }</div>
+                </div>
+            </div>
+            <div class="column col-3 col-md-12">
+                <div class="form-group { errors.contribui_atualmente ? 'has-error' : '' }">
+                    <label class="form-label" for="contribui_atualmente">Contribui atualmente?</label>
+                    <select name="contribui_atualmente" class="form-select" onchange="{ onChangeContribuiAtualmente }">
+                        <option value=""></option>
+                        <option value="S">Sim</option>
+                        <option value="N">Não</option>
+                        <option value="NSI">Não Soube Informar (NSI)</option>
+                    </select>
+                    <div class="form-input-hint" if="{ errors.contribui_atualmente }" each="{ e in errors.contribui_atualmente }">- { e }</div>
+                </div>
+            </div>
+            <div class="column col-3 col-md-12">
+                <div class="form-group { errors.tempo_contribuicao ? 'has-error' : '' }">
+                    <label class="form-label" for="tempo_contribuicao">Há quanto tempo contribui?</label>
+                    <input type="number" id="tempo_contribuicao" disabled="{ dados.contribui_atualmente == 'S' ? 'false' : 'true' }" name="tempo_contribuicao" max="40"
+                        maxlength="2" value="{ dados.tempo_contribuicao }" class="form-input">
+                    <div class="form-input-hint" if="{ errors.tempo_contribuicao }" each="{ e in errors.tempo_contribuicao }">- { e }</div>
+                </div>
+            </div>
+        </div>
     </fieldset>
     <script>
         var tag = this;
         tag.dados = opts.dados || {};
         tag.errors = opts.errors || {};
+        tag.onChangeContribuiAtualmente = onChangeContribuiAtualmente;
+
+        function onChangeContribuiAtualmente(event) {
+            var contribuiAtualmente = event.target.value;
+            var inputTempoContribuicao = document.getElementById('tempo_contribuicao');
+
+            if (contribuiAtualmente == 'S') {
+                inputTempoContribuicao.disabled = false;
+                inputTempoContribuicao.focus();
+            } else {
+                inputTempoContribuicao.value = '';
+                inputTempoContribuicao.disabled = true;
+            }
+        }
     </script>
 </paciente-entrevista-aspecto-socioeconomico>
