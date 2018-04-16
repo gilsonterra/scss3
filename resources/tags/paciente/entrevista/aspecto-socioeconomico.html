@@ -89,9 +89,9 @@
             <div class="column col-6 col-md-12">
                 <div class="form-group { errors.fk_profissao ? 'has-error' : '' }">
                     <label class="form-label" for="fk_profissao">Profissão</label>
-                    <select name="fk_profissao" class="form-select">
-                        <option value=""></option>
-                    </select>
+                    <input type="hidden" name="fk_profissao" id="fk_profissao">
+                    <form-autocomplete name="inputSelectProfissao" placeholder="Digite até 3 caracteres para pesquisar" source="{ autoCompleteSource }"
+                        render-item="{ autoCompleteRenderItem }" on-select="{ autoCompleteOnSelect }"></form-autocomplete>
                     <div class="form-input-hint" if="{ errors.fk_profissao }" each="{ e in errors.fk_profissao }">- { e }</div>
                 </div>
             </div>
@@ -130,8 +130,8 @@
             <div class="column col-3 col-md-12">
                 <div class="form-group { errors.tempo_contribuicao ? 'has-error' : '' }">
                     <label class="form-label" for="tempo_contribuicao">Há quanto tempo contribui?</label>
-                    <input type="number" id="tempo_contribuicao" disabled="{ dados.contribui_atualmente == 'S' ? 'false' : 'true' }" name="tempo_contribuicao" max="40"
-                        maxlength="2" value="{ dados.tempo_contribuicao }" class="form-input">
+                    <input type="number" id="tempo_contribuicao" disabled="{ dados.contribui_atualmente == 'S' ? 'false' : 'true' }" name="tempo_contribuicao"
+                        max="40" maxlength="2" value="{ dados.tempo_contribuicao }" class="form-input">
                     <div class="form-input-hint" if="{ errors.tempo_contribuicao }" each="{ e in errors.tempo_contribuicao }">- { e }</div>
                 </div>
             </div>
@@ -142,6 +142,35 @@
         tag.dados = opts.dados || {};
         tag.errors = opts.errors || {};
         tag.onChangeContribuiAtualmente = onChangeContribuiAtualmente;
+        tag.autoCompleteSource = autoCompleteSource;
+        tag.autoCompleteRenderItem = autoCompleteRenderItem;
+        tag.autoCompleteOnSelect = autoCompleteOnSelect;
+        tag.profissoes = [];        
+
+        function autoCompleteSource(term, response) {
+            var term = term.toLowerCase();
+            APP.ajaxPostRequest(BASE_URL + '/profissao/buscar',JSON.stringify({
+                'descricao': term                
+            }), function (json) {
+                var res = json.map(function (item) {
+                    return JSON.stringify(item);
+                });
+                response(res);
+            });
+        }
+
+        function autoCompleteRenderItem(item, search) {
+            var obj = JSON.parse(item);
+            var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
+            return '<div class="autocomplete-suggestion" data-codigo="' + obj.codigo + '" data-val="' +
+                obj.descricao + '">' + obj.descricao.replace(re, "<b>$1</b>") + '</div>';
+        }
+
+        function autoCompleteOnSelect(event, term, item) {
+            event.preventDefault();
+            document.querySelector('input[name="inputSelectProfissao"]').value = item.getAttribute('data-val');
+            document.getElementById('fk_profissao').value = item.getAttribute('data-codigo');
+        }
 
         function onChangeContribuiAtualmente(event) {
             var contribuiAtualmente = event.target.value;
@@ -154,6 +183,15 @@
                 inputTempoContribuicao.value = '';
                 inputTempoContribuicao.disabled = true;
             }
+        }
+
+
+        function getProfissao() {
+            APP.ajaxPostRequest(BASE_URL + '/profissao/buscar', {}, function (json) {
+                tag.update({
+                    'profissoes': json
+                });
+            });
         }
     </script>
 </paciente-entrevista-aspecto-socioeconomico>

@@ -89,3 +89,11 @@ $container['App\Controllers\PacienteEntrevistaController'] = function ($containe
     
     return new App\Controllers\PacienteEntrevistaController($container, $repository, $validator);
 };
+
+$container['App\Controllers\ProfissaoController'] = function ($container) {    
+    $model = new App\Models\Profissao();    
+    $repository = new App\Repositories\ProfissaoRepository($model);            
+
+    return new App\Controllers\ProfissaoController($container, $repository);
+};
+

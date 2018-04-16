@@ -58,6 +58,7 @@ $app->group('/acompanhamento-categoria', function () {
 })->add(new AuthMiddleware($app->getContainer()));
 
 $app->post('/municipio/buscar[/]', 'App\Controllers\MunicipioController:fetchAll')->add(new AuthMiddleware($app->getContainer()));
+$app->post('/profissao/buscar[/]', 'App\Controllers\ProfissaoController:fetchAll')->add(new AuthMiddleware($app->getContainer()));
 
 $app->group('/local', function () {
     $this->get('/listar[/]', 'App\Controllers\LocalController:listView');

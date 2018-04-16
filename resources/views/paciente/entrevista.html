@@ -7,6 +7,9 @@
 <script src="{{ base_url }}/tags/paciente/entrevista/aspecto-obito.html"></script>
 <script src="{{ base_url }}/tags/paciente/entrevista/observacao.html"></script>
 
+<script src="{{ base_url }}/js/auto-complete.min.js"></script>
+<script src="{{ base_url }}/tags/form-autocomplete.html"></script>
+
 <script src="{{ base_url }}/tags/paciente/entrevista-adulto.html"></script>
 <script src="{{ base_url }}/tags/paciente/entrevista-adulto-maternidade.html"></script>
 <script src="{{ base_url }}/tags/paciente/entrevista-adulto-paliativo.html"></script>
@@ -16,6 +19,7 @@
 <script type="text/javascript">
     window.onload = function () {
         APP.load.css(BASE_URL + '/css/sweetalert2.min.css');
+        APP.load.css(BASE_URL + '/css/auto-complete.css');    
     };
 
     var codigo_paciente = '{{ codigo_paciente }}';
