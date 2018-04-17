@@ -92,8 +92,9 @@ $container['App\Controllers\PacienteEntrevistaController'] = function ($containe
 
 $container['App\Controllers\ProfissaoController'] = function ($container) {    
     $model = new App\Models\Profissao();    
-    $repository = new App\Repositories\ProfissaoRepository($model);            
+    $repository = new App\Repositories\ProfissaoRepository($model); 
+    $validator = new App\Validators\ProfissaoValidator();                
 
-    return new App\Controllers\ProfissaoController($container, $repository);
+    return new App\Controllers\ProfissaoController($container, $repository, $validator);
 };
 

@@ -1,0 +1,14 @@
+{% extends "base.html" %} 
+
+{% block content %}
+    <profissao-form dados="{ JSON.parse('{{ dados | json_encode }}') }"></local-form>
+{% endblock %}
+
+{% block js %}                            
+    <script src="{{ base_url }}/tags/profissao/form.html"></script>    
+    <script type="text/javascript">
+        window.onload = function () {
+            APP.load.css(BASE_URL + '/css/sweetalert2.min.css');                        
+        }
+    </script>
+{% endblock %}

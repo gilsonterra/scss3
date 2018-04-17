@@ -9,18 +9,21 @@
                 {% if usuario_sessao.admin == 1 %}
                 <div class="dropdown">
                     <a href="#" class="btn btn-link btn-menu dropdown-toggle" tabindex="0">
-                        Configurações
+                        Cadastros
                         <i class="icon icon-caret"></i>
                     </a>
                     <ul class="menu">
                         <li class="menu-item">
-                            <a href="{{ base_url }}/local/listar">Local</a>
+                            <a href="{{ base_url }}/local/listar">Local de Atuação</a>
                         </li>
                         <li class="menu-item">
-                            <a href="{{ base_url }}/profissional/listar">Profissional</a>
+                            <a href="{{ base_url }}/profissional/listar">Assistente Social</a>
                         </li>
                         <li class="menu-item">
                             <a href="{{ base_url }}/aviso/listar">Aviso</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="{{ base_url }}/profissao/listar">Profissao</a>
                         </li>
                     </ul>
                 </div>
@@ -49,10 +52,11 @@
                         <option value="">ddd</option>
                     </optgroup>
                     {% if usuario_sessao.admin == 1 %}
-                    <optgroup label="Configurações">
-                        <option value="{{ base_url }}/local/listar">Local</option>
-                        <option value="{{ base_url }}/profissional/listar">Profissional</option>
+                    <optgroup label="Cadastros">
+                        <option value="{{ base_url }}/local/listar">Local de Atuação</option>
+                        <option value="{{ base_url }}/profissional/listar">Assistente Social</option>
                         <option value="{{ base_url }}/aviso/listar">Aviso</option>
+                        <option value="{{ base_url }}/profissao/listar">Profissão</option>                        
                     </optgroup>
                     {% endif %}
                     <option value="{{ base_url }}/login/logout">Sair</option>

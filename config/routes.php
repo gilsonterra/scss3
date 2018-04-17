@@ -58,7 +58,6 @@ $app->group('/acompanhamento-categoria', function () {
 })->add(new AuthMiddleware($app->getContainer()));
 
 $app->post('/municipio/buscar[/]', 'App\Controllers\MunicipioController:fetchAll')->add(new AuthMiddleware($app->getContainer()));
-$app->post('/profissao/buscar[/]', 'App\Controllers\ProfissaoController:fetchAll')->add(new AuthMiddleware($app->getContainer()));
 
 $app->group('/local', function () {
     $this->get('/listar[/]', 'App\Controllers\LocalController:listView');
@@ -69,6 +68,17 @@ $app->group('/local', function () {
 })
 ->add(new AdministrativoMiddleware($app->getContainer()))
 ->add(new AuthMiddleware($app->getContainer()));
+
+$app->group('/profissao', function () {
+    $this->get('/listar[/]', 'App\Controllers\ProfissaoController:listView');
+    $this->get('/criar', 'App\Controllers\ProfissaoController:createView');
+    $this->get('/editar/{codigo}', 'App\Controllers\ProfissaoController:editView');
+    $this->post('/persistir/[{codigo}]', 'App\Controllers\ProfissaoController:store');    
+})
+->add(new AdministrativoMiddleware($app->getContainer()))
+->add(new AuthMiddleware($app->getContainer()));
+
+$app->post('/profissao/buscar[/]', 'App\Controllers\ProfissaoController:fetchAll')->add(new AuthMiddleware($app->getContainer()));
 
 $app->group('/profissional', function () {
     $this->get('/listar[/]', 'App\Controllers\ProfissionalController:listView');

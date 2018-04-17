@@ -1,9 +1,9 @@
-<profissional-list>
+<profissao-list>
     <form onsubmit="{ onSearch }" ref="formulario">
         <div class="card">
             <div class="card-header">
                 <div class="card-title h3">
-                    <div class="float-left">Assistentes Sociais</div>
+                    <div class="float-left">Profissões</div>
                     <div class="float-right">
                         <a href="{ url }/criar" class="btn btn-primary">Novo</a>
                     </div>
@@ -14,30 +14,18 @@
                     <thead>
                         <tr class="bg-secondary">
                             <th style="width:110px;">Status</th>
-                            <th>Nome</th>
-                            <th style="width:100px;">Login</th>
-                            <th style="width:100px;">Administrador</th>
+                            <th>Profissão</th>
                             <th style="width:100px;"></th>
                         </tr>
                         <tr class="bg-secondary">
                             <th>
-                                <select name="ativo" class="form-select">
+                                <select name="status" aria-label="Status" class="form-select">
                                     <option value="1">Ativo</option>
                                     <option value="0">Inativo</option>
                                 </select>
                             </th>
                             <th>
-                                <input type="text" class="form-input" name="nome" maxlength="100" placeholder="Nome">
-                            </th>
-                            <th>
-                                <input type="text" class="form-input" name="login" maxlength="20" placeholder="Login">
-                            </th>
-                            <th>
-                                <select name="admin" class="form-select">
-                                    <option value="">Todos</option>
-                                    <option value="0">Não</option>
-                                    <option value="1">Sim</option>
-                                </select>
+                                <input type="text" aria-label="Descrição" class="form-input" name="descricao" maxlength="100" placeholder="Local">
                             </th>
                             <th>
                                 <button type="submit" class="btn btn-secondary">
@@ -50,24 +38,19 @@
                     <tbody>
                         <tr each="{ d in grid.data }">
                             <td>
-                                <span if="{ d.ativo == 1 }" class="text-success">Ativo</span>
-                                <span if="{ d.ativo == 0 }" class="text-error">Inativo</span>
+                                <span if="{ d.status == 1 }" class="text-success">Ativo</span>
+                                <span if="{ d.status == 0 }" class="text-error">Inativo</span>
                             </td>
-                            <td>{ d.nome }</td>
-                            <td>{ d.login }</td>
-                            <td>
-                                <span if="{ d.admin == 0 }">Não</span>
-                                <span if="{ d.admin == 1 }">Sim</span>
-                            </td>
+                            <td>{ d.descricao }</td>
                             <td>
                                 <a href="{ url }/editar/{ d.codigo }" class="btn btn-link">Alterar</a>
                             </td>
                         </tr>
                         <tr if="{ grid.data.length == 0 }">
-                            <td colspan="5">Nenhum registro encontrado.</td>
+                            <td colspan="2">Nenhum registro encontrado.</td>
                         </tr>
                         <tr if="{ loading }">
-                            <td colspan="5">
+                            <td colspan="2">
                                 <div class="loading loading-lg"></div>
                             </td>
                         </tr>
@@ -81,7 +64,7 @@
     </form>
     <script>
         var tag = this;
-        tag.url = BASE_URL + '/profissional';
+        tag.url = BASE_URL + '/profissao';
         tag.grid = opts.grid || [];
         tag.onRequest = onRequest;
         tag.onNext = onNext;
@@ -89,7 +72,7 @@
         tag.onSearch = onSearch;
         tag.loading = false;
 
-        function onRequest(pageUrl) {            
+        function onRequest(pageUrl) {
             var form = tag.refs.formulario;
             var data = APP.serializeJson(form);
             data.paginate = true;
@@ -117,4 +100,4 @@
             onRequest(tag.grid.prev_page_url);
         }
     </script>
-</profissional-list>
+</profissao-list>
