@@ -102,7 +102,7 @@
                     <label class="form-label" for="fk_profissao">Profissão</label>
                     <input type="hidden" name="fk_profissao" id="fk_profissao" value="{ dados.fk_profissao }">
                     <form-autocomplete name="inputSelectProfissao" placeholder="Digite até 3 caracteres para pesquisar" source="{ autoCompleteSource }"
-                        render-item="{ autoCompleteRenderItem }" on-select="{ autoCompleteOnSelect }" val="{ dados.profissao.descricao }"></form-autocomplete>
+                        render-item="{ autoCompleteRenderItem }" on-select="{ autoCompleteOnSelect }" val="{ dados.profissao ? dados.profissao.descricao : '' }"></form-autocomplete>
                     <div class="form-input-hint" if="{ errors.fk_profissao }" each="{ e in errors.fk_profissao }">- { e }</div>
                 </div>
             </div>
