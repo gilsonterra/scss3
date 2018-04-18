@@ -31,7 +31,7 @@ final class PacienteEntrevistaController extends BaseController
     {
         $data['tipo'] = $args['tipo'];   
         $data['codigo_paciente'] = $args['codigo_paciente'];        
-        $data['codigo'] = $args['codigo'];
+        $data['num_doc'] = $args['num_doc'];
         return $this->viewRender($response, 'paciente/entrevista.html', $data);
     }
 
@@ -48,10 +48,10 @@ final class PacienteEntrevistaController extends BaseController
         $data['errors'] = $this->validator->valid($data['dados']);
                 
         if (empty($data['errors'])) {
-            if (empty($args['codigo'])) {
+            if (empty($args['num_doc'])) {
                 $data['message'] = $this->repository->create($data['dados']);
             } else {
-                $data['message'] = $this->repository->edit($args['codigo'], $data['dados']);
+                $data['message'] = $this->repository->edit($args['num_doc'], $data['dados']);
             }
         }
 
@@ -60,7 +60,7 @@ final class PacienteEntrevistaController extends BaseController
 
     public function delete(Request $request, Response $response, $args)
     {        
-        $data = $this->repository->delete($args['codigo']);
+        $data = $this->repository->delete($args['num_doc']);
         return $this->jsonRender($response, 200, $data);
     }
 }

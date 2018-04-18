@@ -64,15 +64,15 @@ final class PacienteRepository extends BaseRepository
         }
         
         if (!empty($where['nome_pac'])) {
-            $query->whereRaw("UPPER(nome_pac) LIKE ?", '%' . strtoupper($where['nome_pac'] . '%'));
+            $query->whereRaw("UPPER(nome_pac) LIKE ?", '%' . strtoupper($where['nome_pac']) . '%');
         }
 
         if (!empty($where['nome_mae_pac'])) {
-            $query->whereRaw("UPPER(nome_mae_pac) LIKE ?", '%' . strtoupper($where['nome_mae_pac'] . '%'));
+            $query->whereRaw("UPPER(nome_mae_pac) LIKE ?", '%' . strtoupper($where['nome_mae_pac']) . '%');
         }
 
         if (!empty($where['nome_social'])) {
-            $query->whereRaw("UPPER(nome_social) LIKE ?", '%' . strtoupper($where['nome_social'] . '%'));
+            $query->whereRaw("UPPER(nome_social) LIKE ?", '%' . strtoupper($where['nome_social']) . '%');
         }
 
         if (!empty($where['data_nasc_pac'])) {

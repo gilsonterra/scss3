@@ -16,9 +16,9 @@
                 </div>
             </div>
             <div class="card-body">
-                <paciente-entrevista-aspecto-socioeconomico></paciente-entrevista-aspecto-socioeconomico>
-                <paciente-entrevista-info-contexto-hospitalar></paciente-entrevista-info-contexto-hospitalar>
-                <paciente-entrevista-observacao></paciente-entrevista-observacao>
+                <paciente-entrevista-aspecto-socioeconomico dados="{ entrevista }"></paciente-entrevista-aspecto-socioeconomico>
+                <paciente-entrevista-info-contexto-hospitalar dados="{ entrevista }"></paciente-entrevista-info-contexto-hospitalar>
+                <paciente-entrevista-observacao dados="{ entrevista }"></paciente-entrevista-observacao>
             </div>
         </div>
     </form>
@@ -31,7 +31,7 @@
         tag.entrevista = opts.entrevista || {};
         tag.session = APP.getSession() || {};
         tag.onSubmit = onSubmit;
-
+        
         function onSubmit(event) {
             event.preventDefault();
             var form = event.target;

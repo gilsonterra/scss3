@@ -9,6 +9,7 @@ class Entrevista extends Model
     protected $table      = "tbl_entrevista";
     protected $guarded    = array('codigo');
     protected $primaryKey = 'codigo';
+    protected $appends = array('tipo_descricao');
     
     public function getDataCadastroAttribute($value)
     {
@@ -16,10 +17,10 @@ class Entrevista extends Model
         return $date ? $date->format('d/m/Y') : null;
     }
 
-    public function getTipoAttribute($value)
-    {
+    public function getTipoDescricaoAttribute($value)
+    {        
         $descricao = '';
-        switch ($value) {
+        switch ($this->tipo) {
             case 'C':
                 $descricao = 'CRIANÇA E ADOLESCENTE';
                 break;
@@ -47,5 +48,15 @@ class Entrevista extends Model
     public function profissional()
     {
         return $this->hasOne('App\Models\Profissional', 'codigo', 'fk_profissional');
+    }
+
+    public function profissao()
+    {
+        return $this->hasOne('App\Models\Profissao', 'codigo', 'fk_profissao');
+    }
+
+    public function situacoesFuncionais()
+    {
+        return $this->hasMany('App\Models\EntrevistaSituacaoFuncional', 'num_doc', 'num_doc');
     }
 }

@@ -46,11 +46,11 @@
                         <td class=" hide-sm">Tipo</td>
                         <td style="width:80px;"></td>
                     </tr>
-                    <tr each="{ e in entrevistas }">
+                    <tr each="{ e in entrevistas }">                            
                         <td class="text-bold">{ e.data_cadastro }</td>
                         <td class="text-bold  hide-sm">{ e.local.descricao }</td>
                         <td class="text-bold  hide-sm">{ e.profissional.nome }</td>
-                        <td class="text-bold  hide-sm">{ e.tipo }</td>
+                        <td class="text-bold  hide-sm">{ e.tipo_descricao }</td>
                         <td>
                             <div class="dropdown">
                                 <a href="javascript:;" class="btn btn-link btn-menu dropdown-toggle" tabindex="0">
@@ -59,10 +59,7 @@
                                 </a>
                                 <ul class="menu">
                                     <li class="menu-item">
-                                        <a href="">Visualizar</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a href="">Alterar</a>
+                                        <a href="{ url }/editar/{ e.tipo }/{ e.codigo_paciente }/{ e.num_doc }">Alterar</a>
                                     </li>
                                     <li class="menu-item" if="{ usuarioSessao.admin == '1' }">
                                         <a href="">Excluir</a>
@@ -80,5 +77,6 @@
         tag.url = BASE_URL + '/paciente/entrevista';
         tag.entrevistas = opts.entrevistas || [];
         tag.usuarioSessao = opts.usuarioSessao || {};
+        tag.usuarioSessao = APP.getSession() || {};
     </script>
 </paciente-visualizacao-entrevistas>

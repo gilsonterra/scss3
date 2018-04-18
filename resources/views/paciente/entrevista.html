@@ -23,47 +23,55 @@
     };
 
     var codigo_paciente = '{{ codigo_paciente }}';
+    var num_doc = '{{ num_doc }}';
     var tipo = '{{ tipo }}';
     var data = {
         'columns': ['nome_pac', 'nome_social', 'codigo_paciente', 'cod_prnt'],
-        'joins': []
+        'joins': ['entrevistas', 'entrevistas.situacoesFuncionais', 'entrevistas.profissao']
     };
 
     APP.ajaxPostRequest(BASE_URL + '/paciente/find/' + codigo_paciente, JSON.stringify(data),
-        function (json) {
+        function (json) {            
+            var entrevista = {};
+            if (num_doc) {
+                entrevista = json.entrevistas.find(function (a) {
+                    return a.num_doc == num_doc;
+                });
+            }            
+
             switch (tipo) {
                 case 'A':
                     riot.mount('#paciente-entrevista', 'paciente-entrevista-adulto', {
                         'paciente': json,
-                        'entrevista': {}
+                        'entrevista': entrevista
                     });
                     break;
 
                 case 'M':
                     riot.mount('#paciente-entrevista', 'paciente-entrevista-adulto-maternidade', {
                         'paciente': json,
-                        'entrevista': {}
+                        'entrevista': entrevista
                     });
                     break;
 
                 case 'CP':
                     riot.mount('#paciente-entrevista', 'paciente-entrevista-adulto-paliativo', {
                         'paciente': json,
-                        'entrevista': {}
+                        'entrevista': entrevista
                     });
                     break;
 
                 case 'C':
                     riot.mount('#paciente-entrevista', 'paciente-entrevista-crianca', {
                         'paciente': json,
-                        'entrevista': {}
+                        'entrevista': entrevista
                     });
                     break;
 
                 case 'CM':
                     riot.mount('#paciente-entrevista', 'paciente-entrevista-crianca-maternidade', {
                         'paciente': json,
-                        'entrevista': {}
+                        'entrevista': entrevista
                     });
                     break;
             }

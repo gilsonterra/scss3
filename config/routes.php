@@ -45,9 +45,9 @@ $app->group('/paciente', function () {
 
     $this->group('/entrevista', function(){
         $this->get('/criar/{tipo}/{codigo_paciente}', 'App\Controllers\PacienteEntrevistaController:createView');
-        $this->get('/editar/{tipo}/{codigo_paciente}/{codigo}', 'App\Controllers\PacienteEntrevistaController:editView');
-        $this->post('/persistir/{codigo_paciente}[/{codigo}]', 'App\Controllers\PacienteEntrevistaController:store');
-        $this->get('/excluir/{codigo}', 'App\Controllers\PacienteEntrevistaController:delete');
+        $this->get('/editar/{tipo}/{codigo_paciente}/{num_doc}', 'App\Controllers\PacienteEntrevistaController:editView');
+        $this->post('/persistir/{codigo_paciente}[/{num_doc}]', 'App\Controllers\PacienteEntrevistaController:store');
+        $this->get('/excluir/{num_doc}', 'App\Controllers\PacienteEntrevistaController:delete');
         $this->post('/buscar[/]', 'App\Controllers\PacienteEntrevistaController:fetchAll');
     });
     

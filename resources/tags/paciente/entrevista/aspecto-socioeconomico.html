@@ -7,14 +7,7 @@
                     <label class="form-label" for="situacao_conjugal">Estado Civil</label>
                     <select name="situacao_conjugal" class="form-select">
                         <option value=""></option>
-                        <option value="SO">Solteiro(a)</option>
-                        <option value="CA">Casado(a)</option>
-                        <option value="DI">Divorciado(a)</option>
-                        <option value="SE">Separado(a)</option>
-                        <option value="UE">União Estável</option>
-                        <option value="VI">Viúvo(a)</option>
-                        <option value="NA">NSA</option>
-                        <option value="OU">Outro</option>
+                        <option each="{ e in arrayEstadosCivis }" value="{ e.codigo }" selected="{ dados.situacao_conjugal == e.codigo }">{ e.descricao }</option>
                     </select>
                     <div class="form-input-hint" if="{ errors.situacao_conjugal }" each="{ e in errors.situacao_conjugal }">- { e }</div>
                 </div>
@@ -31,68 +24,16 @@
                     <label class="form-label" for="situacao_moradia">Situação Moradia</label>
                     <select name="situacao_moradia" class="form-select">
                         <option value=""></option>
-                        <option value="P">Própria</option>
-                        <option value="C">Cedida</option>
-                        <option value="A">Alugada</option>
-                        <option value="F">Financiada</option>
-                        <option value="S">Situação de Rua</option>
-                        <option value="O">Outro</option>
+                        <option each="{ s in arraySituacaoMoradia }" value="{ s.codigo }" selected="{ dados.situacao_moradia == s.codigo }">{ s.descricao }</option>
                     </select>
                     <div class="form-input-hint" if="{ errors.situacao_moradia }" each="{ e in errors.situacao_moradia }">- { e }</div>
                 </div>
             </div>
             <div class="column col-3 col-md-12">
-                <div class="form-group { errors.situacao_conjugal_outros ? 'has-error' : '' }">
-                    <label class="form-label" for="situacao_conjugal_outros">Situação Moradia (Outro)</label>
-                    <input type="text" name="situacao_conjugal_outros" maxlength="100" value="{ dados.situacao_conjugal_outros }" class="form-input">
-                    <div class="form-input-hint" if="{ errors.situacao_conjugal_outros }" each="{ e in errors.situacao_conjugal_outros }">- { e }</div>
-                </div>
-            </div>
-        </div>
-        <div class="columns">
-            <div class="column col-3 col-md-12">
-                <div class="form-group { errors.escolaridade ? 'has-error' : '' }">
-                    <label class="form-label" for="escolaridade">Escolaridade</label>
-                    <select name="escolaridade" class="form-select">
-                        <option value="N">NSA</option>
-                        <option value="NSI">Não Soube Informar (NSI)</option>
-                        <option value="NA">Não Alfabetizado</option>
-                        <option value="EI">Educação Infantil</option>
-                        <option value="A">Alfabetizado</option>
-                        <option value="EFI">Ensino Fundamental Incompleto</option>
-                        <option value="EFC">Ensino Fundamental Completo</option>
-                        <option value="EMI">Ensino Médio Incompleto</option>
-                        <option value="EMC">Ensino Médio Completo</option>
-                        <option value="ESI">Ensino Superior Incompleto</option>
-                        <option value="ESC">Ensino Superior Completo</option>
-                        <option value="PG">Pós-Graduação</option>
-                    </select>
-                    <div class="form-input-hint" if="{ errors.escolaridade }" each="{ e in errors.escolaridade }">- { e }</div>
-                </div>
-            </div>
-            <div class="column col-3 col-md-12">
-                <div class="form-group { errors.situacao_funcional ? 'has-error' : '' }">
-                    <label class="form-label" for="situacao_funcional">Situação Funcional</label>
-                    <select name="situacao_funcional" class="form-select">
-                        <option value=""></option>
-                        <option value="E">Empregado</option>
-                        <option value="D">Desempregado</option>
-                        <option value="A">Autônomo</option>
-                        <option value="P">Previdênciário</option>
-                        <option value="I">Incapaz</option>
-                        <option value="N">NSI</option>
-                        <option value="O">Outro</option>
-                    </select>
-                    <div class="form-input-hint" if="{ errors.situacao_funcional }" each="{ e in errors.situacao_funcional }">- { e }</div>
-                </div>
-            </div>
-            <div class="column col-6 col-md-12">
-                <div class="form-group { errors.fk_profissao ? 'has-error' : '' }">
-                    <label class="form-label" for="fk_profissao">Profissão</label>
-                    <input type="hidden" name="fk_profissao" id="fk_profissao">
-                    <form-autocomplete name="inputSelectProfissao" placeholder="Digite até 3 caracteres para pesquisar" source="{ autoCompleteSource }"
-                        render-item="{ autoCompleteRenderItem }" on-select="{ autoCompleteOnSelect }"></form-autocomplete>
-                    <div class="form-input-hint" if="{ errors.fk_profissao }" each="{ e in errors.fk_profissao }">- { e }</div>
+                <div class="form-group { errors.situacao_moradia_outros ? 'has-error' : '' }">
+                    <label class="form-label" for="situacao_moradia_outros">Situação Moradia (Outro)</label>
+                    <input type="text" name="situacao_moradia_outros" maxlength="100" value="{ dados.situacao_moradia_outros }" class="form-input">
+                    <div class="form-input-hint" if="{ errors.situacao_moradia_outros }" each="{ e in errors.situacao_moradia_outros }">- { e }</div>
                 </div>
             </div>
         </div>
@@ -100,7 +41,7 @@
             <div class="column col-3 col-md-12">
                 <div class="form-group { errors.filiado_rgps ? 'has-error' : '' }">
                     <label class="form-label" for="filiado_rgps">É filiado(a) ao RGPS?</label>
-                    <select name="filiado_rgps" class="form-select">
+                    <select name="filiado_rgps" id="filiado_rgps" class="form-select">
                         <option value=""></option>
                         <option value="S">Sim</option>
                         <option value="N">Não</option>
@@ -136,6 +77,36 @@
                 </div>
             </div>
         </div>
+        <div class="columns">
+            <div class="column col-3 col-md-12">
+                <div class="form-group { errors.situacao_funcional ? 'has-error' : '' }">
+                    <label class="form-label" for="situacao_funcional">Situação Funcional</label>
+                    <select name="situacao_funcional" class="form-select" multiple>
+                        <option each="{ s in arraySituacaoFuncional }" value="{ s.codigo }" selected="{ getSelectedSituacaoFuncional(dados.situacoes_funcionais, s.codigo) }">{ s.descricao }</option>
+                    </select>
+                    <div class="form-input-hint" if="{ errors.situacao_funcional }" each="{ e in errors.situacao_funcional }">- { e }</div>
+                </div>
+            </div>
+            <div class="column col-3 col-md-12">
+                <div class="form-group { errors.escolaridade ? 'has-error' : '' }">
+                    <label class="form-label" for="escolaridade">Escolaridade</label>
+                    <select name="escolaridade" class="form-select">
+                        <option value=""></option>
+                        <option each="{ e in arrayEscolaridade }" value="{ e.codigo }" selected="{ dados.escolaridade == e.codigo }">{ e.descricao }</option>
+                    </select>
+                    <div class="form-input-hint" if="{ errors.escolaridade }" each="{ e in errors.escolaridade }">- { e }</div>
+                </div>
+            </div>
+            <div class="column col-6 col-md-12">
+                <div class="form-group { errors.fk_profissao ? 'has-error' : '' }">
+                    <label class="form-label" for="fk_profissao">Profissão</label>
+                    <input type="hidden" name="fk_profissao" id="fk_profissao" value="{ dados.fk_profissao }">
+                    <form-autocomplete name="inputSelectProfissao" placeholder="Digite até 3 caracteres para pesquisar" source="{ autoCompleteSource }"
+                        render-item="{ autoCompleteRenderItem }" on-select="{ autoCompleteOnSelect }" val="{ dados.profissao.descricao }"></form-autocomplete>
+                    <div class="form-input-hint" if="{ errors.fk_profissao }" each="{ e in errors.fk_profissao }">- { e }</div>
+                </div>
+            </div>
+        </div>
     </fieldset>
     <script>
         var tag = this;
@@ -145,12 +116,157 @@
         tag.autoCompleteSource = autoCompleteSource;
         tag.autoCompleteRenderItem = autoCompleteRenderItem;
         tag.autoCompleteOnSelect = autoCompleteOnSelect;
-        tag.profissoes = [];        
+        tag.getSelectedSituacaoFuncional = getSelectedSituacaoFuncional;
+        tag.profissoes = [];
+        tag.arrayEstadosCivis = [{
+                'codigo': 'CA',
+                'descricao': 'Casado'
+            },
+            {
+                'codigo': 'DI',
+                'descricao': 'Divorciado(a)'
+            },
+            {
+                'codigo': 'SO',
+                'descricao': 'Solteiro(a)'
+            },
+            {
+                'codigo': 'SE',
+                'descricao': 'Separado(a)'
+            },
+            {
+                'codigo': 'UE',
+                'descricao': 'União Estável'
+            },
+            {
+                'codigo': 'VI',
+                'descricao': 'Viúvo(a)'
+            },
+            {
+                'codigo': 'NA',
+                'descricao': 'NSA'
+            },
+            {
+                'codigo': 'OU',
+                'descricao': 'Outro'
+            }
+        ];
+        tag.arraySituacaoMoradia = [{
+                'codigo': 'P',
+                'descricao': 'Própria'
+            },
+            {
+                'codigo': 'C',
+                'descricao': 'Cedida'
+            },
+            {
+                'codigo': 'A',
+                'descricao': 'Alugada'
+            },
+            {
+                'codigo': 'F',
+                'descricao': 'Financiada'
+            },
+            {
+                'codigo': 'S',
+                'descricao': 'Situação de Rua'
+            },
+            {
+                'codigo': 'O',
+                'descricao': 'Outro'
+            }
+        ];
+        tag.arrayEscolaridade = [{
+                'codigo': 'N',
+                'descricao': 'NSA'
+            },
+            {
+                'codigo': 'NSI',
+                'descricao': 'Não Soube Informar (NSI)'
+            },
+            {
+                'codigo': 'NA',
+                'descricao': 'Não Alfabetizado'
+            },
+            {
+                'codigo': 'EI',
+                'descricao': 'Educação Infantil'
+            },
+            {
+                'codigo': 'A',
+                'descricao': 'Alfabetizado'
+            },
+            {
+                'codigo': 'EFI',
+                'descricao': 'Ensino Fundamental Incompleto'
+            },
+            {
+                'codigo': 'EFC',
+                'descricao': 'Ensino Fundamental Completo'
+            },
+            {
+                'codigo': 'EMI',
+                'descricao': 'Ensino Médio Incompleto'
+            },
+            {
+                'codigo': 'EMC',
+                'descricao': 'Ensino Médio Completo'
+            },
+            {
+                'codigo': 'ESI',
+                'descricao': 'Ensino Superior Incompleto'
+            },
+            {
+                'codigo': 'ESC',
+                'descricao': 'Ensino Superior Completo'
+            },
+            {
+                'codigo': 'PG',
+                'descricao': 'Pós-Graduação'
+            }
+        ];
+
+        tag.arraySituacaoFuncional = [{
+                'codigo': 'E',
+                'descricao': 'Empregado'
+            },
+            {
+                'codigo': 'D',
+                'descricao': 'Desempregado'
+            },
+            {
+                'codigo': 'A',
+                'descricao': 'Autônomo'
+            },
+            {
+                'codigo': 'P',
+                'descricao': 'Previdênciário'
+            },
+            {
+                'codigo': 'I',
+                'descricao': 'Incapaz'
+            },
+            {
+                'codigo': 'N',
+                'descricao': 'NSI'
+            },
+            {
+                'codigo': 'O',
+                'descricao': 'Outro'
+            }
+        ];
+
+        function getSelectedSituacaoFuncional(array, selected) {
+            var encontrado = array.find(function (elem) {
+                return elem.tipo == selected;
+            });
+            return encontrado ? true : false;
+        }
 
         function autoCompleteSource(term, response) {
             var term = term.toLowerCase();
-            APP.ajaxPostRequest(BASE_URL + '/profissao/buscar',JSON.stringify({
-                'descricao': term                
+            APP.ajaxPostRequest(BASE_URL + '/profissao/buscar', JSON.stringify({
+                'descricao': term
             }), function (json) {
                 var res = json.map(function (item) {
                     return JSON.stringify(item);
@@ -170,6 +286,7 @@
             event.preventDefault();
             document.querySelector('input[name="inputSelectProfissao"]').value = item.getAttribute('data-val');
             document.getElementById('fk_profissao').value = item.getAttribute('data-codigo');
+            document.getElementById('filiado_rgps').focus();
         }
 
         function onChangeContribuiAtualmente(event) {
