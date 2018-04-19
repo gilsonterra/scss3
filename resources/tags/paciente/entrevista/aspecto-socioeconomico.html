@@ -1,8 +1,9 @@
 <paciente-entrevista-aspecto-socioeconomico>
     <fieldset>
         <legend>Aspectos Socioeconômicos</legend>
+        <paciente-local-tipo dados="{ entrevista }"></paciente-local-tipo>
         <div class="columns">
-            <div class="column col-3 col-md-12">
+            <div class="column col-2 col-md-12">
                 <div class="form-group { errors.situacao_conjugal ? 'has-error' : '' }">
                     <label class="form-label" for="situacao_conjugal">Estado Civil</label>
                     <select name="situacao_conjugal" class="form-select">
@@ -12,7 +13,7 @@
                     <div class="form-input-hint" if="{ errors.situacao_conjugal }" each="{ e in errors.situacao_conjugal }">- { e }</div>
                 </div>
             </div>
-            <div class="column col-3 col-md-12">
+            <div class="column col-4 col-md-12">
                 <div class="form-group { errors.nome_companheiro ? 'has-error' : '' }">
                     <label class="form-label" for="nome_companheiro">Nome do(a) esposo(a) ou companheiro(a)</label>
                     <input type="text" name="nome_companheiro" maxlength="100" value="{ dados.nome_companheiro }" class="form-input">
@@ -38,7 +39,7 @@
             </div>
         </div>
         <div class="columns">
-            <div class="column col-3 col-md-12">
+            <div class="column col-2 col-md-12">
                 <div class="form-group { errors.filiado_rgps ? 'has-error' : '' }">
                     <label class="form-label" for="filiado_rgps">É filiado(a) ao RGPS?</label>
                     <select name="filiado_rgps" id="filiado_rgps" class="form-select">
@@ -49,7 +50,7 @@
                     <div class="form-input-hint" if="{ errors.filiado_rgps }" each="{ e in errors.filiado_rgps }">- { e }</div>
                 </div>
             </div>
-            <div class="column col-3 col-md-12">
+            <div class="column col-4 col-md-12">
                 <div class="form-group { errors.outro_regime ? 'has-error' : '' }">
                     <label class="form-label" for="outro_regime">Outro regime</label>
                     <input type="text" name="outro_regime" maxlength="100" value="{ dados.outro_regime }" class="form-input">
@@ -78,16 +79,7 @@
             </div>
         </div>
         <div class="columns">
-            <div class="column col-3 col-md-12">
-                <div class="form-group { errors.situacao_funcional ? 'has-error' : '' }">
-                    <label class="form-label" for="situacao_funcional">Situação Funcional</label>
-                    <select name="situacao_funcional" class="form-select" multiple>
-                        <option each="{ s in arraySituacaoFuncional }" value="{ s.codigo }" selected="{ getSelectedSituacaoFuncional(dados.situacoes_funcionais, s.codigo) }">{ s.descricao }</option>
-                    </select>
-                    <div class="form-input-hint" if="{ errors.situacao_funcional }" each="{ e in errors.situacao_funcional }">- { e }</div>
-                </div>
-            </div>
-            <div class="column col-3 col-md-12">
+            <div class="column col-2 col-md-12">
                 <div class="form-group { errors.escolaridade ? 'has-error' : '' }">
                     <label class="form-label" for="escolaridade">Escolaridade</label>
                     <select name="escolaridade" class="form-select">
@@ -97,13 +89,23 @@
                     <div class="form-input-hint" if="{ errors.escolaridade }" each="{ e in errors.escolaridade }">- { e }</div>
                 </div>
             </div>
-            <div class="column col-6 col-md-12">
+            <div class="column col-4 col-md-12">
                 <div class="form-group { errors.fk_profissao ? 'has-error' : '' }">
                     <label class="form-label" for="fk_profissao">Profissão</label>
                     <input type="hidden" name="fk_profissao" id="fk_profissao" value="{ dados.fk_profissao }">
                     <form-autocomplete name="inputSelectProfissao" placeholder="Digite até 3 caracteres para pesquisar" source="{ autoCompleteSource }"
                         render-item="{ autoCompleteRenderItem }" on-select="{ autoCompleteOnSelect }" val="{ dados.profissao ? dados.profissao.descricao : '' }"></form-autocomplete>
                     <div class="form-input-hint" if="{ errors.fk_profissao }" each="{ e in errors.fk_profissao }">- { e }</div>
+                </div>
+            </div>
+            <div class="column col-6 col-md-12">
+                <div class="form-group { errors.situacao_funcional ? 'has-error' : '' }">
+                    <label class="form-label" for="">Situação Funcional</label>
+                    <label class="form-checkbox" each="{ s in arraySituacaoFuncional }">
+                        <input type="checkbox" value="{ s.codigo }" name="situacao_funcional">
+                        <i class="form-icon"></i> { s.descricao }
+                    </label>
+                    <div class="form-input-hint" if="{ errors.situacao_funcional }" each="{ e in errors.situacao_funcional }">- { e }</div>                    
                 </div>
             </div>
         </div>
@@ -257,9 +259,11 @@
         ];
 
         function getSelectedSituacaoFuncional(array, selected) {
-            var encontrado = array.find(function (elem) {
-                return elem.tipo == selected;
-            });
+            if (array) {
+                var encontrado = array.find(function (elem) {
+                    return elem.tipo == selected;
+                });
+            }
             return encontrado ? true : false;
         }
 

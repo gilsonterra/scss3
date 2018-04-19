@@ -6,9 +6,9 @@
   "dependencies": {
     "js-autocomplete": "^1.0.4",
     "pell": "^0.7.0",
-    "riot": "^3.9.0",
+    "riot": "^3.9.3",
     "spectre.css": "^0.5.1",
-    "sweetalert2": "^7.15.1",
+    "sweetalert2": "^7.19.0",
     "vanilla-masker": "^1.2.0"
   },
   "devDependencies": {

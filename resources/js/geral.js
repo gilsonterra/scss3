@@ -11,8 +11,8 @@ APP.httpService = function (url, options, resolve, reject) {
 
     xhr.setRequestHeader("X-Requested-With", 'XMLHttpRequest');
 
-    if(reject == undefined){
-        reject = function(jsonText){
+    if (reject == undefined) {
+        reject = function (jsonText) {
             swal(JSON.parse(jsonText));
         }
     }
@@ -125,7 +125,15 @@ APP.serializeJson = function (form) {
     var array = APP.serializeArray(form);
 
     array.map(function (item) {
-        json[item.name] = item.value;
+        if (item.name in json) {
+            if (Array.isArray(json[item.name])) {
+                json[item.name].push(item.value);
+            } else {
+                json[item.name] = [json[item.name], item.value];
+            }
+        } else {
+            json[item.name] = item.value;
+        }
     });
 
     return json;

@@ -1,6 +1,8 @@
 {% extends "base.html" %} {% block content %}
 <div id="paciente-entrevista"></div>
 {% endblock %} {% block js %}
+<script src="{{ base_url }}/tags/form-select-locais-sessao.html"></script>
+<script src="{{ base_url }}/tags/paciente/local-tipo.html"></script>
 <script src="{{ base_url }}/tags/paciente/entrevista/aspecto-socioeconomico.html"></script>
 <script src="{{ base_url }}/tags/paciente/entrevista/info-contexto-hospitalar.html"></script>
 <script src="{{ base_url }}/tags/paciente/entrevista/info-gestacao.html"></script>
@@ -10,11 +12,7 @@
 <script src="{{ base_url }}/js/auto-complete.min.js"></script>
 <script src="{{ base_url }}/tags/form-autocomplete.html"></script>
 
-<script src="{{ base_url }}/tags/paciente/entrevista-adulto.html"></script>
-<script src="{{ base_url }}/tags/paciente/entrevista-adulto-maternidade.html"></script>
-<script src="{{ base_url }}/tags/paciente/entrevista-adulto-paliativo.html"></script>
-<script src="{{ base_url }}/tags/paciente/entrevista-crianca.html"></script>
-<script src="{{ base_url }}/tags/paciente/entrevista-crianca-maternidade.html"></script>
+<script src="{{ base_url }}/tags/paciente/entrevista.html"></script>
 
 <script type="text/javascript">
     window.onload = function () {
@@ -37,8 +35,15 @@
                 entrevista = json.entrevistas.find(function (a) {
                     return a.num_doc == num_doc;
                 });
-            }            
-console.log(entrevista);
+            }           
+            
+            riot.mount('#paciente-entrevista', 'paciente-entrevista', {
+                'tipo': tipo,
+                'paciente': json,
+                'entrevista': entrevista
+            });
+            
+/*
             switch (tipo) {
                 case 'A':
                     riot.mount('#paciente-entrevista', 'paciente-entrevista-adulto', {
@@ -75,6 +80,7 @@ console.log(entrevista);
                     });
                     break;
             }
+*/
         }
     );
 </script>
