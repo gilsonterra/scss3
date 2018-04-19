@@ -1,10 +1,10 @@
 {% extends "base.html" %} {% block content %}
 <div id="paciente-visualizacao"></div>
 {% endblock %} {% block js %}
-<script src="{{ base_url }}/tags/paciente/visualizacao.html"></script>
-<script src="{{ base_url }}/tags/paciente/visualizacao/visualizacao-identificacao.html"></script>
-<script src="{{ base_url }}/tags/paciente/visualizacao/visualizacao-acompanhamentos.html"></script>
-<script src="{{ base_url }}/tags/paciente/visualizacao/visualizacao-entrevistas.html"></script>
+<script src="{{ base_url }}/tags/paciente/visualizacao.js"></script>
+<script src="{{ base_url }}/tags/paciente/visualizacao/visualizacao-identificacao.js"></script>
+<script src="{{ base_url }}/tags/paciente/visualizacao/visualizacao-acompanhamentos.js"></script>
+<script src="{{ base_url }}/tags/paciente/visualizacao/visualizacao-entrevistas.js"></script>
 <script type="text/javascript">
     window.onload = function () {
         APP.load.css(BASE_URL + '/css/sweetalert2.min.css');

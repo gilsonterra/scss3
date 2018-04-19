@@ -51,7 +51,7 @@
                     'italic',
                     'underline',
                     'heading1',
-                    'heading2',                    
+                    'heading2',
                     'quote',
                     'olist',
                     'ulist',

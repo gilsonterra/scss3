@@ -81,7 +81,7 @@ gulp.task('tags', function () {
             'tags/**'
         ])
         .pipe(riot({
-            compact: true
+            compact: true,
         }))
         .pipe(gulp.dest('../public/tags'));
 });
