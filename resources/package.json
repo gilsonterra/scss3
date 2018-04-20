@@ -6,7 +6,7 @@
   "dependencies": {
     "js-autocomplete": "^1.0.4",
     "pell": "^0.7.0",
-    "riot": "^3.9.3",
+    "riot": "^3.9.4",
     "spectre.css": "^0.5.1",
     "sweetalert2": "^7.19.0",
     "vanilla-masker": "^1.2.0"
@@ -15,6 +15,7 @@
     "gulp": "^3.9.1",
     "gulp-clean": "^0.4.0",
     "gulp-concat": "^2.6.1",
+    "gulp-ext-replace": "^0.3.0",
     "gulp-minifier": "^1.2.2",
     "gulp-rename": "^1.2.2",
     "gulp-riot": "^1.1.4",

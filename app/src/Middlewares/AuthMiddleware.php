@@ -19,8 +19,8 @@ final class AuthMiddleware
         $session = $this->container->sessionHelper->get();        
         $newResponse = $response;
        
-        if (empty($session['usuario_sessao'])) {
-            header('Location: ' . $this->container->router->pathFor('login'));
+        if (empty($session['usuario_sessao'])) {          
+            header('Location: ' . $this->container->router->pathFor('login'), true, 401);
         }
         else{
             $newResponse = $next($request, $response);

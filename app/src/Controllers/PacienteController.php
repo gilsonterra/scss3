@@ -34,8 +34,21 @@ final class PacienteController extends BaseController
 
     public function indexView(Request $request, Response $response, $args)
     {
+        $data['dados'] = $this->repository->findById($args['codigo_paciente'], [
+                'profissional',
+                'endereco',
+                'enderecoContato',
+                'acompanhamentos.local',
+                'acompanhamentos.profissional',
+                'acompanhamentos.acompanhamentoItem.categoria',
+                'entrevistas.local',
+                'entrevistas.profissional'
+            ])->toArray();
+
+        $data['usuarioSessao'] = $this->container->sessionHelper->get()['usuario_sessao'];
         $data['codigo_paciente'] = $args['codigo_paciente'];
-        return $this->viewRender($response, 'paciente/index.html', $data);
+        
+        return $this->viewRender($response, 'paciente/visualizacao.html', $data);
     }
 
     public function fetchAll(Request $request, Response $response, $args)

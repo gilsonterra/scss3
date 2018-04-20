@@ -5,6 +5,7 @@ var concat = require('gulp-concat');
 var rename = require('gulp-rename');
 var riot = require('gulp-riot');
 var runSequence = require('run-sequence');
+var ext_replace = require('gulp-ext-replace');
 
 gulp.task('clean', function () {
     return gulp.src([
@@ -78,11 +79,12 @@ gulp.task('js', function () {
 
 gulp.task('tags', function () {
     return gulp.src([
-            'tags/**'
+            'tags/**/*.tag'
         ])
         .pipe(riot({
             compact: true,
         }))
+        .pipe(ext_replace('.js'))
         .pipe(gulp.dest('../public/tags'));
 });
 

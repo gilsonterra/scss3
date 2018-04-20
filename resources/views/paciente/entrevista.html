@@ -17,7 +17,7 @@
 <script type="text/javascript">
     window.onload = function () {
         APP.load.css(BASE_URL + '/css/sweetalert2.min.css');
-        APP.load.css(BASE_URL + '/css/auto-complete.css');    
+        APP.load.css(BASE_URL + '/css/auto-complete.css');
     };
 
     var codigo_paciente = '{{ codigo_paciente }}';
@@ -29,58 +29,19 @@
     };
 
     APP.ajaxPostRequest(BASE_URL + '/paciente/find/' + codigo_paciente, JSON.stringify(data),
-        function (json) {            
+        function (json) {
             var entrevista = {};
             if (num_doc) {
                 entrevista = json.entrevistas.find(function (a) {
                     return a.num_doc == num_doc;
                 });
-            }           
-            
+            }
+
             riot.mount('#paciente-entrevista', 'paciente-entrevista', {
                 'tipo': tipo,
                 'paciente': json,
                 'entrevista': entrevista
             });
-            
-/*
-            switch (tipo) {
-                case 'A':
-                    riot.mount('#paciente-entrevista', 'paciente-entrevista-adulto', {
-                        'paciente': json,
-                        'entrevista': entrevista
-                    });
-                    break;
-
-                case 'M':
-                    riot.mount('#paciente-entrevista', 'paciente-entrevista-adulto-maternidade', {
-                        'paciente': json,
-                        'entrevista': entrevista
-                    });
-                    break;
-
-                case 'CP':
-                    riot.mount('#paciente-entrevista', 'paciente-entrevista-adulto-paliativo', {
-                        'paciente': json,
-                        'entrevista': entrevista
-                    });
-                    break;
-
-                case 'C':
-                    riot.mount('#paciente-entrevista', 'paciente-entrevista-crianca', {
-                        'paciente': json,
-                        'entrevista': entrevista
-                    });
-                    break;
-
-                case 'CM':
-                    riot.mount('#paciente-entrevista', 'paciente-entrevista-crianca-maternidade', {
-                        'paciente': json,
-                        'entrevista': entrevista
-                    });
-                    break;
-            }
-*/
         }
     );
 </script>

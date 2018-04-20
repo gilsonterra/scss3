@@ -29,6 +29,7 @@ abstract class BaseController
     {
         $response = $response->withHeader('Content-Type', 'application/json')->withStatus($statusCode);
         $response->getBody()->write(json_encode($data));
+        //$response->withJson($data, $statusCode)->write(json_encode($data));
 
         return $response;
     }

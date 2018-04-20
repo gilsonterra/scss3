@@ -73,7 +73,7 @@
                 <div class="form-group { errors.tempo_contribuicao ? 'has-error' : '' }">
                     <label class="form-label" for="tempo_contribuicao">Há quanto tempo contribui?</label>
                     <input type="number" id="tempo_contribuicao" disabled="{ dados.contribui_atualmente == 'S' ? 'false' : 'true' }" name="tempo_contribuicao"
-                        max="40" maxlength="2" value="{ dados.tempo_contribuicao }" class="form-input">
+                        min="0" max="40" maxlength="2" value="{ dados.tempo_contribuicao }" class="form-input">
                     <div class="form-input-hint" if="{ errors.tempo_contribuicao }" each="{ e in errors.tempo_contribuicao }">- { e }</div>
                 </div>
             </div>
@@ -105,7 +105,7 @@
                         <input type="checkbox" value="{ s.codigo }" name="situacao_funcional">
                         <i class="form-icon"></i> { s.descricao }
                     </label>
-                    <div class="form-input-hint" if="{ errors.situacao_funcional }" each="{ e in errors.situacao_funcional }">- { e }</div>                    
+                    <div class="form-input-hint" if="{ errors.situacao_funcional }" each="{ e in errors.situacao_funcional }">- { e }</div>
                 </div>
             </div>
         </div>
@@ -184,43 +184,43 @@
             },
             {
                 'codigo': 'NSI',
-                'descricao': 'Não Soube Informar (NSI)'
+                'descricao': 'NSI - Não Soube Informar'
             },
             {
                 'codigo': 'NA',
                 'descricao': 'Não Alfabetizado'
             },
             {
-                'codigo': 'EI',
-                'descricao': 'Educação Infantil'
-            },
-            {
                 'codigo': 'A',
                 'descricao': 'Alfabetizado'
             },
             {
+                'codigo': 'EI',
+                'descricao': 'EI - Educação Infantil'
+            },            
+            {
                 'codigo': 'EFI',
-                'descricao': 'Ensino Fundamental Incompleto'
+                'descricao': 'EFI - Ensino Fundamental Incompleto'
             },
             {
                 'codigo': 'EFC',
-                'descricao': 'Ensino Fundamental Completo'
+                'descricao': 'EFC - Ensino Fundamental Completo'
             },
             {
                 'codigo': 'EMI',
-                'descricao': 'Ensino Médio Incompleto'
+                'descricao': 'EMI - Ensino Médio Incompleto'
             },
             {
                 'codigo': 'EMC',
-                'descricao': 'Ensino Médio Completo'
+                'descricao': 'EMC - Ensino Médio Completo'
             },
             {
                 'codigo': 'ESI',
-                'descricao': 'Ensino Superior Incompleto'
+                'descricao': 'ESI - Ensino Superior Incompleto'
             },
             {
                 'codigo': 'ESC',
-                'descricao': 'Ensino Superior Completo'
+                'descricao': 'ESC - Ensino Superior Completo'
             },
             {
                 'codigo': 'PG',

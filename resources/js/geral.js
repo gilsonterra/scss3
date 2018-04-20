@@ -1,5 +1,13 @@
 var APP = {};
 
+/**
+ * Método requisição ajax 
+ * 
+ * @param {string} url 
+ * @param {object} options 
+ * @param {function} resolve 
+ * @param {reject} reject 
+ */
 APP.httpService = function (url, options, resolve, reject) {
     var xhr = new XMLHttpRequest();
 
@@ -30,29 +38,14 @@ APP.httpService = function (url, options, resolve, reject) {
     xhr.send(options.data);
 };
 
-APP.ajaxHtmlRequest = function (url, options, resolve, reject) {
-    var xhr = new XMLHttpRequest();
-
-    xhr.open(options.method, url);
-    xhr.setRequestHeader("X-Requested-With", 'XMLHttpRequest');
-
-    if (options.contentType) {
-        xhr.setRequestHeader("Content-Type", options.contentType);
-    }
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            if (xhr.status == 200) {
-                resolve(xhr.responseText);
-            } else {
-                reject(xhr.responseText);
-            }
-        }
-    };
-
-    xhr.send(options.data);
-}
-
+/**
+ *  Método requisição ajax POST
+ * 
+ * @param {string} url 
+ * @param {object} data 
+ * @param {function} resolve 
+ * @param {function} reject 
+ */
 APP.ajaxPostRequest = function (url, data, resolve, reject) {
     APP.httpService(url, {
         method: 'POST',
@@ -61,6 +54,13 @@ APP.ajaxPostRequest = function (url, data, resolve, reject) {
     }, resolve, reject);
 };
 
+/**
+ * Método requisição ajax GET
+ * 
+ * @param {string} url 
+ * @param {function} resolve 
+ * @param {function} reject 
+ */
 APP.ajaxGetRequest = function (url, resolve, reject) {
     APP.httpService(url, {
         method: 'GET',
@@ -68,7 +68,11 @@ APP.ajaxGetRequest = function (url, resolve, reject) {
     }, resolve, reject);
 };
 
-
+/**
+ * Serializa formulário como array de objeto
+ * 
+ * @param {element} form 
+ */
 APP.serializeArray = function (form) {
     var field, l, s = [];
     if (typeof form == 'object' && form.nodeName == "FORM") {
@@ -97,29 +101,11 @@ APP.serializeArray = function (form) {
     return s;
 }
 
-
-APP.serialize = function (form) {
-    var field, l, s = [];
-    if (typeof form == 'object' && form.nodeName == "FORM") {
-        var len = form.elements.length;
-        for (var i = 0; i < len; i++) {
-            field = form.elements[i];
-            if (field.name && !field.disabled && field.type != 'file' && field.type != 'reset' && field.type != 'submit' && field.type != 'button') {
-                if (field.type == 'select-multiple') {
-                    l = form.elements[i].options.length;
-                    for (var j = 0; j < l; j++) {
-                        if (field.options[j].selected)
-                            s[s.length] = encodeURIComponent(field.name) + "=" + encodeURIComponent(field.options[j].value);
-                    }
-                } else if ((field.type != 'checkbox' && field.type != 'radio') || field.checked) {
-                    s[s.length] = encodeURIComponent(field.name) + "=" + encodeURIComponent(field.value);
-                }
-            }
-        }
-    }
-    return s.join('&').replace(/%20/g, '+');
-}
-
+/**
+ * Serializa formulário como objeto JSON
+ * 
+ * @param {element} form 
+ */
 APP.serializeJson = function (form) {
     var json = {};
     var array = APP.serializeArray(form);
@@ -139,13 +125,9 @@ APP.serializeJson = function (form) {
     return json;
 }
 
-APP.urlParams = function (json) {
-    return Object.keys(json).map(function (key) {
-        return key + '=' + json[key];
-    }).join('&');
-}
-
-
+/**
+ * Pega data atual em pt_br. Ex: 13/01/1988
+ */
 APP.dataAtualPtBr = function () {
     var today = new Date();
     var dd = today.getDate();
@@ -163,17 +145,26 @@ APP.dataAtualPtBr = function () {
     return dd + '/' + mm + '/' + yyyy;
 }
 
-
+/**
+ * Seta a sessão no localstorage
+ * 
+ * @param {object} data 
+ */
 APP.setSession = function (data) {
     window.localStorage.setItem('session', JSON.stringify(data));
 }
 
+/**
+ * Pega a sessão do local storage
+ */
 APP.getSession = function () {
     var session = window.localStorage.getItem('session');
     return session ? JSON.parse(session) : {};
 }
 
-
+/**
+ * Carrega arquivos assincrono e dinâmicamente
+ */
 APP.load = (function () {
     // Function which returns a function: https://davidwalsh.name/javascript-functions
     function _load(tag) {
