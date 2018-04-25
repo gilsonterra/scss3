@@ -57,7 +57,7 @@ legend {
 }
 
 fieldset {
-    margin-bottom: 15px;
+    margin-bottom: 30px;
 }
 
 .form-label {
@@ -76,4 +76,26 @@ fieldset {
     background: #fff;
     border: .05rem solid #e7e9ed;
     border-radius: .1rem;
+}
+
+.form-input,
+.form-select {
+    font-weight: bold;
+}
+
+::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    font-weight: normal;
+    opacity: 1;
+    /* Firefox */
+}
+
+:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    font-weight: normal;
+}
+
+::-ms-input-placeholder {
+    /* Microsoft Edge */
+    font-weight: normal;
 }

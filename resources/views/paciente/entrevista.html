@@ -1,6 +1,8 @@
 {% extends "base.html" %} {% block content %}
 <div id="paciente-entrevista"></div>
 {% endblock %} {% block js %}
+
+<script src="{{ base_url }}/js/vanilla-masker.min.js"></script>
 <script src="{{ base_url }}/tags/form-select-locais-sessao.js"></script>
 <script src="{{ base_url }}/tags/paciente/local-tipo.js"></script>
 <script src="{{ base_url }}/tags/paciente/entrevista/aspecto-socioeconomico.js"></script>
@@ -25,7 +27,7 @@
     var tipo = '{{ tipo }}';
     var data = {
         'columns': ['nome_pac', 'nome_social', 'codigo_paciente', 'cod_prnt'],
-        'joins': ['entrevistas', 'entrevistas.situacoesFuncionais', 'entrevistas.profissao']
+        'joins': ['entrevistas', 'entrevistas.situacaoFuncional', 'entrevistas.profissao']
     };
 
     APP.ajaxPostRequest(BASE_URL + '/paciente/find/' + codigo_paciente, JSON.stringify(data),
@@ -40,7 +42,8 @@
             riot.mount('#paciente-entrevista', 'paciente-entrevista', {
                 'tipo': tipo,
                 'paciente': json,
-                'entrevista': entrevista
+                'entrevista': riot.observable(entrevista),
+                'errors': riot.observable({})                
             });
         }
     );

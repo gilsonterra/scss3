@@ -28,7 +28,7 @@
                         <div class="column col-4 col-md-12">
                             <div class="form-group { errors.nome_pac ? 'has-error' : '' }">
                                 <label class="form-label" for="nome_pac">Nome</label>
-                                <input type="text" name="nome_pac" maxlength="100" value="{ dados.nome_pac }" class="form-input" required>
+                                <input type="text" name="nome_pac" maxlength="100" autofocus value="{ dados.nome_pac }" class="form-input" required>
                                 <div class="form-input-hint" if="{ errors.nome_pac }" each="{ e in errors.nome_pac }">- { e }</div>
                             </div>
                         </div>

@@ -7,14 +7,20 @@ class Entrevista extends Model
 {
     public $timestamps    = false;
     protected $table      = "tbl_entrevista";
-    protected $guarded    = array('codigo');
-    protected $primaryKey = 'codigo';
+    protected $guarded    = array('num_doc', 'profissao');
+    protected $primaryKey = 'num_doc';
     protected $appends = array('tipo_descricao');
     
     public function getDataCadastroAttribute($value)
     {
         $date = date_create_from_format('Y-m-d H:i:s', $value);
         return $date ? $date->format('d/m/Y') : null;
+    }
+
+    public function setDataCadastroAttribute($value)
+    {
+        $date = date_create_from_format('d/m/Y', $value);        
+        $this->attributes['data_cadastro'] = $date->format('Y-m-d');
     }
 
     public function getTipoDescricaoAttribute($value)
@@ -55,7 +61,7 @@ class Entrevista extends Model
         return $this->hasOne('App\Models\Profissao', 'codigo', 'fk_profissao');
     }
 
-    public function situacoesFuncionais()
+    public function situacaoFuncional()
     {
         return $this->hasMany('App\Models\EntrevistaSituacaoFuncional', 'num_doc', 'num_doc');
     }

@@ -14,8 +14,8 @@
             </div>
         </div>
         <div class="card-body">
-            <table class="table">
-                <tbody>
+            <table class="table table-hover">
+                <thead>
                     <tr>
                         <td style="width:100px;">Data</td>
                         <td style="width:250px;" class="hide-sm">Local</td>
@@ -24,6 +24,8 @@
                         <td class="hide-sm">Acompanhamento</td>
                         <td style="width:80px;"></td>
                     </tr>
+                </thead>
+                <tbody>
                     <tr each="{ a in acompanhamentos }">
                         <td class="text-bold">{ a.data_cadastro }</td>
                         <td class="text-bold hide-sm">{ a.local.descricao }</td>

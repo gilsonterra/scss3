@@ -20,14 +20,16 @@ final class PacienteEntrevistaValidator extends BaseValidator
             'fk_local'                  => 'Campo obrigatório.',
             'categoria_acompanhamento'  => 'Campo obrigatório.',
             'fk_acompanhamento'         => 'Campo obrigatório.',
+            'fk_profissao'              => 'Campo obrigatório.',
             'tipo_faturamento'          => 'Campo obrigatório.',
         ];       
 
         try {
             v::key('relato', v::stringType()->notEmpty())
-                ->key('data_cadastro', v::date('d/m/Y')->max(new \DateTime(), true)->notEmpty())
+                ->key('data_cadastro', v::notEmpty()->date('d/m/Y')->max(new \DateTime(), true))
                 ->key('fk_local', v::stringType()->notEmpty())
                 ->key('categoria_acompanhamento', v::stringType()->notEmpty())
+                ->key('fk_profissao', v::stringType()->notEmpty())
                 ->key('fk_acompanhamento', v::stringType()->notEmpty())
                 ->key('tipo_faturamento', v::stringType()->notEmpty())
                 ->assert($data);

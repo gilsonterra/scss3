@@ -17,8 +17,7 @@
                     <label class="form-label" for="tfd">Tratamento Fora do Domicílio (TFD)</label>
                     <select name="tfd" class="form-select">
                         <option value=""></option>
-                        <option value="S">Sim</option>
-                        <option value="N">Não</option>
+                        <option each="{ t in arrayTfd }"value="{ t.codigo }" selected="{ t.codigo == dados.tfd }">{ t.descricao }</option>                        
                     </select>
                     <div class="form-input-hint" if="{ errors.tfd }" each="{ e in errors.tfd }">- { e }</div>
                 </div>
@@ -94,6 +93,16 @@
                 'codigo': 'OU',
                 'descricao': 'Outro'
             }
+        ];
+
+        tag.arrayTfd = [{
+                'codigo': 'S',
+                'descricao': 'Sim'
+            },
+            {
+                'codigo': 'N',
+                'descricao': 'Não'
+            },
         ];
 
         function onChangeMeioTransporte(event) {

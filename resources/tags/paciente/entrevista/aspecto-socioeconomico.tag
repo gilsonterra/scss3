@@ -1,7 +1,39 @@
 <paciente-entrevista-aspecto-socioeconomico>
     <fieldset>
         <legend>Aspectos Socioeconômicos</legend>
-        <paciente-local-tipo dados="{ entrevista }"></paciente-local-tipo>
+        <paciente-local-tipo dados="{ dados }" errors="{ errors }"></paciente-local-tipo>
+        <div class="columns">
+            <div class="column col-2 col-md-12">
+                <div class="form-group { errors.situacao_funcional ? 'has-error' : '' }">
+                    <label class="form-label" for="">Situação Funcional</label>
+                    <select name="situacao_funcional" class="form-select">
+                        <option value=""></option>
+                        <option each="{ s in arraySituacaoFuncional }" value="{ s.codigo }" selected="{ dados.situacao_funcional == s.codigo }">{ s.descricao }</option>
+                    </select>
+                    <div class="form-input-hint" if="{ errors.situacao_funcional }" each="{ e in errors.situacao_funcional }">- { e }</div>
+                </div>
+            </div>
+            <div class="column col-4 col-md-12">
+                <div class="form-group { errors.fk_profissao ? 'has-error' : '' }">
+                    <label class="form-label" for="fk_profissao">Profissão</label>
+                    <input type="text" class="d-hide" name="fk_profissao" id="fk_profissao" value="{ dados.fk_profissao }">
+                    <form-autocomplete id="inputSelectProfissao" on-blur="{ onBlurProfissao }" placeholder="Digite até 3 caracteres para pesquisar"
+                        source="{ autoCompleteSource }" render-item="{ autoCompleteRenderItem }" on-select="{ autoCompleteOnSelect }"
+                        val="{ dados.profissao ? dados.profissao.descricao : '' }"></form-autocomplete>
+                    <div class="form-input-hint" if="{ errors.fk_profissao }" each="{ e in errors.fk_profissao }">- { e }</div>
+                </div>
+            </div>
+            <div class="column col-6 col-md-12">
+                <div class="form-group { errors.escolaridade ? 'has-error' : '' }">
+                    <label class="form-label" for="escolaridade">Escolaridade</label>
+                    <select name="escolaridade" id="escolaridade" class="form-select">
+                        <option value=""></option>
+                        <option each="{ e in arrayEscolaridade }" value="{ e.codigo }" selected="{ dados.escolaridade == e.codigo }">{ e.descricao }</option>
+                    </select>
+                    <div class="form-input-hint" if="{ errors.escolaridade }" each="{ e in errors.escolaridade }">- { e }</div>
+                </div>
+            </div>
+        </div>
         <div class="columns">
             <div class="column col-2 col-md-12">
                 <div class="form-group { errors.situacao_conjugal ? 'has-error' : '' }">
@@ -23,7 +55,7 @@
             <div class="column col-3 col-md-12">
                 <div class="form-group { errors.situacao_moradia ? 'has-error' : '' }">
                     <label class="form-label" for="situacao_moradia">Situação Moradia</label>
-                    <select name="situacao_moradia" class="form-select">
+                    <select name="situacao_moradia" class="form-select" onchange="{ onChangeSituacaoMoradia }">
                         <option value=""></option>
                         <option each="{ s in arraySituacaoMoradia }" value="{ s.codigo }" selected="{ dados.situacao_moradia == s.codigo }">{ s.descricao }</option>
                     </select>
@@ -33,7 +65,8 @@
             <div class="column col-3 col-md-12">
                 <div class="form-group { errors.situacao_moradia_outros ? 'has-error' : '' }">
                     <label class="form-label" for="situacao_moradia_outros">Situação Moradia (Outro)</label>
-                    <input type="text" name="situacao_moradia_outros" maxlength="100" value="{ dados.situacao_moradia_outros }" class="form-input">
+                    <input type="text" name="situacao_moradia_outros" id="situacao_moradia_outros" maxlength="100" value="{ dados.situacao_moradia_outros }"
+                        class="form-input" disabled>
                     <div class="form-input-hint" if="{ errors.situacao_moradia_outros }" each="{ e in errors.situacao_moradia_outros }">- { e }</div>
                 </div>
             </div>
@@ -41,18 +74,19 @@
         <div class="columns">
             <div class="column col-2 col-md-12">
                 <div class="form-group { errors.filiado_rgps ? 'has-error' : '' }">
-                    <label class="form-label" for="filiado_rgps">É filiado(a) ao RGPS?</label>
-                    <select name="filiado_rgps" id="filiado_rgps" class="form-select">
+                    <label class="form-label badge" for="filiado_rgps" data-badge="?" title="Filiado ao Regime Geral da Previdência Social?">
+                        Filiado(a) ao RGPS
+                    </label>
+                    <select name="filiado_rgps" class="form-select">
                         <option value=""></option>
-                        <option value="S">Sim</option>
-                        <option value="N">Não</option>
+                        <option each="{ f in arrayFiliadoRgps }" value="{ f.codigo }" selected="{ dados.filiado_rgps == f.codigo }">{ f.descricao }</option>
                     </select>
                     <div class="form-input-hint" if="{ errors.filiado_rgps }" each="{ e in errors.filiado_rgps }">- { e }</div>
                 </div>
             </div>
             <div class="column col-4 col-md-12">
                 <div class="form-group { errors.outro_regime ? 'has-error' : '' }">
-                    <label class="form-label" for="outro_regime">Outro regime</label>
+                    <label class="form-label" for="outro_regime">Filiado a qual regime?</label>
                     <input type="text" name="outro_regime" maxlength="100" value="{ dados.outro_regime }" class="form-input">
                     <div class="form-input-hint" if="{ errors.outro_regime }" each="{ e in errors.outro_regime }">- { e }</div>
                 </div>
@@ -62,9 +96,7 @@
                     <label class="form-label" for="contribui_atualmente">Contribui atualmente?</label>
                     <select name="contribui_atualmente" class="form-select" onchange="{ onChangeContribuiAtualmente }">
                         <option value=""></option>
-                        <option value="S">Sim</option>
-                        <option value="N">Não</option>
-                        <option value="NSI">Não Soube Informar (NSI)</option>
+                        <option each="{ c in arrayContribuiAtualmente }" value="{ c.codigo }" selected="{ dados.contribui_atualmente == c.codigo }">{ c.descricao }</option>
                     </select>
                     <div class="form-input-hint" if="{ errors.contribui_atualmente }" each="{ e in errors.contribui_atualmente }">- { e }</div>
                 </div>
@@ -78,48 +110,24 @@
                 </div>
             </div>
         </div>
-        <div class="columns">
-            <div class="column col-2 col-md-12">
-                <div class="form-group { errors.escolaridade ? 'has-error' : '' }">
-                    <label class="form-label" for="escolaridade">Escolaridade</label>
-                    <select name="escolaridade" class="form-select">
-                        <option value=""></option>
-                        <option each="{ e in arrayEscolaridade }" value="{ e.codigo }" selected="{ dados.escolaridade == e.codigo }">{ e.descricao }</option>
-                    </select>
-                    <div class="form-input-hint" if="{ errors.escolaridade }" each="{ e in errors.escolaridade }">- { e }</div>
-                </div>
-            </div>
-            <div class="column col-4 col-md-12">
-                <div class="form-group { errors.fk_profissao ? 'has-error' : '' }">
-                    <label class="form-label" for="fk_profissao">Profissão</label>
-                    <input type="hidden" name="fk_profissao" id="fk_profissao" value="{ dados.fk_profissao }">
-                    <form-autocomplete name="inputSelectProfissao" placeholder="Digite até 3 caracteres para pesquisar" source="{ autoCompleteSource }"
-                        render-item="{ autoCompleteRenderItem }" on-select="{ autoCompleteOnSelect }" val="{ dados.profissao ? dados.profissao.descricao : '' }"></form-autocomplete>
-                    <div class="form-input-hint" if="{ errors.fk_profissao }" each="{ e in errors.fk_profissao }">- { e }</div>
-                </div>
-            </div>
-            <div class="column col-6 col-md-12">
-                <div class="form-group { errors.situacao_funcional ? 'has-error' : '' }">
-                    <label class="form-label" for="">Situação Funcional</label>
-                    <label class="form-checkbox" each="{ s in arraySituacaoFuncional }">
-                        <input type="checkbox" value="{ s.codigo }" name="situacao_funcional">
-                        <i class="form-icon"></i> { s.descricao }
-                    </label>
-                    <div class="form-input-hint" if="{ errors.situacao_funcional }" each="{ e in errors.situacao_funcional }">- { e }</div>
-                </div>
-            </div>
-        </div>
     </fieldset>
     <script>
         var tag = this;
         tag.dados = opts.dados || {};
         tag.errors = opts.errors || {};
+        tag.errors.on('atualiza', function (newErrors) {
+            tag.update({
+                'errors': newErrors
+            });
+        });
+        tag.onBlurProfissao = onBlurProfissao;
         tag.onChangeContribuiAtualmente = onChangeContribuiAtualmente;
+        tag.onChangeSituacaoMoradia = onChangeSituacaoMoradia;
         tag.autoCompleteSource = autoCompleteSource;
         tag.autoCompleteRenderItem = autoCompleteRenderItem;
         tag.autoCompleteOnSelect = autoCompleteOnSelect;
-        tag.getSelectedSituacaoFuncional = getSelectedSituacaoFuncional;
         tag.profissoes = [];
+        tag.entrevistaObservable = opts.entrevistaObservable;
         tag.arrayEstadosCivis = [{
                 'codigo': 'CA',
                 'descricao': 'Casado'
@@ -197,7 +205,7 @@
             {
                 'codigo': 'EI',
                 'descricao': 'EI - Educação Infantil'
-            },            
+            },
             {
                 'codigo': 'EFI',
                 'descricao': 'EFI - Ensino Fundamental Incompleto'
@@ -245,10 +253,6 @@
                 'descricao': 'Previdênciário'
             },
             {
-                'codigo': 'I',
-                'descricao': 'Incapaz'
-            },
-            {
                 'codigo': 'N',
                 'descricao': 'NSI'
             },
@@ -257,15 +261,29 @@
                 'descricao': 'Outro'
             }
         ];
+        tag.arrayFiliadoRgps = [{
+                'codigo': 'S',
+                'descricao': 'Sim'
+            },
+            {
+                'codigo': 'N',
+                'descricao': 'Não'
+            },
+        ];
 
-        function getSelectedSituacaoFuncional(array, selected) {
-            if (array) {
-                var encontrado = array.find(function (elem) {
-                    return elem.tipo == selected;
-                });
+        tag.arrayContribuiAtualmente = [{
+                'codigo': 'S',
+                'descricao': 'Sim'
+            },
+            {
+                'codigo': 'N',
+                'descricao': 'Não'
+            },
+            {
+                'codigo': 'NSI',
+                'descricao': 'NSI - Não Se Aplica'
             }
-            return encontrado ? true : false;
-        }
+        ];
 
         function autoCompleteSource(term, response) {
             var term = term.toLowerCase();
@@ -288,9 +306,15 @@
 
         function autoCompleteOnSelect(event, term, item) {
             event.preventDefault();
-            document.querySelector('input[name="inputSelectProfissao"]').value = item.getAttribute('data-val');
+            document.getElementById('inputSelectProfissao').value = item.getAttribute('data-val');
             document.getElementById('fk_profissao').value = item.getAttribute('data-codigo');
-            document.getElementById('filiado_rgps').focus();
+            document.getElementById('escolaridade').focus();
+        }
+
+        function onBlurProfissao(event) {
+            if (!event.target.value) {
+                document.getElementById('fk_profissao').value = '';
+            }
         }
 
         function onChangeContribuiAtualmente(event) {
@@ -303,6 +327,19 @@
             } else {
                 inputTempoContribuicao.value = '';
                 inputTempoContribuicao.disabled = true;
+            }
+        }
+
+        function onChangeSituacaoMoradia(event) {
+            var situacaoMoradia = event.target.value;
+            var inputSituacaoMoradiaOutro = document.getElementById('situacao_moradia_outros');
+
+            if (situacaoMoradia == 'O') {
+                inputSituacaoMoradiaOutro.disabled = false;
+                inputSituacaoMoradiaOutro.focus();
+            } else {
+                inputSituacaoMoradiaOutro.value = '';
+                inputSituacaoMoradiaOutro.disabled = true;
             }
         }
 

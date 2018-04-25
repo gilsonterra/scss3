@@ -51,6 +51,7 @@ gulp.task('css', function () {
 gulp.task('critical-js', function () {
     return gulp.src([
             'node_modules/riot/riot.min.js',   
+            'node_modules/riot-route/dist/route.min.js',
             'js/geral.js'
         ])
         .pipe(minifier({

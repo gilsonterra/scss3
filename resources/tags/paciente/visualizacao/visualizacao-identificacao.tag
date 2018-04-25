@@ -9,7 +9,7 @@
             <div class="float-right">
                 <a href="{ url }/editar/{ dados.codigo_paciente }" class="btn btn-primary mr-1">
                     <i class="icon icon-edit"></i>
-                    Alterar
+                    Alterar Identificação
                 </a>
             </div>
         </div>

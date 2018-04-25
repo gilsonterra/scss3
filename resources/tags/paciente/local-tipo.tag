@@ -3,7 +3,7 @@
         <div class="column col-2 col-md-12">
             <div class="form-group { errors.data_cadastro ? 'has-error' : '' }">
                 <label class="form-label" for="data_cadastro">Data Cadastro</label>
-                <input type="text" name="data_cadastro" maxlength="100" value="{ dados.data_cadastro || APP.dataAtualPtBr() }" class="form-input"
+                <input type="text" name="data_cadastro" maxlength="10" value="{ dados.data_cadastro || APP.dataAtualPtBr() }" class="form-input date"
                     required>
                 <div class="form-input-hint" if="{ errors.data_cadastro }" each="{ e in errors.data_cadastro }">- { e }</div>
             </div>
@@ -26,6 +26,15 @@
     <script>
         var tag = this;        
         tag.dados = opts.dados || {};
-        tag.errors = opts.errors || {};
+        tag.errors = opts.errors || {};                
+        tag.errors.on('atualiza', function(newErrors){                        
+            tag.update({'errors': newErrors});            
+        });
+
+        tag.on('mount', onMount);
+
+        function onMount(){
+            VMasker(document.querySelector('.date')).maskPattern('99/99/9999');
+        }
     </script>
 </paciente-local-tipo>

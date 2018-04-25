@@ -37,8 +37,8 @@
             </div>
         </div>
         <div class="card-body">
-            <table class="table">
-                <tbody>
+            <table class="table table-hover">
+                <thead>
                     <tr>
                         <td style="width:100px;">Data</td>
                         <td style="width:250px;" class=" hide-sm">Local</td>
@@ -46,7 +46,9 @@
                         <td class=" hide-sm">Tipo</td>
                         <td style="width:80px;"></td>
                     </tr>
-                    <tr each="{ e in entrevistas }">                            
+                </thead>
+                <tbody>
+                    <tr each="{ e in entrevistas }">
                         <td class="text-bold">{ e.data_cadastro }</td>
                         <td class="text-bold  hide-sm">{ e.local.descricao }</td>
                         <td class="text-bold  hide-sm">{ e.profissional.nome }</td>
@@ -62,7 +64,7 @@
                                         <a href="{ url }/editar/{ e.tipo }/{ e.codigo_paciente }/{ e.num_doc }">Alterar</a>
                                     </li>
                                     <li class="menu-item" if="{ usuarioSessao.admin == '1' }">
-                                        <a href="">Excluir</a>
+                                        <a href="javascript:;" onclick="{ excluir }">Excluir</a>
                                     </li>
                                 </ul>
                             </div>
@@ -78,5 +80,40 @@
         tag.entrevistas = opts.entrevistas || [];
         tag.usuarioSessao = opts.usuarioSessao || {};
         tag.usuarioSessao = APP.getSession() || {};
+        tag.excluir = excluir;
+
+        function excluir(event) {
+            swal({
+                title: 'Tem certeza que deseja excluir essa entrevista?',
+                text: "Se confirmar essa alteração não poderá ser desfeita.",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#DE5200',
+                confirmButtonText: 'Sim, excluir!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.value) {
+                    _onRequestDelete(event.item.e);
+                }
+            });
+        }
+
+        function _onRequestDelete(entrevista) {
+            var num_doc = entrevista.num_doc;
+            APP.ajaxGetRequest(tag.url + '/excluir/' + num_doc,
+                function (json) {
+                    swal(json).then(function () {
+                        if (json.type == 'success') {
+                            tag.entrevistas.some(function (item) {
+                                if (entrevista === item) {
+                                    tag.entrevistas.splice(tag.entrevistas.indexOf(item), 1);
+                                    tag.update();
+                                }
+                            });
+                        }
+                    });
+                }
+            );
+        }
     </script>
 </paciente-visualizacao-entrevistas>
