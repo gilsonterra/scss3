@@ -6,9 +6,9 @@
             <div class="column col-2 col-md-12">
                 <div class="form-group { errors.situacao_funcional ? 'has-error' : '' }">
                     <label class="form-label" for="">Situação Funcional</label>
-                    <select name="situacao_funcional" class="form-select">
+                    <select name="situacao_funcional" id="situacao_funcional" class="form-select">
                         <option value=""></option>
-                        <option each="{ s in arraySituacaoFuncional }" value="{ s.codigo }" selected="{ dados.situacao_funcional == s.codigo }">{ s.descricao }</option>
+                        <option each="{ s in arraySituacaoFuncional }" value="{ s.codigo }" selected="{ dados.situacao_funcional.tipo == s.codigo }">{ s.descricao }</option>
                     </select>
                     <div class="form-input-hint" if="{ errors.situacao_funcional }" each="{ e in errors.situacao_funcional }">- { e }</div>
                 </div>

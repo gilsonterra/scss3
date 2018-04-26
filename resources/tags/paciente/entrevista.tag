@@ -40,7 +40,7 @@
             event.preventDefault();
 
             var form = event.target;
-            var data = APP.serializeJson(form);
+            var data = APP.serializeJson(form);            
             var serializeData = JSON.stringify(data);
             var url = tag.url + '/persistir/' + tag.paciente.codigo_paciente;
 

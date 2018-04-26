@@ -63,7 +63,8 @@ final class PacienteEntrevistaRepository extends BaseRepository
         $message = $this->createMessage('Entrevista criada com sucesso.', 'Sucesso', BaseRepository::SUCCESS);
 
         try {
-            $this->model->create($data);
+            $entrevista = $this->model->create($data);
+            $this->_saveSituacaoFuncional($entrevista, $data['situacao_funcional']);
         } catch (\Exception $e) {
             $message = $this->createMessage('Erro ao criar uma Entrevista.' . $e->getMessage(), 'Erro', BaseRepository::ERROR);
         }
@@ -83,8 +84,9 @@ final class PacienteEntrevistaRepository extends BaseRepository
         $message = $this->createMessage('Entrevista alterada com sucesso.', 'Sucesso', BaseRepository::SUCCESS);
 
         try {
-            $query = $this->model->findOrFail($id);
-            $query->fill($data)->save();
+            $entrevista = $this->model->findOrFail($id);
+            $this->_saveSituacaoFuncional($entrevista, $data['situacao_funcional']);
+            $entrevista->fill($data)->save();
         } catch (\Exception $e) {
             $message = $this->createMessage('Erro ao alterar o Entrevista.' . $e->getMessage(), 'Erro', BaseRepository::ERROR);
         }
@@ -110,5 +112,17 @@ final class PacienteEntrevistaRepository extends BaseRepository
         }
 
         return $message;
+    }
+
+    protected function _saveSituacaoFuncional($entrevistaModel, $situacaoFuncionalTipo)
+    {
+        $dataSituacaoFuncional = [
+            'num_doc' => $entrevistaModel->num_doc,
+            'tipo' => $situacaoFuncionalTipo
+        ];
+
+        $situacaoFuncional = $entrevistaModel->situacaoFuncional();
+        $situacaoFuncional->delete();
+        $situacaoFuncional->create($dataSituacaoFuncional);
     }
 }

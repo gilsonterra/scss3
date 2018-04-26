@@ -7,7 +7,7 @@ class Entrevista extends Model
 {
     public $timestamps    = false;
     protected $table      = "tbl_entrevista";
-    protected $guarded    = array('num_doc', 'profissao');
+    protected $guarded    = array('num_doc', 'situacao_funcional');
     protected $primaryKey = 'num_doc';
     protected $appends = array('tipo_descricao');
     
@@ -63,6 +63,6 @@ class Entrevista extends Model
 
     public function situacaoFuncional()
     {
-        return $this->hasMany('App\Models\EntrevistaSituacaoFuncional', 'num_doc', 'num_doc');
+        return $this->hasOne('App\Models\EntrevistaSituacaoFuncional', 'num_doc', 'num_doc');
     }
 }
