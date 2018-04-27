@@ -104,8 +104,14 @@
             <div class="column col-3 col-md-12">
                 <div class="form-group { errors.tempo_contribuicao ? 'has-error' : '' }">
                     <label class="form-label" for="tempo_contribuicao">Há quanto tempo contribui?</label>
-                    <input type="number" ref="tempo_contribuicao" required="{ dados.contribui_atualmente == 'S' ? true : false }"  disabled="{ dados.contribui_atualmente == 'S' ? false : true }" name="tempo_contribuicao"
-                        min="0" max="40" maxlength="2" value="{ dados.tempo_contribuicao }" class="form-input">
+                    <div class="input-group">
+                        <input type="number" ref="tempo_contribuicao" required="{ dados.contribui_atualmente == 'S' ? true : false }" disabled="{ dados.contribui_atualmente == 'S' ? false : true }"
+                            name="tempo_contribuicao" min="0" max="40" maxlength="2" value="{ dados.tempo_contribuicao }" class="form-input">
+                        <select class="form-select" ref="tempo_contribuicao_unidade" name="tempo_contribuicao_unidade" disabled="{ dados.contribui_atualmente == 'S' ? false : true }">
+                            <option value=""></option>
+                            <option each="{ u in arrayUnidadeTempoContribuicao }" value="{ u.codigo }" selected="{ dados.tempo_contribuicao_unidade == u.codigo }">{ u.descricao }</option>
+                        </select>
+                    </div>
                     <div class="form-input-hint" if="{ errors.tempo_contribuicao }" each="{ e in errors.tempo_contribuicao }">- { e }</div>
                 </div>
             </div>
@@ -270,7 +276,6 @@
                 'descricao': 'Não'
             },
         ];
-
         tag.arrayContribuiAtualmente = [{
                 'codigo': 'S',
                 'descricao': 'Sim'
@@ -284,6 +289,15 @@
                 'descricao': 'NSI - Não Se Aplica'
             }
         ];
+        tag.arrayUnidadeTempoContribuicao = [{
+                'codigo': 'M',
+                'descricao': 'Mês'
+            },
+            {
+                'codigo': 'A',
+                'descricao': 'Ano(s)'
+            }
+        ]
 
         function autoCompleteSource(term, response) {
             var term = term.toLowerCase();
@@ -319,12 +333,12 @@
 
         function onChangeContribuiAtualmente(event) {
             tag.dados.contribui_atualmente = event.target.value;
-            if (event.target.value == 'S') {                
-                tag.refs.tempo_contribuicao.focus();                
+            if (event.target.value == 'S') {
+                tag.refs.tempo_contribuicao.focus();
             } else {
                 tag.refs.tempo_contribuicao.value = '';
-                tag.dados.tempo_contribuicao = '';                
-            }            
+                tag.refs.tempo_contribuicao_unidade.value = '';                
+            }
             tag.update();
         }
 

@@ -15,7 +15,7 @@
                         <div class="column col-12 col-md-12">
                             <div class="form-group { errors.login ? 'has-error' : '' }">
                                 <label class="form-label" for="login">Usuário</label>
-                                <input type="text" name="login" maxlength="100" autocomplete="off" class="form-input" required>
+                                <input type="text" name="login" maxlength="100" autocomplete="off" class="form-input" autofocus required>
                                 <div class="form-input-hint" if="{ errors.login }" each="{ e in errors.login }">- { e }</div>
                             </div>
                         </div>
@@ -42,7 +42,7 @@
         var tag = this;
         tag.url = BASE_URL + '/login';
         tag.errors = opts.errors || {};        
-        tag.onSubmit = onSubmit;        
+        tag.onSubmit = onSubmit;         
 
         function onSubmit(event) {
             event.preventDefault();
