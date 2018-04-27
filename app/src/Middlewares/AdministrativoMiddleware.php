@@ -17,8 +17,7 @@ final class AdministrativoMiddleware
     public function __invoke($request, $response, $next)
     {
         $session = $this->container->sessionHelper->get();
-        $newResponse = $response;
-                
+        $newResponse = $response;        
         if (empty($session['usuario_sessao']['admin']) || $session['usuario_sessao']['admin'] != 1) {
             throw new \Exception("Você não tem autorização para acessar essa tela.");
         } 

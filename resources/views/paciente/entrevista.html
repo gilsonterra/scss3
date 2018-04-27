@@ -5,6 +5,7 @@
 <script src="{{ base_url }}/js/vanilla-masker.min.js"></script>
 <script src="{{ base_url }}/tags/form-select-locais-sessao.js"></script>
 <script src="{{ base_url }}/tags/paciente/local-tipo.js"></script>
+
 <script src="{{ base_url }}/tags/paciente/entrevista/aspecto-socioeconomico.js"></script>
 <script src="{{ base_url }}/tags/paciente/entrevista/info-contexto-hospitalar.js"></script>
 <script src="{{ base_url }}/tags/paciente/entrevista/info-gestacao.js"></script>
@@ -31,17 +32,17 @@
     };
 
     APP.ajaxPostRequest(BASE_URL + '/paciente/find/' + codigo_paciente, JSON.stringify(data),
-        function (json) {
+        function (paciente) {
             var entrevista = {};
             if (num_doc) {
-                entrevista = json.entrevistas.find(function (a) {
+                entrevista = paciente.entrevistas.find(function (a) {
                     return a.num_doc == num_doc;
                 });
             }
 
             riot.mount('#paciente-entrevista', 'paciente-entrevista', {
                 'tipo': tipo,
-                'paciente': json,
+                'paciente': paciente,
                 'entrevista': riot.observable(entrevista),
                 'errors': riot.observable({})                
             });

@@ -8,9 +8,7 @@ use Respect\Validation\Exceptions\NestedValidationException;
 final class PacienteAcompanhamentoValidator extends BaseValidator
 {
     public function valid($data)
-    {
-        $data['data_cadastro'] = \DateTime::createFromFormat('d/m/Y', $data['data_cadastro']);
-
+    {        
         $errors = [];
         $messages = [
             'relato'                    => 'Campo obrigatório.',                       
@@ -23,9 +21,13 @@ final class PacienteAcompanhamentoValidator extends BaseValidator
             'tipo_faturamento'          => 'Campo obrigatório.',
         ];       
 
+        $data['data_cadastro'] = $this->_createAndValidateDate($data['data_cadastro']);
+        $dataAtual = new \DateTime();
+
         try {
+
             v::key('relato', v::stringType()->notEmpty())
-                ->key('data_cadastro', v::date('d/m/Y')->max(new \DateTime(), true)->notEmpty())
+                ->key('data_cadastro', v::notEmpty()->date()->max($dataAtual, true))
                 ->key('fk_local', v::stringType()->notEmpty())
                 ->key('categoria_acompanhamento', v::stringType()->notEmpty())
                 ->key('fk_acompanhamento', v::stringType()->notEmpty())
@@ -37,5 +39,15 @@ final class PacienteAcompanhamentoValidator extends BaseValidator
         }
         
         return $errors;
+    }
+
+    protected function _createAndValidateDate($date)
+    {
+        $dateObject = \DateTime::createFromFormat('d/m/Y', $date);
+        if ($dateObject->format('d/m/Y') != $date) {
+            $dateObject = null;
+        }
+
+        return $dateObject;
     }
 }

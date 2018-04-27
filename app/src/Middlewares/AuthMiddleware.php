@@ -16,13 +16,17 @@ final class AuthMiddleware
 
     public function __invoke($request, $response, $next)
     {
-        $session = $this->container->sessionHelper->get();        
-        $newResponse = $response;
-       
-        if (empty($session['usuario_sessao'])) {          
-            header('Location: ' . $this->container->router->pathFor('login'), true, 401);
-        }
-        else{
+        $session = $this->container->sessionHelper->get();
+        
+        if (empty($session['usuario_sessao'])) {            
+            if ($request->isXhr()) {
+                //$newResponse = $response->withStatus(401);                
+                header("HTTP/1.1 401 Unauthorized");                
+                exit;
+            } else {
+                header('Location: ' . $this->container->router->pathFor('login'), true, 401);
+            }
+        } else {            
             $newResponse = $next($request, $response);
         }
         

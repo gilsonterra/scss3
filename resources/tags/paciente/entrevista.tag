@@ -56,8 +56,7 @@
                                 window.location.href = BASE_URL + '/paciente/visualizar/' + tag.paciente.codigo_paciente;
                             }
                         });
-                    }
-                    console.log(data, 'data');
+                    }                    
                     tag.errors.trigger('atualiza', json.errors);
                 });
         }

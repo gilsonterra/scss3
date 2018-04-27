@@ -29,11 +29,11 @@
                 acompanhamento = json.acompanhamentos.find(function (a) {
                     return a.codigo == codigo;
                 });
-            }
-            console.log(acompanhamento);
+            }            
             riot.mount('#paciente-acompanhamento', 'paciente-acompanhamento', {
                 'paciente': json,
-                'acompanhamento': acompanhamento
+                'acompanhamento': riot.observable(acompanhamento),
+                'errors': riot.observable({})
             });
         }
     );

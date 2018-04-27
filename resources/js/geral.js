@@ -27,10 +27,18 @@ APP.httpService = function (url, options, resolve, reject) {
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
-            if (xhr.status == 200) {
-                resolve(JSON.parse(xhr.responseText));
-            } else {
-                reject(xhr.responseText);
+            switch (xhr.status) {
+                case 200:
+                    resolve(JSON.parse(xhr.responseText));
+                    break;
+
+                case 401:
+                    window.location.href = BASE_URL + '/login/entrar';                    
+                    break;
+
+                default:
+                    reject(xhr.responseText);
+                    break;
             }
         }
     };

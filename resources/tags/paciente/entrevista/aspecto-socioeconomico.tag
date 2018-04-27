@@ -74,7 +74,7 @@
         <div class="columns">
             <div class="column col-2 col-md-12">
                 <div class="form-group { errors.filiado_rgps ? 'has-error' : '' }">
-                    <label class="form-label badge" for="filiado_rgps" data-badge="?" title="Filiado ao Regime Geral da Previdência Social?">
+                    <label class="form-label" for="filiado_rgps" title="Filiado ao Regime Geral da Previdência Social?">
                         Filiado(a) ao RGPS
                     </label>
                     <select name="filiado_rgps" class="form-select">
@@ -104,7 +104,7 @@
             <div class="column col-3 col-md-12">
                 <div class="form-group { errors.tempo_contribuicao ? 'has-error' : '' }">
                     <label class="form-label" for="tempo_contribuicao">Há quanto tempo contribui?</label>
-                    <input type="number" id="tempo_contribuicao" disabled="{ dados.contribui_atualmente == 'S' ? 'false' : 'true' }" name="tempo_contribuicao"
+                    <input type="number" ref="tempo_contribuicao" required="{ dados.contribui_atualmente == 'S' ? true : false }"  disabled="{ dados.contribui_atualmente == 'S' ? false : true }" name="tempo_contribuicao"
                         min="0" max="40" maxlength="2" value="{ dados.tempo_contribuicao }" class="form-input">
                     <div class="form-input-hint" if="{ errors.tempo_contribuicao }" each="{ e in errors.tempo_contribuicao }">- { e }</div>
                 </div>
@@ -318,16 +318,14 @@
         }
 
         function onChangeContribuiAtualmente(event) {
-            var contribuiAtualmente = event.target.value;
-            var inputTempoContribuicao = document.getElementById('tempo_contribuicao');
-
-            if (contribuiAtualmente == 'S') {
-                inputTempoContribuicao.disabled = false;
-                inputTempoContribuicao.focus();
+            tag.dados.contribui_atualmente = event.target.value;
+            if (event.target.value == 'S') {                
+                tag.refs.tempo_contribuicao.focus();                
             } else {
-                inputTempoContribuicao.value = '';
-                inputTempoContribuicao.disabled = true;
-            }
+                tag.refs.tempo_contribuicao.value = '';
+                tag.dados.tempo_contribuicao = '';                
+            }            
+            tag.update();
         }
 
         function onChangeSituacaoMoradia(event) {

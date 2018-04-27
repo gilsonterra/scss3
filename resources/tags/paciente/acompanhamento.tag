@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="card-body">       
-                <paciente-local-tipo dados="{ acompanhamento }"></paciente-local-tipo>         
+                <paciente-local-tipo dados="{ acompanhamento }" errors="{ errors }"></paciente-local-tipo>         
                 <div class="columns">
                     <div class="column col-6 col-md-12">
                         <div class="form-group { errors.categoria_acompanhamento ? 'has-error' : '' }">
@@ -121,7 +121,7 @@
                             }
                         });
                     }
-
+                    tag.errors.trigger('atualiza', json.errors);
                     if (json.errors) {
                         tag.update({
                             'errors': json.errors
