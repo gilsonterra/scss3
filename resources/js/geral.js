@@ -154,6 +154,16 @@ APP.dataAtualPtBr = function () {
 }
 
 /**
+ * @param {string: DD/MM/YYY } stringDate 
+ */
+APP.createDateObjectFromPtBr = function(stringDate){
+    var params = stringDate.split('/');
+    var date = new Date(params[2], Number(params[1]) - 1, params[0]);
+
+    return date;
+}
+
+/**
  * Seta a sessão no localstorage
  * 
  * @param {object} data 

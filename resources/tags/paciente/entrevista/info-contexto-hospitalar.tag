@@ -5,7 +5,7 @@
             <div class="column col-3 col-md-12">
                 <div class="form-group { errors.encaminhado ? 'has-error' : '' }">
                     <label class="form-label" for="encaminhado">Modo Encaminhamento</label>
-                    <select name="encaminhado" class="form-select">
+                    <select name="encaminhado" disabled="{ dados.somente_visualizar}" class="form-select">
                         <option value=""></option>
                         <option each="{ e in arrayEncaminhado }" value="{ e.codigo }" selected="{ dados.encaminhado == e.codigo }">{ e.descricao }</option>
                     </select>
@@ -15,7 +15,7 @@
             <div class="column col-3 col-md-12">
                 <div class="form-group { errors.tfd ? 'has-error' : '' }">
                     <label class="form-label" for="tfd">Tratamento Fora do Domicílio (TFD)</label>
-                    <select name="tfd" class="form-select">
+                    <select name="tfd" disabled="{ dados.somente_visualizar}" class="form-select">
                         <option value=""></option>
                         <option each="{ t in arrayTfd }"value="{ t.codigo }" selected="{ t.codigo == dados.tfd }">{ t.descricao }</option>                        
                     </select>
@@ -25,7 +25,7 @@
             <div class="column col-3 col-md-12">
                 <div class="form-group { errors.meio_transporte ? 'has-error' : '' }">
                     <label class="form-label" for="meio_transporte">Meio de Transporte</label>
-                    <select name="meio_transporte" class="form-select" onchange="{ onChangeMeioTransporte }">
+                    <select name="meio_transporte" disabled="{ dados.somente_visualizar}" class="form-select" onchange="{ onChangeMeioTransporte }">
                         <option value=""></option>
                         <option each="{ m in arrayMeioTransporte }" value="{ m.codigo }" selected="{ dados.meio_transporte == m.codigo }">{ m.descricao }</option>
                     </select>
@@ -35,7 +35,7 @@
             <div class="column col-3 col-md-12">
                 <div class="form-group { errors.meio_transporte_outros ? 'has-error' : '' }">
                     <label class="form-label" for="meio_transporte_outros">Meio de Transporte (Outro)</label>
-                    <input type="text" id="meio_transporte_outros" name="meio_transporte_outros" disabled="{ dados.meio_transporte == 'OU' ? 'true' : 'false' }"
+                    <input type="text" id="meio_transporte_outros" name="meio_transporte_outros" disabled="{ dados.meio_transporte == 'OU' && !dados.somente_visualizar ? false : true }"
                         maxlength="100" value="{ dados.meio_transporte_outros }" class="form-input">
                     <div class="form-input-hint" if="{ errors.meio_transporte_outros }" each="{ e in errors.meio_transporte_outros }">- { e }</div>
                 </div>
@@ -106,16 +106,18 @@
         ];
 
         function onChangeMeioTransporte(event) {
-            var meioTransporte = event.target.value;
+            tag.dados.meio_transporte = event.target.value;
             var inputOutro = document.getElementById('meio_transporte_outros');
 
-            if (meioTransporte == 'OU') {
+            if (tag.dados.meio_transporte == 'OU') {
                 inputOutro.disabled = false;
                 inputOutro.focus();
             } else {
                 inputOutro.value = '';
                 inputOutro.disabled = true;
             }
+
+            tag.update();
         }
     </script>
 </paciente-entrevista-info-contexto-hospitalar>

@@ -9,7 +9,14 @@ class Entrevista extends Model
     protected $table      = "tbl_entrevista";
     protected $guarded    = array('num_doc', 'situacao_funcional');
     protected $primaryKey = 'num_doc';
-    protected $appends = array('tipo_descricao');
+    protected $appends = array('tipo_descricao', 'somente_visualizar');    
+
+    public function getSomenteVisualizarAttribute($value)
+    {                        
+        $objectDataCadastro = date_create_from_format('d/m/Y', $this->data_cadastro);        
+        $diff = date_diff(new \DateTime(), $objectDataCadastro );        
+        return $diff->format('%a') > 7;
+    }
     
     public function getDataCadastroAttribute($value)
     {

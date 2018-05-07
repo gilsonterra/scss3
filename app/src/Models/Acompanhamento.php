@@ -9,6 +9,14 @@ class Acompanhamento extends Model
     protected $table      = "tbl_acompanhamento";
     protected $guarded    = array('codigo');
     protected $primaryKey = 'codigo';
+    protected $appends = array('somente_visualizar');
+
+    public function getSomenteVisualizarAttribute($value)
+    {                        
+        $objectDataCadastro = date_create_from_format('d/m/Y', $this->data_cadastro);        
+        $diff = date_diff(new \DateTime(), $objectDataCadastro );        
+        return $diff->format('%a') > 7;
+    }
     
     public function getDataCadastroAttribute($value)
     {

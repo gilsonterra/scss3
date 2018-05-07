@@ -6,7 +6,7 @@
             <div class="column col-2 col-md-12">
                 <div class="form-group { errors.situacao_funcional ? 'has-error' : '' }">
                     <label class="form-label" for="">Situação Funcional</label>
-                    <select name="situacao_funcional" id="situacao_funcional" class="form-select">
+                    <select name="situacao_funcional" disabled="{ dados.somente_visualizar}" id="situacao_funcional" class="form-select">
                         <option value=""></option>
                         <option each="{ s in arraySituacaoFuncional }" value="{ s.codigo }" selected="{ dados.situacao_funcional.tipo == s.codigo }">{ s.descricao }</option>
                     </select>
@@ -17,7 +17,7 @@
                 <div class="form-group { errors.fk_profissao ? 'has-error' : '' }">
                     <label class="form-label" for="fk_profissao">Profissão</label>
                     <input type="text" class="d-hide" name="fk_profissao" id="fk_profissao" value="{ dados.fk_profissao }">
-                    <form-autocomplete id="inputSelectProfissao" on-blur="{ onBlurProfissao }" placeholder="Digite até 3 caracteres para pesquisar"
+                    <form-autocomplete id="inputSelectProfissao" on-blur="{ onBlurProfissao }" disabled="{ dados.somente_visualizar }" placeholder="Digite até 3 caracteres para pesquisar"
                         source="{ autoCompleteSource }" render-item="{ autoCompleteRenderItem }" on-select="{ autoCompleteOnSelect }"
                         val="{ dados.profissao ? dados.profissao.descricao : '' }"></form-autocomplete>
                     <div class="form-input-hint" if="{ errors.fk_profissao }" each="{ e in errors.fk_profissao }">- { e }</div>
@@ -26,7 +26,7 @@
             <div class="column col-6 col-md-12">
                 <div class="form-group { errors.escolaridade ? 'has-error' : '' }">
                     <label class="form-label" for="escolaridade">Escolaridade</label>
-                    <select name="escolaridade" id="escolaridade" class="form-select">
+                    <select name="escolaridade" disabled="{ dados.somente_visualizar}" id="escolaridade" class="form-select">
                         <option value=""></option>
                         <option each="{ e in arrayEscolaridade }" value="{ e.codigo }" selected="{ dados.escolaridade == e.codigo }">{ e.descricao }</option>
                     </select>
@@ -38,7 +38,7 @@
             <div class="column col-2 col-md-12">
                 <div class="form-group { errors.situacao_conjugal ? 'has-error' : '' }">
                     <label class="form-label" for="situacao_conjugal">Estado Civil</label>
-                    <select name="situacao_conjugal" class="form-select">
+                    <select name="situacao_conjugal"  disabled="{ dados.somente_visualizar}"class="form-select">
                         <option value=""></option>
                         <option each="{ e in arrayEstadosCivis }" value="{ e.codigo }" selected="{ dados.situacao_conjugal == e.codigo }">{ e.descricao }</option>
                     </select>
@@ -48,14 +48,14 @@
             <div class="column col-4 col-md-12">
                 <div class="form-group { errors.nome_companheiro ? 'has-error' : '' }">
                     <label class="form-label" for="nome_companheiro">Nome do(a) esposo(a) ou companheiro(a)</label>
-                    <input type="text" name="nome_companheiro" maxlength="100" value="{ dados.nome_companheiro }" class="form-input">
+                    <input type="text" name="nome_companheiro" disabled="{ dados.somente_visualizar}" maxlength="100" value="{ dados.nome_companheiro }" class="form-input">
                     <div class="form-input-hint" if="{ errors.nome_companheiro }" each="{ e in errors.nome_companheiro }">- { e }</div>
                 </div>
             </div>
             <div class="column col-3 col-md-12">
                 <div class="form-group { errors.situacao_moradia ? 'has-error' : '' }">
                     <label class="form-label" for="situacao_moradia">Situação Moradia</label>
-                    <select name="situacao_moradia" class="form-select" onchange="{ onChangeSituacaoMoradia }">
+                    <select name="situacao_moradia" disabled="{ dados.somente_visualizar}" class="form-select" onchange="{ onChangeSituacaoMoradia }">
                         <option value=""></option>
                         <option each="{ s in arraySituacaoMoradia }" value="{ s.codigo }" selected="{ dados.situacao_moradia == s.codigo }">{ s.descricao }</option>
                     </select>
@@ -65,7 +65,7 @@
             <div class="column col-3 col-md-12">
                 <div class="form-group { errors.situacao_moradia_outros ? 'has-error' : '' }">
                     <label class="form-label" for="situacao_moradia_outros">Situação Moradia (Outro)</label>
-                    <input type="text" name="situacao_moradia_outros" id="situacao_moradia_outros" maxlength="100" value="{ dados.situacao_moradia_outros }"
+                    <input type="text" name="situacao_moradia_outros" disabled="{ dados.somente_visualizar}" id="situacao_moradia_outros" maxlength="100" value="{ dados.situacao_moradia_outros }"
                         class="form-input" disabled>
                     <div class="form-input-hint" if="{ errors.situacao_moradia_outros }" each="{ e in errors.situacao_moradia_outros }">- { e }</div>
                 </div>
@@ -77,7 +77,7 @@
                     <label class="form-label" for="filiado_rgps" title="Filiado ao Regime Geral da Previdência Social?">
                         Filiado(a) ao RGPS
                     </label>
-                    <select name="filiado_rgps" class="form-select">
+                    <select name="filiado_rgps" disabled="{ dados.somente_visualizar}" class="form-select">
                         <option value=""></option>
                         <option each="{ f in arrayFiliadoRgps }" value="{ f.codigo }" selected="{ dados.filiado_rgps == f.codigo }">{ f.descricao }</option>
                     </select>
@@ -87,14 +87,14 @@
             <div class="column col-4 col-md-12">
                 <div class="form-group { errors.outro_regime ? 'has-error' : '' }">
                     <label class="form-label" for="outro_regime">Filiado a qual regime?</label>
-                    <input type="text" name="outro_regime" maxlength="100" value="{ dados.outro_regime }" class="form-input">
+                    <input type="text" name="outro_regime" disabled="{ dados.somente_visualizar}" maxlength="100" value="{ dados.outro_regime }" class="form-input">
                     <div class="form-input-hint" if="{ errors.outro_regime }" each="{ e in errors.outro_regime }">- { e }</div>
                 </div>
             </div>
             <div class="column col-3 col-md-12">
                 <div class="form-group { errors.contribui_atualmente ? 'has-error' : '' }">
                     <label class="form-label" for="contribui_atualmente">Contribui atualmente?</label>
-                    <select name="contribui_atualmente" class="form-select" onchange="{ onChangeContribuiAtualmente }">
+                    <select name="contribui_atualmente" disabled="{ dados.somente_visualizar}" class="form-select" onchange="{ onChangeContribuiAtualmente }">
                         <option value=""></option>
                         <option each="{ c in arrayContribuiAtualmente }" value="{ c.codigo }" selected="{ dados.contribui_atualmente == c.codigo }">{ c.descricao }</option>
                     </select>
@@ -105,9 +105,9 @@
                 <div class="form-group { errors.tempo_contribuicao ? 'has-error' : '' }">
                     <label class="form-label" for="tempo_contribuicao">Há quanto tempo contribui?</label>
                     <div class="input-group">
-                        <input type="number" ref="tempo_contribuicao" required="{ dados.contribui_atualmente == 'S' ? true : false }" disabled="{ dados.contribui_atualmente == 'S' ? false : true }"
+                        <input type="number" ref="tempo_contribuicao" required="{ dados.contribui_atualmente == 'S' ? true : false }" disabled="{ dados.contribui_atualmente == 'S' && !dados.somente_visualizar ? false : true }"
                             name="tempo_contribuicao" min="0" max="40" maxlength="2" value="{ dados.tempo_contribuicao }" class="form-input">
-                        <select class="form-select" ref="tempo_contribuicao_unidade" name="tempo_contribuicao_unidade" disabled="{ dados.contribui_atualmente == 'S' ? false : true }">
+                        <select class="form-select" ref="tempo_contribuicao_unidade" name="tempo_contribuicao_unidade" disabled="{ dados.contribui_atualmente == 'S' && !dados.somente_visualizar ? false : true }">
                             <option value=""></option>
                             <option each="{ u in arrayUnidadeTempoContribuicao }" value="{ u.codigo }" selected="{ dados.tempo_contribuicao_unidade == u.codigo }">{ u.descricao }</option>
                         </select>

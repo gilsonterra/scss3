@@ -11,6 +11,8 @@
     };
 
     var codigo_paciente = '{{ codigo_paciente }}';
+    var somente_visualizar = '{{ somente_visualizar }}';
+
     if (codigo_paciente) {
         var data = {};
         data.joins = [
@@ -27,7 +29,8 @@
             function (json) {
                 riot.mount('#paciente-visualizacao', 'paciente-visualizacao', {
                     'dados': json,
-                    'usuarioSessao': APP.getSession()
+                    'usuarioSessao': APP.getSession(),
+                    'somenteVisualizar': somente_visualizar
                 });
             }
         );

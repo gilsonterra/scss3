@@ -20,7 +20,7 @@
 <script type="text/javascript">
     window.onload = function () {
         APP.load.css(BASE_URL + '/css/sweetalert2.min.css');
-        APP.load.css(BASE_URL + '/css/auto-complete.css');
+        APP.load.css(BASE_URL + '/css/auto-complete.css');        
     };
 
     var codigo_paciente = '{{ codigo_paciente }}';
@@ -42,7 +42,7 @@
 
             riot.mount('#paciente-entrevista', 'paciente-entrevista', {
                 'tipo': tipo,
-                'paciente': paciente,
+                'paciente': paciente,                
                 'entrevista': riot.observable(entrevista),
                 'errors': riot.observable({})                
             });

@@ -10,8 +10,8 @@
                     <div class="card-subtitle text-gray h3">{ paciente.nome_social || paciente.nome_pac }</div>
                 </div>
                 <div class="float-right">
-                    <button type="submit" if="{ !entrevista.num_doc }" class="btn btn-primary mr-1">Salvar</button>
-                    <button type="submit" if="{ entrevista.num_doc }" class="btn btn-primary mr-1">Alterar</button>
+                    <button type="submit" if="{ !entrevista.num_doc && !entrevista.somente_visualizar }" class="btn btn-primary mr-1">Salvar</button>
+                    <button type="submit" if="{ entrevista.num_doc && !entrevista.somente_visualizar }" class="btn btn-primary mr-1">Alterar</button>
                     <a href="{ url }/listar" if="{ !paciente.codigo_paciente }" class="btn btn-secondary">Cancelar</a>
                     <a href="{ BASE_URL }/paciente/visualizar/{ paciente.codigo_paciente }" if="{ paciente.codigo_paciente }" class="btn btn-secondary">Voltar</a>
                 </div>

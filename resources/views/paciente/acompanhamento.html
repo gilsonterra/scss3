@@ -12,7 +12,7 @@
 
 <script type="text/javascript">
     window.onload = function () {
-        APP.load.css(BASE_URL + '/css/sweetalert2.min.css');        
+        APP.load.css(BASE_URL + '/css/sweetalert2.min.css');          
     };
 
     var codigo_paciente = '{{ codigo_paciente }}';
@@ -31,7 +31,7 @@
                 });
             }            
             riot.mount('#paciente-acompanhamento', 'paciente-acompanhamento', {
-                'paciente': json,
+                'paciente': json,                
                 'acompanhamento': riot.observable(acompanhamento),
                 'errors': riot.observable({})
             });

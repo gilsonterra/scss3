@@ -40,7 +40,10 @@
                                 </a>
                                 <ul class="menu">
                                     <li class="menu-item">
-                                        <a href="{ url }/editar/{ a.codigo_paciente }/{ a.codigo }">Alterar</a>
+                                        <a href="{ url }/editar/{ a.codigo_paciente }/{ a.codigo }">
+                                            <span if="{ a.somente_visualizar }">Visualizar</span>                                         
+                                            <span if="{ !a.somente_visualizar }">Alterar</span>                                         
+                                        </a>
                                     </li>
                                     <li class="menu-item" if="{ usuarioSessao.admin == '1' }">
                                         <a href="javascript:;" onclick="{ excluir }">Excluir</a>

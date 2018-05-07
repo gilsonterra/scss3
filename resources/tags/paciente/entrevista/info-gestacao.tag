@@ -5,7 +5,7 @@
             <div class="column col-3 col-md-12">
                 <div class="form-group { errors.metodo_contraceptivo ? 'has-error' : '' }">
                     <label class="form-label" for="metodo_contraceptivo">Utiliza método contraceptivo?</label>
-                    <select name="tfd" class="form-select">
+                    <select name="tfd" disabled="{ dados.somente_visualizar}"  class="form-select">
                         <option value=""></option>
                         <option value="S">Sim</option>
                         <option value="N">Não</option>
@@ -16,7 +16,7 @@
             <div class="column col-3 col-md-12">
                 <div class="form-group { errors.primeira_gestacao ? 'has-error' : '' }">
                     <label class="form-label" for="primeira_gestacao">Primeira gestação?</label>
-                    <select name="primeira_gestacao" class="form-select">
+                    <select name="primeira_gestacao" disabled="{ dados.somente_visualizar}"  class="form-select">
                         <option value=""></option>
                         <option value="S">Sim</option>
                         <option value="N">Não</option>
@@ -27,7 +27,7 @@
             <div class="column col-3 col-md-12">
                 <div class="form-group { errors.gestacao_planejada ? 'has-error' : '' }">
                     <label class="form-label" for="gestacao_planejada">Gestação planejada?</label>
-                    <select name="gestacao_planejada" class="form-select">
+                    <select name="gestacao_planejada" disabled="{ dados.somente_visualizar}"  class="form-select">
                         <option value=""></option>
                         <option value="S">Sim</option>
                         <option value="N">Não</option>
@@ -38,7 +38,7 @@
             <div class="column col-3 col-md-12">
                 <div class="form-group { errors.fez_pre_natal ? 'has-error' : '' }">
                     <label class="form-label" for="fez_pre_natal">Acompanhamento pré-natal?</label>
-                    <select name="fez_pre_natal" class="form-select" onchange="{ onChangeFezPreNatal }">
+                    <select name="fez_pre_natal" disabled="{ dados.somente_visualizar}"  class="form-select" onchange="{ onChangeFezPreNatal }">
                         <option value=""></option>
                         <option value="S">Sim</option>
                         <option value="N">Não</option>

@@ -1,7 +1,7 @@
 <form-select-locais-sessao>
     <div class="form-group { opts.errors ? 'has-error' : '' }">
         <label class="form-label" for="{ opts.name }">Local</label>
-        <select name="{ opts.name }" class="form-select" required>
+        <select name="{ opts.name }" class="form-select" disabled="{ opts.somenteVisualizar }" required>
             <option value=""></option>
             <option each="{ l in session.locais }" value="{ l.codigo }" selected="{ opts.val == l.codigo  }">{ l.descricao }</option>
         </select>
@@ -9,6 +9,6 @@
     </div>
     <script>
         var tag = this;
-        tag.session = APP.getSession() || {};
+        tag.session = APP.getSession() || {};        
     </script>
 </form-select-locais-sessao>

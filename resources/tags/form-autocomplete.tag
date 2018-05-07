@@ -1,7 +1,7 @@
 <form-autocomplete>
     <div class="has-icon-left">
         <input type="search" onblur="{ onBlur }" id="{ opts.id }" placeholder="{ opts.placeholder }" name="{ opts.name }" maxlength="{ opts.maxlength ? opts.maxlength : 100 }"
-            value="{ opts.val }" class="form-input" autocomplete="off" onClick="this.select();">
+            value="{ opts.val }" class="form-input" disabled="{ opts.disabled }" autocomplete="off" onClick="this.select();">
         <i class="form-icon icon icon-search"></i>
     </div>
     <script>

@@ -38,7 +38,7 @@ gulp.task('css', function () {
             'node_modules/spectre.css/dist/spectre-icons.min.css',
             'node_modules/sweetalert2/dist/sweetalert2.min.css',
             'node_modules/js-autocomplete/auto-complete.css',
-            'node_modules/pell/dist/pell.min.css'            
+            'node_modules/pell/dist/pell.min.css'
         ])
         .pipe(minifier({
             minify: true,
@@ -68,7 +68,7 @@ gulp.task('js', function () {
             'node_modules/sweetalert2/dist/sweetalert2.min.js',
             'node_modules/js-autocomplete/auto-complete.min.js',   
             'node_modules/pell/dist/pell.js',            
-            'node_modules/vanilla-masker/build/vanilla-masker.min.js'
+            'node_modules/vanilla-masker/build/vanilla-masker.min.js'            
         ])
         .pipe(minifier({
             minify: true,
