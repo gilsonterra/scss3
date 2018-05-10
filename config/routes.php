@@ -9,7 +9,7 @@ use App\Middlewares\AdministrativoMiddleware;
 
 $app->get('/', function () {
     //return $response->withStatus(302)->withHeader('Location', 'login/entrar');
-    header('Location: ' . '/login/entrar');
+    header('Location: ' . '/login/entrar');exit;
 });
 
 $app->group('/login', function () {
