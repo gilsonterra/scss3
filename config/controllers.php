@@ -98,3 +98,13 @@ $container['App\Controllers\ProfissaoController'] = function ($container) {
     return new App\Controllers\ProfissaoController($container, $repository, $validator);
 };
 
+$container['App\Controllers\AtividadeTecnicaController'] = function ($container) {    
+    $model = new App\Models\Acompanhamento();    
+    $session = $container->sessionHelper->get();    
+    $repository = new App\Repositories\AtividadeTecnicaRepository($model, $session['usuario_sessao']);    
+    $validator = new App\Validators\AtividadeTecnicaValidator();      
+    
+    return new App\Controllers\AtividadeTecnicaController($container, $repository, $validator);
+};
+
+

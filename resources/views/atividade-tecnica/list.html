@@ -1,0 +1,10 @@
+{% extends "base.html" %} 
+
+{% block content %}
+    <atividade-tecnica-lista grid="{ JSON.parse('{{ grid | json_encode }}') }"></atividade-tecnica-lista>
+{% endblock %}
+
+{% block js %}                            
+    <script src="{{ base_url }}/tags/pagination.js" ></script>  
+    <script src="{{ base_url }}/tags/atividade-tecnica/list.js" ></script>    
+{% endblock %}

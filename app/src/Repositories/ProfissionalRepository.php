@@ -13,7 +13,7 @@ final class ProfissionalRepository extends BaseRepository
      */
     protected $model;
 
-    /**          
+    /**
      * @var Local
      */
     protected $modelLocal;
@@ -54,18 +54,18 @@ final class ProfissionalRepository extends BaseRepository
     {
         $query = $this->model->newQuery();
         $query->with('locais');
-        $query->orderByRaw('UPPER(nome)', 'asc');
+        $query->orderByRaw('UPPER(nome) ASC');
 
         // Where
         if (!empty($where['nome'])) {
             $query->whereRaw("UPPER(nome) LIKE ?", '%' . strtoupper($where['nome'] . '%'));
         }
 
-        if (!empty($where['login'])) {            
+        if (!empty($where['login'])) {
             $query->whereRaw("UPPER(login) LIKE ?", '%' . strtoupper($where['login'] . '%'));
         }
 
-        if (!empty($where['senha'])) {            
+        if (!empty($where['senha'])) {
             $query->where('senha', '=', $where['senha']);
         }
 
@@ -95,19 +95,24 @@ final class ProfissionalRepository extends BaseRepository
      * @return void
      */
     public function create(array $data)
-    {        
+    {
+        $pdo = DB::getPdo();
         $message = $this->createMessage('Profissional criado com sucesso.', 'Sucesso', BaseRepository::SUCCESS);
 
+        if (empty($data['senha'])) {
+            unset($data['senha']);
+        }
+
         try {
-            DB::getPdo()->beginTransaction();
+            $pdo->beginTransaction();
             $locaisInstance = $this->getLocaisInstances($data['locais']);
             
             $profissional = $this->model->create($data);
             $profissional->locais()->saveMany($locaisInstance);
             
-            DB::getPdo()->commit();
+            $pdo->commit();
         } catch (\Exception $e) {
-            DB::getPdo()->rollBack();
+            $pdo->rollBack();
             $message = $this->createMessage('Erro ao criar um Profissional.' . $e->getMessage(), 'Erro', BaseRepository::ERROR);
         }
 
@@ -123,19 +128,45 @@ final class ProfissionalRepository extends BaseRepository
      */
     public function edit($id, array $data)
     {
-        $message = $this->createMessage('Profissional alterado com sucesso.', 'Sucesso', BaseRepository::SUCCESS);        
+        $pdo = DB::getPdo();
+        $message = $this->createMessage('Profissional alterado com sucesso.', 'Sucesso', BaseRepository::SUCCESS);
+
+        if (empty($data['senha'])) {
+            unset($data['senha']);
+        }
+
         try {
-            DB::getPdo()->beginTransaction();
-            $locaisInstance = $this->getLocaisInstances($data['locais']);
+            $pdo->beginTransaction();
 
             $profissional = $this->model->findOrFail($id);
-            $profissional->locais()->detach();
             $profissional->fill($data)->save();
-            $profissional->locais()->saveMany($locaisInstance);
+            
+            // Delete all
+            DB::table('tbl_prof_x_local')->where('cod_profissional', '=', $id)->update(['status' => 0]);
 
-            DB::getPdo()->commit();
+            if (!empty($data['locais'])) {
+                if (is_array($data['locais'])) {
+                    foreach ($data['locais'] as $localId) {
+                        $count = DB::table('tbl_prof_x_local')
+                                ->where('cod_profissional', '=', $id)
+                                ->where('cod_local', '=', $localId)
+                                ->count();
+
+                        if ($count > 0) {
+                            DB::table('tbl_prof_x_local')
+                                ->where('cod_profissional', '=', $id)
+                                ->where('cod_local', '=', $localId)
+                                ->update(['status' => 1]);
+                        } else {
+                            DB::table('tbl_prof_x_local')->insert(['status' => 1, 'cod_local' => $localId, 'cod_profissional' => $id]);
+                        }
+                    }
+                }
+            }
+
+            $pdo->commit();
         } catch (\Exception $e) {
-            DB::getPdo()->rollBack();
+            $pdo->rollBack();
             $message = $this->createMessage('Erro ao alterar o Profissional.' . $e->getMessage(), 'Erro', BaseRepository::ERROR);
         }
 
@@ -148,12 +179,22 @@ final class ProfissionalRepository extends BaseRepository
      * @param array $locais
      * @return void
      */
-    protected function getLocaisInstances(array $locais)
+    protected function getLocaisInstances($locais)
     {
         $locaisInstance = [];
-        foreach ($locais as $local) {
-            array_push($locaisInstance, $this->modelLocal->findOrFail($local['codigo']));
+
+        if (!empty($locais)) {
+            if (is_array($locais)) {
+                foreach ($locais as $local) {
+                    array_push($locaisInstance, $this->modelLocal->findOrFail($local));
+                }
+            } else {
+                array_push($locaisInstance, $this->modelLocal->findOrFail($locais));
+            }
         }
+
         return $locaisInstance;
     }
+
+    
 }

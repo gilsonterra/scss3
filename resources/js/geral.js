@@ -33,7 +33,7 @@ APP.httpService = function (url, options, resolve, reject) {
                     break;
 
                 case 401:
-                    window.location.href = BASE_URL + '/login/entrar';                    
+                    window.location.href = BASE_URL + '/login/entrar';
                     break;
 
                 default:
@@ -156,7 +156,7 @@ APP.dataAtualPtBr = function () {
 /**
  * @param {string: DD/MM/YYY } stringDate 
  */
-APP.createDateObjectFromPtBr = function(stringDate){
+APP.createDateObjectFromPtBr = function (stringDate) {
     var params = stringDate.split('/');
     var date = new Date(params[2], Number(params[1]) - 1, params[0]);
 
@@ -178,6 +178,11 @@ APP.setSession = function (data) {
 APP.getSession = function () {
     var session = window.localStorage.getItem('session');
     return session ? JSON.parse(session) : {};
+}
+
+APP.escapeTwigJsonParse = function (reponse) {
+    var result = reponse.replace(/&quot;/g, '"').replace(/(?:\r\n|\r|\n)/g, '');
+    return JSON.parse(result);
 }
 
 /**

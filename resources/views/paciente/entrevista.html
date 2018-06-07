@@ -1,6 +1,10 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} 
+
+{% block content %}
 <div id="paciente-entrevista"></div>
-{% endblock %} {% block js %}
+{% endblock %} 
+
+{% block js %}
 
 <script src="{{ base_url }}/js/vanilla-masker.min.js"></script>
 <script src="{{ base_url }}/tags/form-select-locais-sessao.js"></script>
@@ -12,15 +16,14 @@
 <script src="{{ base_url }}/tags/paciente/entrevista/aspecto-obito.js"></script>
 <script src="{{ base_url }}/tags/paciente/entrevista/observacao.js"></script>
 
-<script src="{{ base_url }}/js/auto-complete.min.js"></script>
+<script src="{{ base_url }}/js/choices.min.js"></script>
 <script src="{{ base_url }}/tags/form-autocomplete.js"></script>
 
 <script src="{{ base_url }}/tags/paciente/entrevista.js"></script>
 
 <script type="text/javascript">
     window.onload = function () {
-        APP.load.css(BASE_URL + '/css/sweetalert2.min.css');
-        APP.load.css(BASE_URL + '/css/auto-complete.css');        
+        APP.load.css(BASE_URL + '/css/sweetalert2.min.css');                  
     };
 
     var codigo_paciente = '{{ codigo_paciente }}';

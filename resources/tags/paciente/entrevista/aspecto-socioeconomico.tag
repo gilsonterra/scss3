@@ -8,7 +8,7 @@
                     <label class="form-label" for="">Situação Funcional</label>
                     <select name="situacao_funcional" disabled="{ dados.somente_visualizar}" id="situacao_funcional" class="form-select">
                         <option value=""></option>
-                        <option each="{ s in arraySituacaoFuncional }" value="{ s.codigo }" selected="{ dados.situacao_funcional.tipo == s.codigo }">{ s.descricao }</option>
+                        <option each="{ s in arraySituacaoFuncional }" value="{ s.codigo }" selected="{ dados.situacao_funcional && dados.situacao_funcional.tipo == s.codigo ? true : false }">{ s.descricao }</option>
                     </select>
                     <div class="form-input-hint" if="{ errors.situacao_funcional }" each="{ e in errors.situacao_funcional }">- { e }</div>
                 </div>
@@ -16,10 +16,8 @@
             <div class="column col-4 col-md-12">
                 <div class="form-group { errors.fk_profissao ? 'has-error' : '' }">
                     <label class="form-label" for="fk_profissao">Profissão</label>
-                    <input type="text" class="d-hide" name="fk_profissao" id="fk_profissao" value="{ dados.fk_profissao }">
-                    <form-autocomplete id="inputSelectProfissao" on-blur="{ onBlurProfissao }" disabled="{ dados.somente_visualizar }" placeholder="Digite até 3 caracteres para pesquisar"
-                        source="{ autoCompleteSource }" render-item="{ autoCompleteRenderItem }" on-select="{ autoCompleteOnSelect }"
-                        val="{ dados.profissao ? dados.profissao.descricao : '' }"></form-autocomplete>
+                    <form-autocomplete id="fk_profissao" name="fk_profissao" disabled="{ dados.somente_visualizar }" placeholder="Digite até 3 caracteres para pesquisar"
+                        source="{ profissaoSource }"></form-autocomplete>
                     <div class="form-input-hint" if="{ errors.fk_profissao }" each="{ e in errors.fk_profissao }">- { e }</div>
                 </div>
             </div>
@@ -38,7 +36,7 @@
             <div class="column col-2 col-md-12">
                 <div class="form-group { errors.situacao_conjugal ? 'has-error' : '' }">
                     <label class="form-label" for="situacao_conjugal">Estado Civil</label>
-                    <select name="situacao_conjugal"  disabled="{ dados.somente_visualizar}"class="form-select">
+                    <select name="situacao_conjugal" disabled="{ dados.somente_visualizar}" class="form-select">
                         <option value=""></option>
                         <option each="{ e in arrayEstadosCivis }" value="{ e.codigo }" selected="{ dados.situacao_conjugal == e.codigo }">{ e.descricao }</option>
                     </select>
@@ -48,7 +46,8 @@
             <div class="column col-4 col-md-12">
                 <div class="form-group { errors.nome_companheiro ? 'has-error' : '' }">
                     <label class="form-label" for="nome_companheiro">Nome do(a) esposo(a) ou companheiro(a)</label>
-                    <input type="text" name="nome_companheiro" disabled="{ dados.somente_visualizar}" maxlength="100" value="{ dados.nome_companheiro }" class="form-input">
+                    <input type="text" name="nome_companheiro" disabled="{ dados.somente_visualizar}" maxlength="100" value="{ dados.nome_companheiro }"
+                        class="form-input">
                     <div class="form-input-hint" if="{ errors.nome_companheiro }" each="{ e in errors.nome_companheiro }">- { e }</div>
                 </div>
             </div>
@@ -65,8 +64,8 @@
             <div class="column col-3 col-md-12">
                 <div class="form-group { errors.situacao_moradia_outros ? 'has-error' : '' }">
                     <label class="form-label" for="situacao_moradia_outros">Situação Moradia (Outro)</label>
-                    <input type="text" name="situacao_moradia_outros" disabled="{ dados.somente_visualizar}" id="situacao_moradia_outros" maxlength="100" value="{ dados.situacao_moradia_outros }"
-                        class="form-input" disabled>
+                    <input type="text" name="situacao_moradia_outros" disabled="{ dados.somente_visualizar}" id="situacao_moradia_outros" maxlength="100"
+                        value="{ dados.situacao_moradia_outros }" class="form-input" disabled>
                     <div class="form-input-hint" if="{ errors.situacao_moradia_outros }" each="{ e in errors.situacao_moradia_outros }">- { e }</div>
                 </div>
             </div>
@@ -87,7 +86,8 @@
             <div class="column col-4 col-md-12">
                 <div class="form-group { errors.outro_regime ? 'has-error' : '' }">
                     <label class="form-label" for="outro_regime">Filiado a qual regime?</label>
-                    <input type="text" name="outro_regime" disabled="{ dados.somente_visualizar}" maxlength="100" value="{ dados.outro_regime }" class="form-input">
+                    <input type="text" name="outro_regime" disabled="{ dados.somente_visualizar}" maxlength="100" value="{ dados.outro_regime }"
+                        class="form-input">
                     <div class="form-input-hint" if="{ errors.outro_regime }" each="{ e in errors.outro_regime }">- { e }</div>
                 </div>
             </div>
@@ -125,13 +125,10 @@
             tag.update({
                 'errors': newErrors
             });
-        });
-        tag.onBlurProfissao = onBlurProfissao;
+        });        
         tag.onChangeContribuiAtualmente = onChangeContribuiAtualmente;
         tag.onChangeSituacaoMoradia = onChangeSituacaoMoradia;
-        tag.autoCompleteSource = autoCompleteSource;
-        tag.autoCompleteRenderItem = autoCompleteRenderItem;
-        tag.autoCompleteOnSelect = autoCompleteOnSelect;
+        tag.profissaoSource = profissaoSource;
         tag.profissoes = [];
         tag.entrevistaObservable = opts.entrevistaObservable;
         tag.arrayEstadosCivis = [{
@@ -297,38 +294,21 @@
                 'codigo': 'A',
                 'descricao': 'Ano(s)'
             }
-        ]
+        ];
 
-        function autoCompleteSource(term, response) {
-            var term = term.toLowerCase();
-            APP.ajaxPostRequest(BASE_URL + '/profissao/buscar', JSON.stringify({
-                'descricao': term
-            }), function (json) {
-                var res = json.map(function (item) {
-                    return JSON.stringify(item);
-                });
-                response(res);
+        function profissaoSource(callback) {
+            APP.ajaxPostRequest(BASE_URL + '/profissao/buscar', {}, function (json) {
+                if(tag.dados.profissao){
+                    json = json.map(function(e){
+                        if(tag.dados.profissao.codigo == e.codigo){
+                            e.selected = true;                            
+                        }
+
+                        return e;
+                    });
+                }                
+                callback(json, 'codigo', 'descricao');
             });
-        }
-
-        function autoCompleteRenderItem(item, search) {
-            var obj = JSON.parse(item);
-            var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
-            return '<div class="autocomplete-suggestion" data-codigo="' + obj.codigo + '" data-val="' +
-                obj.descricao + '">' + obj.descricao.replace(re, "<b>$1</b>") + '</div>';
-        }
-
-        function autoCompleteOnSelect(event, term, item) {
-            event.preventDefault();
-            document.getElementById('inputSelectProfissao').value = item.getAttribute('data-val');
-            document.getElementById('fk_profissao').value = item.getAttribute('data-codigo');
-            document.getElementById('escolaridade').focus();
-        }
-
-        function onBlurProfissao(event) {
-            if (!event.target.value) {
-                document.getElementById('fk_profissao').value = '';
-            }
         }
 
         function onChangeContribuiAtualmente(event) {
@@ -337,7 +317,7 @@
                 tag.refs.tempo_contribuicao.focus();
             } else {
                 tag.refs.tempo_contribuicao.value = '';
-                tag.refs.tempo_contribuicao_unidade.value = '';                
+                tag.refs.tempo_contribuicao_unidade.value = '';
             }
             tag.update();
         }

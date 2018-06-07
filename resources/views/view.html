@@ -1,0 +1,36 @@
+{% extends "base.html" %} 
+
+{% block content %}
+<div id="view"></div>
+{% endblock %} 
+
+{% block js %}
+<script type="text/javascript">
+    var hasPage = function (url) {
+        return document.location.pathname.indexOf(url) >= 0;
+    };
+
+    if (hasPage('/atividade-tecnica/listar')) {
+        Promise.all([
+            APP.load.js(BASE_URL + '/tags/pagination.js'),
+            APP.load.js(BASE_URL + '/tags/atividade-tecnica/list.js')
+        ]).then(function (values) {            
+            riot.mount('#view', 'atividade-tecnica-lista', {
+                'grid': APP.escapeTwigJsonParse('{{ grid | json_encode }}')
+            });
+        });
+    }
+
+    if (hasPage('/atividade-tecnica/criar') || hasPage('/atividade-tecnica/editar')) {
+        Promise.all([
+            APP.load.css(BASE_URL + '/css/sweetalert2.min.css'),
+            APP.load.js(BASE_URL + '/tags/form-select-locais-sessao.js'),
+            APP.load.js(BASE_URL + '/tags/atividade-tecnica/form.js')
+        ]).then(function (values) {            
+            riot.mount('#view', 'atividade-tecnica-form', {
+                'dados': APP.escapeTwigJsonParse('{{ dados | json_encode }}')
+            });
+        });
+    }
+</script>
+{% endblock %}

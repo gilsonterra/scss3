@@ -100,6 +100,17 @@ $app->group('/aviso', function () {
 ->add(new AdministrativoMiddleware($app->getContainer()))
 ->add(new AuthMiddleware($app->getContainer()));
 
+
+$app->group('/atividade-tecnica', function () {
+    $this->get('/listar[/]', 'App\Controllers\AtividadeTecnicaController:listView');
+    $this->get('/criar', 'App\Controllers\AtividadeTecnicaController:createView');
+    $this->get('/editar/{codigo}', 'App\Controllers\AtividadeTecnicaController:editView');
+    $this->post('/persistir/[{codigo}]', 'App\Controllers\AtividadeTecnicaController:store');    
+    $this->post('/buscar[/]', 'App\Controllers\AtividadeTecnicaController:fetchAll');
+})
+->add(new AdministrativoMiddleware($app->getContainer()))
+->add(new AuthMiddleware($app->getContainer()));
+
 $app->get('/info', function () {
     phpinfo();
 });

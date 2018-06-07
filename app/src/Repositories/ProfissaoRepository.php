@@ -33,7 +33,7 @@ final class ProfissaoRepository extends BaseRepository
     public function fetchAll(array $where = array(), $paginate = false, $page = 1)
     {
         $query = $this->model->newQuery();
-        $query->orderByRaw('UPPER(descricao)', 'asc');
+        $query->orderByRaw('UPPER(descricao) ASC');
 
         // Where
         if (!empty($where['descricao'])) {

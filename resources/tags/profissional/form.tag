@@ -72,31 +72,17 @@
                 </div>
                 <div class="columns">
                     <div class="column col-12 col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-title h5">Locais de Atuação</div>
-                            </div>
-                            <div class="card-body">
-                                <div class="form-group { errors.locais ? 'has-error' : '' }">
-                                    <form-autocomplete name="inputSelecionaLocal" placeholder="Digite até 3 caracteres para pesquisar" source="{ autoCompleteSource }"
-                                        render-item="{ autoCompleteRenderItem }" on-select="{ autoCompleteOnSelect }"></form-autocomplete>                                    
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <div class="form-input-hint { errors.locais ? 'text-error' : '' }" if="{ errors.locais }" each="{ e in errors.locais }">- { e }</div>
-                                <span class="chip" each="{ local in locaisSelecionados }">
-                                    { local.descricao }
-                                    <button type="button" class="btn btn-clear" aria-label="Fechar" role="button" onclick="{ removeLocal }"></button>
-                                </span>
-                            </div>
+                        <div class="form-group { errors.locais ? 'has-error' : '' }">
+                            <label class="form-label" for="locais">Locais</label>
+                            <form-autocomplete name="locais" required="true" placeholder="Digite para pesquisar" multiple="true" source="{ localSource }"></form-autocomplete>
+                            <div class="form-input-hint" if="{ errors.locais }" each="{ e in errors.locais }">- { e }</div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="card-footer"></div>
         </div>
-    </form>
-    <div id="divSelecionaLocal"></div>
+    </form>    
 
     <script>
         var tag = this;
@@ -104,69 +90,33 @@
         tag.errors = opts.errors || {};
         tag.dados = opts.dados || {};
         tag.codigo = opts.dados ? opts.dados.codigo : '';
-        tag.locaisSelecionados = opts.dados ? opts.dados.locais : [];
         tag.onSubmit = onSubmit;
-        tag.addLocal = addLocal;
-        tag.removeLocal = removeLocal;
-        tag.autoCompleteSource = autoCompleteSource;
-        tag.autoCompleteRenderItem = autoCompleteRenderItem;
-        tag.autoCompleteOnSelect = autoCompleteOnSelect;
+        tag.localSource = localSource;
 
-        function addLocal(event) {
-            event.preventDefault();
-            tag.locaisSelecionados.push(event.item.dado);
-        }
+        function localSource(callback) {
+            APP.ajaxPostRequest(BASE_URL + '/local/buscar', {}, function (json) {
+                if (tag.dados.locais) {
+                    json = json.map(function (e) {
+                        var encontrou = tag.dados.locais.find(function(l){
+                            return l.codigo == e.codigo;
+                        });
 
-        function removeLocal(event) {
-            event.preventDefault();
-            tag.locaisSelecionados.some(function (local) {
-                if (event.item.local === local) {
-                    tag.locaisSelecionados.splice(tag.locaisSelecionados.indexOf(local), 1);
+                        if(encontrou){
+                            e.selected = true;
+                        }
+
+                        return e;
+                    });
                 }
-            });
-        }
 
-        function autoCompleteSource(term, response) {
-            var term = term.toLowerCase();
-            var codigosNotIn = tag.locaisSelecionados.map(function (e) {
-                return e.codigo;
+                callback(json, 'codigo', 'descricao');
             });
-            APP.ajaxPostRequest(BASE_URL + '/local/buscar', JSON.stringify({
-                'descricao': term,
-                'codigos_not_in': codigosNotIn
-            }), function (json) {
-                var res = json.map(function (item) {
-                    return JSON.stringify(item);
-                });
-                response(res);
-            });
-        }
-
-        function autoCompleteRenderItem(item, search) {
-            var obj = JSON.parse(item);
-            var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
-            return '<div class="autocomplete-suggestion" data-codigo="' + obj.codigo + '" data-val="' +
-                obj.descricao + '">' + obj.descricao.replace(re, "<b>$1</b>") + '</div>';
-        }
-
-        function autoCompleteOnSelect(event, term, item) {
-            event.preventDefault();
-            var local = {
-                'codigo': item.getAttribute('data-codigo'),
-                'descricao': item.getAttribute('data-val')
-            }
-            tag.locaisSelecionados.push(local);
-            tag.update({
-                'locaisSelecionados': tag.locaisSelecionados
-            });
-            tag.root.querySelector('input[name="inputSelecionaLocal"]').value = '';
         }
 
         function onSubmit(event) {
             event.preventDefault();
             var form = event.target;
             var data = APP.serializeJson(form);
-            data['locais'] = tag.locaisSelecionados;
 
             APP.ajaxPostRequest(tag.url_profissional + '/persistir/' + tag.codigo, JSON.stringify(data),
                 function (json) {
