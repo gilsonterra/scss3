@@ -24,18 +24,18 @@ final class AtividadeTecnicaController extends BaseController
     {
         $data = $request->getParams();
         $data['grid'] = $this->repository->fetchAll($data, true, $data['page'])->toArray();                
-        return $this->viewRender($response, 'view.html', $data);
+        return $this->viewRender($response, 'atividade-tecnica/list.html', $data);
     }
 
     public function createView(Request $request, Response $response, $args)
     {
-        return $this->viewRender($response, 'view.html');
+        return $this->viewRender($response, 'atividade-tecnica/form.html');
     }
 
     public function editView(Request $request, Response $response, $args)
     {
         $data['dados'] = $this->repository->findById($args['codigo'])->toArray();
-        return $this->viewRender($response, 'view.html', $data);
+        return $this->viewRender($response, 'atividade-tecnica/form.html', $data);
     }
 
     public function store(Request $request, Response $response, $args)

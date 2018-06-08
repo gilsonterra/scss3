@@ -51,13 +51,8 @@
                                 <a href="{ url }/editar/{ d.codigo }" class="btn btn-link">Alterar</a>
                             </td>
                         </tr>
-                        <tr if="{ grid.data.length == 0 }">
+                        <tr if="{ grid.data && grid.data.length == 0 }">
                             <td colspan="4">Nenhum registro encontrado.</td>
-                        </tr>
-                        <tr if="{ loading }">
-                            <td colspan="4">
-                                <div class="loading loading-lg"></div>
-                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -69,40 +64,24 @@
     </form>
     <script>
         var tag = this;
-        tag.url = BASE_URL + '/local';
         tag.grid = opts.grid || [];
-        tag.onRequest = onRequest;
-        tag.onNext = onNext;
-        tag.onPrev = onPrev;
-        tag.onSearch = onSearch;
         tag.loading = false;
 
-        function onRequest(pageUrl) {
-            var form = tag.refs.formulario;
-            var data = APP.serializeJson(form);
-            data.paginate = true;
-            tag.loading = true;
-            APP.ajaxPostRequest(tag.url + '/buscar' + pageUrl, JSON.stringify(data), function (json) {
+        tag.mixin('ListagemMixin', {
+            url: BASE_URL + '/local/buscar',
+
+            callbackBeforeRequest: function () {
+                tag.update({
+                    'loading': true
+                });
+            },
+
+            callbackOnRequest: function (json) {
                 tag.update({
                     'grid': json,
                     'loading': false
                 });
-            });
-        }
-
-        function onSearch(event) {
-            event.preventDefault();
-            onRequest('');
-        }
-
-        function onNext(event) {
-            event.preventDefault();
-            onRequest(tag.grid.next_page_url);
-        }
-
-        function onPrev(event) {
-            event.preventDefault();
-            onRequest(tag.grid.prev_page_url);
-        }
+            }
+        });
     </script>
 </local-list>

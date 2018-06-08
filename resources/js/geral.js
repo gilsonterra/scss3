@@ -231,3 +231,90 @@ APP.load = (function () {
         img: _load('img')
     }
 })();
+
+riot.mixin('SerializeMixin', {
+
+    serializeToArray = function (form) {
+        var field, l, s = [];
+        if (typeof form == 'object' && form.nodeName == "FORM") {
+            var len = form.elements.length;
+            for (var i = 0; i < len; i++) {
+                field = form.elements[i];
+                if (field.name && !field.disabled && field.type != 'file' && field.type != 'reset' && field.type != 'submit' && field.type != 'button') {
+                    if (field.type == 'select-multiple') {
+                        l = form.elements[i].options.length;
+                        for (j = 0; j < l; j++) {
+                            if (field.options[j].selected)
+                                s[s.length] = {
+                                    name: field.name,
+                                    value: field.options[j].value
+                                };
+                        }
+                    } else if ((field.type != 'checkbox' && field.type != 'radio') || field.checked) {
+                        s[s.length] = {
+                            name: field.name,
+                            value: field.value
+                        };
+                    }
+                }
+            }
+        }
+        return s;
+    },
+
+    serializeToJson = function (form) {
+        var json = {};
+        var array = this.serializeToArray(form);
+
+        array.map(function (item) {
+            if (item.name in json) {
+                if (Array.isArray(json[item.name])) {
+                    json[item.name].push(item.value);
+                } else {
+                    json[item.name] = [json[item.name], item.value];
+                }
+            } else {
+                json[item.name] = item.value;
+            }
+        });
+
+        return json;
+    }
+}, true);
+
+
+riot.mixin('ListagemMixin', {
+    apiUrl: null,
+
+    onSearch(event) {
+        event.preventDefault();
+        this.onRequest();
+    },
+
+    onPrev(event) {
+        event.preventDefault();
+        this.onRequest(this.grid.prev_page_url);
+    },
+
+    onNext(event) {
+        event.preventDefault();
+        this.onRequest(this.grid.next_page_url);
+    },
+
+    callbackBeforeRequest: function () {},
+
+    callbackOnRequest: function (json) {},
+
+    onRequest(pageUrl) {
+        var self = this;
+        var pageUrl = pageUrl ? pageUrl : '';
+        var form = this.refs.formulario;
+        var data = this.serializeToJson(form);
+
+        data.paginate = true;
+        this.callbackBeforeRequest();
+        APP.ajaxPostRequest(this.url + pageUrl, JSON.stringify(data), function (json) {
+            self.callbackOnRequest(json);
+        });
+    }
+});

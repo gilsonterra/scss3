@@ -36,6 +36,7 @@ final class AvisoController extends BaseController
     public function editView(Request $request, Response $response, $args)
     {
         $data['codigo'] = $args['codigo'];                
+        //$data['dados'] = $this->repository->findById($args['codigo'])->toArray();
         return $this->viewRender($response, 'aviso/form.html', $data);
     }
 
