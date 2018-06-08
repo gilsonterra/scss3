@@ -2,7 +2,7 @@
     <form onsubmit="{ onSearch }" ref="formulario" autocomplete="off">
         <div class="card">
             <div class="card-header">
-                <div class="card-title h5">
+                <div class="card-title h3">
                     <div class="float-left">Busca Usuário</div>
                     <div class="float-right">
                         <a href="{ url }/identificacao/criar" class="btn btn-primary">Novo</a>
@@ -37,7 +37,7 @@
                                 <input type="text" class="form-input" arial-label="Nascimento" name="data_nasc_pac" maxlength="10" placeholder="Nascimento">
                             </th>
                             <th>
-                                <button type="submit" class="btn btn-secondary">
+                                <button type="submit" class="btn btn-secondary" disabled="{ loading }">
                                     <i class="icon icon-search"></i>
                                     Filtrar
                                 </button>
@@ -53,7 +53,7 @@
                             <td class="hide-sm">{ d.data_nasc_pac }</td>
                             <td>
                                 <a href="{ url }/visualizar/{ d.codigo_paciente }" if="{ d.tipo == 'SCSS'}" title="Selecionar para alterar" class="btn btn-link">
-                                    <span class="text-success">Alterar</span> 
+                                    <span class="text-success">Alterar</span>
                                 </a>
                                 <a href="{ url }/importar-scac/{ d.cod_prnt }" if="{ d.tipo == 'SAMIS'}" title="Importar do SAMIS" class="btn btn-link">
                                     <span class="text-warning">Importar</span>
@@ -83,57 +83,43 @@
     </form>
     <script>
         var tag = this;
-        tag.url = BASE_URL + '/paciente';
+        tag.url = BASE_URL + '/paciente'
         tag.grid = opts.grid || [];
-        tag.onRequest = onRequest;
-        tag.onNext = onNext;
-        tag.onPrev = onPrev;
-        tag.onSearch = onSearch;
         tag.loading = false;
 
-        function onRequest(pageUrl) {
-            var form = tag.refs.formulario;
-            var data = APP.serializeJson(form);
-            data.paginate = true;
-
-            if (!validationRequest(data)) {
-                swal('Aviso', 'Preencha pelo menos um campo do filtro!', 'info');
-            } else {
-                tag.update({
-                    'loading': true
-                });
-                APP.ajaxPostRequest(tag.url + '/buscar' + pageUrl, JSON.stringify(data), function (json) {
-                    tag.update({
-                        'grid': json,
-                        'loading': false
-                    });
-                });
-            }
-        }
-
-        function onSearch(event) {
-            event.preventDefault();
-            onRequest('');
-        }
-
-        function onNext(event) {
-            event.preventDefault();
-            onRequest(tag.grid.next_page_url);
-        }
-
-        function onPrev(event) {
-            event.preventDefault();
-            onRequest(tag.grid.prev_page_url);
-        }
-
-        function validationRequest(obj) {            
+        function _validationRequest(obj) {
             for (name in obj) {
-                if ( name != 'paginate' && (obj[name] != undefined && obj[name] != '')) {
+                if (name != 'paginate' && (obj[name] != undefined && obj[name] != '')) {
                     return true;
                 }
             }
 
             return false;
         }
+
+        tag.mixin('ListagemMixin', {
+            urlFetch: tag.url + '/buscar',
+
+            callbackBeforeRequest: function () {
+                var form = tag.refs.formulario;
+                var data = APP.serializeJson(form);
+                if (!_validationRequest(data)) {
+                    swal('Aviso', 'Preencha pelo menos um campo do filtro!', 'info');
+                    return false;
+                } else {
+                    tag.update({
+                        'loading': true
+                    });
+                    return true;
+                }
+            },
+
+            callbackOnRequest: function (json) {
+                tag.update({
+                    'grid': json,
+                    'loading': false
+                });
+            }
+        });
     </script>
 </paciente-list>

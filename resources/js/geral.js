@@ -284,7 +284,7 @@ riot.mixin('SerializeMixin', {
 
 
 riot.mixin('ListagemMixin', {
-    apiUrl: null,
+    urlFetch: null,
 
     onSearch(event) {
         event.preventDefault();
@@ -301,7 +301,9 @@ riot.mixin('ListagemMixin', {
         this.onRequest(this.grid.next_page_url);
     },
 
-    callbackBeforeRequest: function () {},
+    callbackBeforeRequest: function () {
+        return true;
+    },
 
     callbackOnRequest: function (json) {},
 
@@ -310,11 +312,13 @@ riot.mixin('ListagemMixin', {
         var pageUrl = pageUrl ? pageUrl : '';
         var form = this.refs.formulario;
         var data = this.serializeToJson(form);
+        data.paginate = true;                
 
-        data.paginate = true;
-        this.callbackBeforeRequest();
-        APP.ajaxPostRequest(this.url + pageUrl, JSON.stringify(data), function (json) {
-            self.callbackOnRequest(json);
-        });
+        if (this.callbackBeforeRequest()) {
+            APP.ajaxPostRequest(this.urlFetch + pageUrl, JSON.stringify(data), function (json) {
+                self.callbackOnRequest(json);
+            });
+        }
+
     }
 });

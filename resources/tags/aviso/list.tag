@@ -9,12 +9,12 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body">                
+            <div class="card-body">
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr class="bg-secondary">
                             <th style="width:110px;">Status</th>
-                            <th>Aviso</th>                            
+                            <th>Aviso</th>
                             <th style="width:100px;"></th>
                         </tr>
                         <tr class="bg-secondary">
@@ -41,7 +41,9 @@
                                 <span if="{ d.status == 1 }" class="text-success">Ativo</span>
                                 <span if="{ d.status == 0 }" class="text-error">Inativo</span>
                             </td>
-                            <td><raw html="{ d.aviso }"></raw></td>                            
+                            <td>
+                                <raw html="{ d.aviso }"></raw>
+                            </td>
                             <td>
                                 <a href="{ url }/editar/{ d.codigo }" class="btn btn-link">Alterar</a>
                             </td>
@@ -50,7 +52,9 @@
                             <td colspan="4">Nenhum registro encontrado.</td>
                         </tr>
                         <tr if="{ loading }">
-                            <td colspan="4"><div class="loading loading-lg"></div></td>
+                            <td colspan="4">
+                                <div class="loading loading-lg"></div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -62,37 +66,19 @@
     </form>
     <script>
         var tag = this;
-        tag.url = BASE_URL + '/aviso';
+        tag.url = BASE_URL + '/aviso'
         tag.grid = opts.grid || [];
-        tag.onRequest = onRequest;
-        tag.onNext = onNext;
-        tag.onPrev = onPrev;
-        tag.onSearch = onSearch;
         tag.loading = false;
 
-        function onRequest(pageUrl) {            
-            var form = tag.refs.formulario;
-            var data = APP.serializeJson(form);
-            data.paginate = true;
-            tag.loading = true;
-            APP.ajaxPostRequest(tag.url + '/buscar' + pageUrl, JSON.stringify(data), function (json) {                
-                tag.update({'grid': json, 'loading': false});                
-            });
-        }
+        tag.mixin('ListagemMixin', {
+            urlFetch: tag.url + '/buscar',
 
-        function onSearch(event){
-            event.preventDefault();
-            onRequest('');
-        }
-
-        function onNext(event) {
-            event.preventDefault();
-            onRequest(tag.grid.next_page_url);
-        }
-
-        function onPrev(event) {
-            event.preventDefault();
-            onRequest(tag.grid.prev_page_url);
-        }
+            callbackOnRequest: function (json) {
+                tag.update({
+                    'grid': json,
+                    'loading': false
+                });
+            }
+        });
     </script>
 </aviso-list>

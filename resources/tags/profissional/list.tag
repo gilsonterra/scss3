@@ -81,40 +81,19 @@
     </form>
     <script>
         var tag = this;
-        tag.url = BASE_URL + '/profissional';
+        tag.url = BASE_URL + '/profissional'
         tag.grid = opts.grid || [];
-        tag.onRequest = onRequest;
-        tag.onNext = onNext;
-        tag.onPrev = onPrev;
-        tag.onSearch = onSearch;
         tag.loading = false;
 
-        function onRequest(pageUrl) {            
-            var form = tag.refs.formulario;
-            var data = APP.serializeJson(form);
-            data.paginate = true;
-            tag.loading = true;
-            APP.ajaxPostRequest(tag.url + '/buscar' + pageUrl, JSON.stringify(data), function (json) {
+        tag.mixin('ListagemMixin', {
+            urlFetch: tag.url + '/buscar',
+
+            callbackOnRequest: function (json) {
                 tag.update({
                     'grid': json,
                     'loading': false
                 });
-            });
-        }
-
-        function onSearch(event) {
-            event.preventDefault();
-            onRequest('');
-        }
-
-        function onNext(event) {
-            event.preventDefault();
-            onRequest(tag.grid.next_page_url);
-        }
-
-        function onPrev(event) {
-            event.preventDefault();
-            onRequest(tag.grid.prev_page_url);
-        }
+            }
+        });
     </script>
 </profissional-list>

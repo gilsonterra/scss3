@@ -64,17 +64,12 @@
     </form>
     <script>
         var tag = this;
+        tag.url = BASE_URL + '/local'
         tag.grid = opts.grid || [];
         tag.loading = false;
 
         tag.mixin('ListagemMixin', {
-            url: BASE_URL + '/local/buscar',
-
-            callbackBeforeRequest: function () {
-                tag.update({
-                    'loading': true
-                });
-            },
+            urlFetch: tag.url + '/buscar',
 
             callbackOnRequest: function (json) {
                 tag.update({
