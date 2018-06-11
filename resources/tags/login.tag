@@ -49,9 +49,9 @@
             APP.setSession({});    
             
             var form = event.target;
-            var data = APP.serializeJson(form);
+            var data = Serialize.toJson(form);
 
-            APP.ajaxPostRequest(tag.url + '/login/', JSON.stringify(data),
+            Request.post(tag.url + '/login/', JSON.stringify(data),
                 function (json) {
                     if (json.message) {
                         if (json.message.type == 'success') {                            

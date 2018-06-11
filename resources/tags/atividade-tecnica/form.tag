@@ -72,15 +72,14 @@
         tag.onChangeCategoria = onChangeCategoria;
         tag.on('mount', onMount);
 
-        function onMount() {            
-            console.log(opts.dados);
+        function onMount() {                        
             _buscaAcompanhamentoCategoria();
         }
 
         function _buscaAcompanhamentoCategoria() {
             var data = {};
             data.tipo = 'A';
-            APP.ajaxPostRequest(BASE_URL + '/acompanhamento-categoria/buscar', JSON.stringify(data),
+            Request.post(BASE_URL + '/acompanhamento-categoria/buscar', JSON.stringify(data),
                 function (json) {
                     tag.update({
                         'acompanhamentoCategorias': json
@@ -114,9 +113,9 @@
         function onSubmit(event) {
             event.preventDefault();
             var form = event.target;
-            var data = APP.serializeJson(form);
+            var data = Serialize.toJson(form);
 
-            APP.ajaxPostRequest(tag.url + '/persistir/' + tag.codigo, JSON.stringify(data),
+            Request.post(tag.url + '/persistir/' + tag.codigo, JSON.stringify(data),
                 function (json) {
                     if (json.message) {
                         swal(json.message).then(function () {

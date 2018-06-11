@@ -1,139 +1,6 @@
 var APP = {};
 
 /**
- * Método requisição ajax 
- * 
- * @param {string} url 
- * @param {object} options 
- * @param {function} resolve 
- * @param {reject} reject 
- */
-APP.httpService = function (url, options, resolve, reject) {
-    var xhr = new XMLHttpRequest();
-
-    xhr.open(options.method, url);
-
-    if (options.contentType) {
-        xhr.setRequestHeader("Content-Type", options.contentType);
-    }
-
-    xhr.setRequestHeader("X-Requested-With", 'XMLHttpRequest');
-
-    if (reject == undefined) {
-        reject = function (jsonText) {
-            swal(JSON.parse(jsonText));
-        }
-    }
-
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            switch (xhr.status) {
-                case 200:
-                    resolve(JSON.parse(xhr.responseText));
-                    break;
-
-                case 401:
-                    window.location.href = BASE_URL + '/login/entrar';
-                    break;
-
-                default:
-                    reject(xhr.responseText);
-                    break;
-            }
-        }
-    };
-
-    xhr.send(options.data);
-};
-
-/**
- *  Método requisição ajax POST
- * 
- * @param {string} url 
- * @param {object} data 
- * @param {function} resolve 
- * @param {function} reject 
- */
-APP.ajaxPostRequest = function (url, data, resolve, reject) {
-    APP.httpService(url, {
-        method: 'POST',
-        data: data,
-        contentType: 'application/json'
-    }, resolve, reject);
-};
-
-/**
- * Método requisição ajax GET
- * 
- * @param {string} url 
- * @param {function} resolve 
- * @param {function} reject 
- */
-APP.ajaxGetRequest = function (url, resolve, reject) {
-    APP.httpService(url, {
-        method: 'GET',
-        contentType: 'application/json'
-    }, resolve, reject);
-};
-
-/**
- * Serializa formulário como array de objeto
- * 
- * @param {element} form 
- */
-APP.serializeArray = function (form) {
-    var field, l, s = [];
-    if (typeof form == 'object' && form.nodeName == "FORM") {
-        var len = form.elements.length;
-        for (var i = 0; i < len; i++) {
-            field = form.elements[i];
-            if (field.name && !field.disabled && field.type != 'file' && field.type != 'reset' && field.type != 'submit' && field.type != 'button') {
-                if (field.type == 'select-multiple') {
-                    l = form.elements[i].options.length;
-                    for (j = 0; j < l; j++) {
-                        if (field.options[j].selected)
-                            s[s.length] = {
-                                name: field.name,
-                                value: field.options[j].value
-                            };
-                    }
-                } else if ((field.type != 'checkbox' && field.type != 'radio') || field.checked) {
-                    s[s.length] = {
-                        name: field.name,
-                        value: field.value
-                    };
-                }
-            }
-        }
-    }
-    return s;
-}
-
-/**
- * Serializa formulário como objeto JSON
- * 
- * @param {element} form 
- */
-APP.serializeJson = function (form) {
-    var json = {};
-    var array = APP.serializeArray(form);
-
-    array.map(function (item) {
-        if (item.name in json) {
-            if (Array.isArray(json[item.name])) {
-                json[item.name].push(item.value);
-            } else {
-                json[item.name] = [json[item.name], item.value];
-            }
-        } else {
-            json[item.name] = item.value;
-        }
-    });
-
-    return json;
-}
-
-/**
  * Pega data atual em pt_br. Ex: 13/01/1988
  */
 APP.dataAtualPtBr = function () {
@@ -151,16 +18,6 @@ APP.dataAtualPtBr = function () {
     }
 
     return dd + '/' + mm + '/' + yyyy;
-}
-
-/**
- * @param {string: DD/MM/YYY } stringDate 
- */
-APP.createDateObjectFromPtBr = function (stringDate) {
-    var params = stringDate.split('/');
-    var date = new Date(params[2], Number(params[1]) - 1, params[0]);
-
-    return date;
 }
 
 /**
@@ -232,56 +89,6 @@ APP.load = (function () {
     }
 })();
 
-riot.mixin('SerializeMixin', {
-
-    serializeToArray = function (form) {
-        var field, l, s = [];
-        if (typeof form == 'object' && form.nodeName == "FORM") {
-            var len = form.elements.length;
-            for (var i = 0; i < len; i++) {
-                field = form.elements[i];
-                if (field.name && !field.disabled && field.type != 'file' && field.type != 'reset' && field.type != 'submit' && field.type != 'button') {
-                    if (field.type == 'select-multiple') {
-                        l = form.elements[i].options.length;
-                        for (j = 0; j < l; j++) {
-                            if (field.options[j].selected)
-                                s[s.length] = {
-                                    name: field.name,
-                                    value: field.options[j].value
-                                };
-                        }
-                    } else if ((field.type != 'checkbox' && field.type != 'radio') || field.checked) {
-                        s[s.length] = {
-                            name: field.name,
-                            value: field.value
-                        };
-                    }
-                }
-            }
-        }
-        return s;
-    },
-
-    serializeToJson = function (form) {
-        var json = {};
-        var array = this.serializeToArray(form);
-
-        array.map(function (item) {
-            if (item.name in json) {
-                if (Array.isArray(json[item.name])) {
-                    json[item.name].push(item.value);
-                } else {
-                    json[item.name] = [json[item.name], item.value];
-                }
-            } else {
-                json[item.name] = item.value;
-            }
-        });
-
-        return json;
-    }
-}, true);
-
 
 riot.mixin('ListagemMixin', {
     urlFetch: null,
@@ -311,11 +118,11 @@ riot.mixin('ListagemMixin', {
         var self = this;
         var pageUrl = pageUrl ? pageUrl : '';
         var form = this.refs.formulario;
-        var data = this.serializeToJson(form);
-        data.paginate = true;                
+        var data = Serialize.toJson(form);
+        data.paginate = true;
 
         if (this.callbackBeforeRequest()) {
-            APP.ajaxPostRequest(this.urlFetch + pageUrl, JSON.stringify(data), function (json) {
+            Request.post(this.urlFetch + pageUrl, JSON.stringify(data), function (json) {
                 self.callbackOnRequest(json);
             });
         }

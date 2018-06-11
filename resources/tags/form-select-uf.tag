@@ -145,7 +145,7 @@
             var data = {
                 'uf_municipio': event.target.value
             };
-            APP.ajaxPostRequest(BASE_URL + '/municipio/buscar', JSON.stringify(data),
+            Request.post(BASE_URL + '/municipio/buscar', JSON.stringify(data),
                 function (json) {
                     tag.update({
                         'municipios': json
@@ -159,13 +159,13 @@
                 var data = {
                     'cod_ibge': tag.codIbge
                 };
-                APP.ajaxPostRequest(BASE_URL + '/municipio/buscar', JSON.stringify(data),
+                Request.post(BASE_URL + '/municipio/buscar', JSON.stringify(data),
                     function (json) {
                         var selected = json[0];
                         var data = {
                             'uf_municipio': selected.uf_municipio
                         };
-                        APP.ajaxPostRequest(BASE_URL + '/municipio/buscar', JSON.stringify(data),
+                        Request.post(BASE_URL + '/municipio/buscar', JSON.stringify(data),
                             function (json) {
                                 tag.update({
                                     'municipios': json

@@ -102,7 +102,7 @@
 
             callbackBeforeRequest: function () {
                 var form = tag.refs.formulario;
-                var data = APP.serializeJson(form);
+                var data = Serialize.toJson(form);
                 if (!_validationRequest(data)) {
                     swal('Aviso', 'Preencha pelo menos um campo do filtro!', 'info');
                     return false;

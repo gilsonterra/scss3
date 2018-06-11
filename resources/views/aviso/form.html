@@ -22,7 +22,7 @@
     var codigo = '{{ codigo }}';                
     
     if (codigo) {                   
-        APP.ajaxPostRequest(BASE_URL + '/aviso/buscar/', JSON.stringify({'codigo': codigo}),
+        Request.post(BASE_URL + '/aviso/buscar/', JSON.stringify({'codigo': codigo}),
             function (json) {                           
                 riot.mount('#aviso-form', 'aviso-form', {
                     'dados': json[0]

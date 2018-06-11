@@ -40,7 +40,7 @@
             event.preventDefault();
 
             var form = event.target;
-            var data = APP.serializeJson(form);            
+            var data = Serialize.toJson(form);            
             var serializeData = JSON.stringify(data);
             var url = tag.url + '/persistir/' + tag.paciente.codigo_paciente;
 
@@ -48,7 +48,7 @@
                 url += '/' + tag.entrevista.num_doc;
             }
 
-            APP.ajaxPostRequest(url, serializeData,
+            Request.post(url, serializeData,
                 function (json) {
                     if (json.message) {
                         swal(json.message).then(function () {

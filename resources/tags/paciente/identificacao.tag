@@ -240,10 +240,10 @@
             event.preventDefault();
 
             var form = event.target;
-            var data = APP.serializeJson(form);
+            var data = Serialize.toJson(form);
             var dataParam = JSON.stringify(data);
 
-            APP.ajaxPostRequest(tag.url + '/persistir/' + tag.codigo, dataParam, _onSuccess, _onError);
+            Request.post(tag.url + '/persistir/' + tag.codigo, dataParam, _onSuccess, _onError);
         }
 
         function _onSuccess(json) {

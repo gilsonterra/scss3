@@ -297,7 +297,7 @@
         ];
 
         function profissaoSource(callback) {
-            APP.ajaxPostRequest(BASE_URL + '/profissao/buscar', {}, function (json) {
+            Request.post(BASE_URL + '/profissao/buscar', {}, function (json) {
                 if(tag.dados.profissao){
                     json = json.map(function(e){
                         if(tag.dados.profissao.codigo == e.codigo){
@@ -337,7 +337,7 @@
 
 
         function getProfissao() {
-            APP.ajaxPostRequest(BASE_URL + '/profissao/buscar', {}, function (json) {
+            Request.post(BASE_URL + '/profissao/buscar', {}, function (json) {
                 tag.update({
                     'profissoes': json
                 });

@@ -34,9 +34,9 @@
         function onSubmit(event) {
             event.preventDefault();
             var form = event.target;
-            var data = APP.serializeJson(form);
+            var data = Serialize.toJson(form);
 
-            APP.ajaxPostRequest(tag.url + '/persistir/' + tag.codigo, JSON.stringify(data),
+            Request.post(tag.url + '/persistir/' + tag.codigo, JSON.stringify(data),
                 function (json) {
                     if (json.message) {
                         swal(json.message).then(function () {

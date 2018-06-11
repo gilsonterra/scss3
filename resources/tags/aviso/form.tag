@@ -70,7 +70,7 @@
                 'aviso': tag.root.querySelector('#aviso').content.innerHTML
             }
 
-            APP.ajaxPostRequest(tag.url + '/persistir/' + tag.codigo, JSON.stringify(data),
+            Request.post(tag.url + '/persistir/' + tag.codigo, JSON.stringify(data),
                 function (json) {
                     if (json.message) {
                         swal(json.message).then(function () {

@@ -34,7 +34,7 @@
         'joins': ['entrevistas', 'entrevistas.situacaoFuncional', 'entrevistas.profissao']
     };
 
-    APP.ajaxPostRequest(BASE_URL + '/paciente/find/' + codigo_paciente, JSON.stringify(data),
+    Request.post(BASE_URL + '/paciente/find/' + codigo_paciente, JSON.stringify(data),
         function (paciente) {
             var entrevista = {};
             if (num_doc) {

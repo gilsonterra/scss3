@@ -70,7 +70,7 @@
         function _buscaAcompanhamentoCategoria() {
             var data = {};
             data.tipo = 'U';
-            APP.ajaxPostRequest(BASE_URL + '/acompanhamento-categoria/buscar', JSON.stringify(data),
+            Request.post(BASE_URL + '/acompanhamento-categoria/buscar', JSON.stringify(data),
                 function (json) {
                     tag.update({
                         'acompanhamentoCategorias': json
@@ -104,7 +104,7 @@
         function onSubmit(event) {
             event.preventDefault();
             var form = event.target;
-            var data = APP.serializeJson(form);
+            var data = Serialize.toJson(form);
             var serializeData = JSON.stringify(data);
             var url = tag.url + '/persistir/' + tag.paciente.codigo_paciente;
 
@@ -112,7 +112,7 @@
                 url += '/' + tag.acompanhamento.codigo;
             }
 
-            APP.ajaxPostRequest(url, serializeData,
+            Request.post(url, serializeData,
                 function (json) {
                     if (json.message) {
                         swal(json.message).then(function () {

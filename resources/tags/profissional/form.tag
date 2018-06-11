@@ -94,7 +94,7 @@
         tag.localSource = localSource;
 
         function localSource(callback) {
-            APP.ajaxPostRequest(BASE_URL + '/local/buscar', {}, function (json) {
+            Request.post(BASE_URL + '/local/buscar', {}, function (json) {
                 if (tag.dados.locais) {
                     json = json.map(function (e) {
                         var encontrou = tag.dados.locais.find(function(l){
@@ -116,9 +116,9 @@
         function onSubmit(event) {
             event.preventDefault();
             var form = event.target;
-            var data = APP.serializeJson(form);
+            var data = Serialize.toJson(form);
 
-            APP.ajaxPostRequest(tag.url_profissional + '/persistir/' + tag.codigo, JSON.stringify(data),
+            Request.post(tag.url_profissional + '/persistir/' + tag.codigo, JSON.stringify(data),
                 function (json) {
                     if (json.message) {
                         swal(json.message).then(function () {

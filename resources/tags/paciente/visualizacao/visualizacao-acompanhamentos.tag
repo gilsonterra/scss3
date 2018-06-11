@@ -81,7 +81,7 @@
 
         function _onRequestDelete(acompanhamento) {
             var codigo = acompanhamento.codigo;
-            APP.ajaxGetRequest(tag.url + '/excluir/' + codigo,
+            Request.get(tag.url + '/excluir/' + codigo,
                 function (json) {
                     swal(json).then(function () {
                         if (json.type == 'success') {

@@ -39,7 +39,9 @@ function criticalJs() {
     return gulp.src([
             'node_modules/riot/riot.min.js',
             'node_modules/riot-route/dist/route.min.js',
-            'js/geral.js'
+            'js/geral.js',
+            'js/serialize.js',
+            'js/request.js'
         ])
         .pipe(minifier({
             minify: true,

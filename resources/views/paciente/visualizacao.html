@@ -25,7 +25,7 @@
             'entrevistas.local',
             'entrevistas.profissional'
         ];
-        APP.ajaxPostRequest(BASE_URL + '/paciente/find/' + codigo_paciente, JSON.stringify(data),
+        Request.post(BASE_URL + '/paciente/find/' + codigo_paciente, JSON.stringify(data),
             function (json) {
                 riot.mount('#paciente-visualizacao', 'paciente-visualizacao', {
                     'dados': json,

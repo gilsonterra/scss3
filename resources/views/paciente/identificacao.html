@@ -15,7 +15,7 @@
 
     var codigo_paciente = '{{ codigo_paciente }}';
     if (codigo_paciente) {
-        APP.ajaxPostRequest(BASE_URL + '/paciente/find/' + codigo_paciente,{},
+        Request.post(BASE_URL + '/paciente/find/' + codigo_paciente,{},
             function (json) {
                 riot.mount('#paciente-identificacao', 'paciente-identificacao', {
                     'dados': json

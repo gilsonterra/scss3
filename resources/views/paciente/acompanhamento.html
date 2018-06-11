@@ -22,7 +22,7 @@
         'joins': ['acompanhamentos.acompanhamentoItem.categoria']
     };
 
-    APP.ajaxPostRequest(BASE_URL + '/paciente/find/' + codigo_paciente, JSON.stringify(data),
+    Request.post(BASE_URL + '/paciente/find/' + codigo_paciente, JSON.stringify(data),
         function (json) {
             var acompanhamento = {};
             if (codigo) {

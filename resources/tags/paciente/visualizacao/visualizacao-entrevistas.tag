@@ -103,7 +103,7 @@
 
         function _onRequestDelete(entrevista) {
             var num_doc = entrevista.num_doc;
-            APP.ajaxGetRequest(tag.url + '/excluir/' + num_doc,
+            Request.get(tag.url + '/excluir/' + num_doc,
                 function (json) {
                     swal(json).then(function () {
                         if (json.type == 'success') {
