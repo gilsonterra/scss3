@@ -112,13 +112,6 @@
                     });
                     return true;
                 }
-            },
-
-            callbackOnRequest: function (json) {
-                tag.update({
-                    'grid': json,
-                    'loading': false
-                });
             }
         });
     </script>

@@ -70,13 +70,6 @@
 
         tag.mixin('ListagemMixin', {
             urlFetch: tag.url + '/buscar',
-            
-            callbackOnRequest: function (json) {
-                tag.update({
-                    'grid': json,
-                    'loading': false
-                });
-            }
         });
     </script>
 </profissao-list>

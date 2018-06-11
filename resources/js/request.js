@@ -1,4 +1,4 @@
-var Request = {
+window.Request = {
     _xhr: function (url, options, resolve, reject) {
         var xhr = new XMLHttpRequest();
         xhr.open(options.method, url);

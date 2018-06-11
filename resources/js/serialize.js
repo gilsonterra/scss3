@@ -1,4 +1,4 @@
-var Serialize = {
+window.Serialize = {
     toArray: function (form) {
         var field, l, s = [];
         if (typeof form == 'object' && form.nodeName == "FORM") {

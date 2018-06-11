@@ -4,7 +4,8 @@
     <profissao-list grid="{ JSON.parse('{{ grid | json_encode }}') }"></local-list >
 {% endblock %}
 
-{% block js %}                            
+{% block js %}                
+    <script src="{{ base_url }}/js/listagem-mixin.js"></script>             
     <script src="{{ base_url }}/tags/pagination.js" ></script>  
     <script src="{{ base_url }}/tags/profissao/list.js" ></script>    
 {% endblock %}

@@ -57,7 +57,8 @@ function js() {
             'node_modules/sweetalert2/dist/sweetalert2.min.js',
             'node_modules/pell/dist/pell.js',
             'node_modules/vanilla-masker/build/vanilla-masker.min.js',
-            'node_modules/choices.js/assets/scripts/dist/choices.min.js'
+            'node_modules/choices.js/assets/scripts/dist/choices.min.js',
+            'js/listagem-mixin.js'
         ])
         .pipe(minifier({
             minify: true,
