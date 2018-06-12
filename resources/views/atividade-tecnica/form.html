@@ -4,13 +4,7 @@
     <atividade-tecnica-form dados="{ JSON.parse('{{ dados | json_encode }}') }"></atividade-tecnica-form>
 {% endblock %}
 
-{% block js %}                     
+{% block js %}                         
     <script src="{{ base_url }}/tags/form-select-locais-sessao.js"></script>
     <script src="{{ base_url }}/tags/atividade-tecnica/form.js"></script>               
-    
-    <script type="text/javascript">
-        window.onload = function () {
-            APP.load.css(BASE_URL + '/css/sweetalert2.min.css');                        
-        }
-    </script>
 {% endblock %}

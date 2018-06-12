@@ -9,10 +9,13 @@
     <meta name="Description" content="Sistema de Controle do Serviço Social">
 
     <link rel="preload" as="style" href="{{ base_url }}/css/style.min.css"> 
-    <link rel="preload" as="style" href="{{ base_url }}/css/spectre-icons.min.css">      
+    <link rel="preload" as="style" href="{{ base_url }}/css/spectre-icons.min.css">   
+    <link rel="preload" as="style" href="{{ base_url }}/js/sweetalert2.min.js">   
+       
     <link rel="preload" as="script" href="{{ base_url }}/js/scripts.min.js">      
+    <link rel="preload" as="script" href="{{ base_url }}/js/sweetalert2.min.js">      
 
-    <link rel="stylesheet" href="{{ base_url }}/css/style.min.css" media="screen"> 
+    <link rel="stylesheet" href="{{ base_url }}/css/style.min.css" media="screen">     
 
     {% block css %}{% endblock %}
     <title>SCSS</title>
@@ -31,13 +34,12 @@
         var BASE_URL = '{{ base_url }}';
     </script>
 
-    <script src="{{ base_url }}/js/scripts.min.js"></script>
-    <script src="{{ base_url }}/js/sweetalert2.min.js" async></script>
+    <script src="{{ base_url }}/js/scripts.min.js"></script>    
     {% block js %}{% endblock %}
 
     <script type="text/javascript" defer>
-        riot.mount('*');
         APP.load.css(BASE_URL + '/css/spectre-icons.min.css');
+        riot.mount('*');
     </script>
 </body>
 

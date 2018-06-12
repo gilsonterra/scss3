@@ -9,10 +9,6 @@
 <script src="{{ base_url }}/tags/form-select-uf.js"></script>
 <script src="{{ base_url }}/tags/paciente/identificacao.js"></script>
 <script type="text/javascript">
-    window.onload = function () {
-        APP.load.css(BASE_URL + '/css/sweetalert2.min.css');                
-    };
-
     var codigo_paciente = '{{ codigo_paciente }}';
     if (codigo_paciente) {
         Request.post(BASE_URL + '/paciente/find/' + codigo_paciente,{},
