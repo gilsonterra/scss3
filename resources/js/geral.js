@@ -86,7 +86,3 @@ APP.load = (function () {
 })();
 
 
-window.onload = function () {
-    APP.load.js(BASE_URL + '/js/sweetalert2.min.js')
-    APP.load.css(BASE_URL + '/css/sweetalert2.min.css');
-}

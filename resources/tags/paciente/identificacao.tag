@@ -3,15 +3,14 @@
         <input type="hidden" name="fk_profissional" value="{ session.codigo }">
         <div class="card">
             <div class="card-header">
-                <div class="float-left">
-                    <div class="card-title h5">Paciente</div>
-                    <div class="card-subtitle text-gray h3">{ dados.nome_social || dados.nome_pac || '-' }</div>
-                </div>
-                <div class="float-right">
-                    <button type="submit" if="{ !dados.codigo_paciente }" class="btn btn-primary mr-1">Salvar</button>
-                    <button type="submit" if="{ dados.codigo_paciente }" class="btn btn-primary mr-1">Alterar</button>
-                    <a href="{ BASE_URL }/paciente/listar" if="{ !dados.codigo_paciente }" class="btn btn-secondary">Cancelar</a>
-                    <a href="{ BASE_URL }/paciente/visualizar/{ dados.codigo_paciente }" if="{ dados.codigo_paciente }" class="btn btn-secondary">Voltar</a>
+                <div class="card-title h3">
+                    <div class="float-left">Paciente</div>
+                    <div class="float-right">
+                        <button type="submit" if="{ !dados.codigo_paciente }" class="btn btn-primary mr-1">Salvar</button>
+                        <button type="submit" if="{ dados.codigo_paciente }" class="btn btn-primary mr-1">Alterar</button>
+                        <a href="{ BASE_URL }/paciente/listar" if="{ !dados.codigo_paciente }" class="btn btn-secondary">Cancelar</a>
+                        <a href="{ BASE_URL }/paciente/visualizar/{ dados.codigo_paciente }" if="{ dados.codigo_paciente }" class="btn btn-secondary">Voltar</a>
+                    </div>
                 </div>
             </div>
             <div class="card-body">

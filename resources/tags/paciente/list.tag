@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title h3">
-                    <div class="float-left">Busca Usuário</div>
+                    <div class="float-left">Busca Paciente</div>
                     <div class="float-right">
                         <a href="{ url }/identificacao/criar" class="btn btn-primary">Novo</a>
                     </div>

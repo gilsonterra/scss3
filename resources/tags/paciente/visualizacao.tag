@@ -5,7 +5,7 @@
                 <div class="columns">
                     <div class="column col-6 col-md-12">
                         <label class="form-label">Paciente</label>
-                        <span class="text-gray h3">{ dados.nome_social || dados.nome_pac }</span>
+                        <span class="text-gray h3">{ dados.nome_social.trim() || dados.nome_pac }</span>
                     </div>
                     <div class="column col-2 col-md-12">
                         <div class="form-group">

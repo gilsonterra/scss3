@@ -1,15 +1,15 @@
 <atividade-tecnica-lista>
-    <form onsubmit="{ onSearch }" ref="formulario">
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title h3">
-                    <div class="float-left">Atividades Técnicas</div>
-                    <div class="float-right">
-                        <a href="{ url }/criar" class="btn btn-primary">Novo</a>
-                    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title h3">
+                <div class="float-left">Atividades Técnicas</div>
+                <div class="float-right">
+                    <a href="{ url }/criar" class="btn btn-primary">Novo</a>
                 </div>
             </div>
-            <div class="card-body">
+        </div>
+        <div class="card-body">
+            <form onsubmit="{ onSearch }" ref="formulario">
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr class="bg-secondary">
@@ -60,14 +60,15 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
-            <div class="card-footer">
-                <pagination grid="{ grid }" next="{ onNext }" prev="{ onPrev }"></pagination>
-            </div>
+            </form>
         </div>
-    </form>
+        <div class="card-footer">
+            <pagination grid="{ grid }" next="{ onNext }" prev="{ onPrev }"></pagination>
+        </div>
+    </div>
+
     <script>
-          var tag = this;
+        var tag = this;
         tag.url = BASE_URL + '/atividade-tecnica'
         tag.grid = opts.grid || [];
         tag.loading = false;
