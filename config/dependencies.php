@@ -66,7 +66,7 @@ $container['notAllowedHandler'] = function ($c) {
  * PAGE ERROR (500)
  */
 $container['errorHandler'] = function ($c) {
-    return function (Slim\Http\Request $request, $response, $exception) use ($c) {
+    return function (Slim\Http\Request $request, $response, $exception) use ($c) {        
         if ($request->isXhr()) {
             $dados = [
                 'title' => 'Erro',
@@ -75,8 +75,7 @@ $container['errorHandler'] = function ($c) {
             ];
             
             return $c['response']->withStatus(500)->withHeader('Content-Type', 'text/json')->write(json_encode($dados));
-        } else {
-            //var_dump($exception);exit;
+        } else {            
             return $c['view']->render($response, '500.html', [
                 'message' => $exception->getMessage(),
                 'file' => $exception->getFile(),
@@ -86,7 +85,7 @@ $container['errorHandler'] = function ($c) {
     };
 };
 
-$container['phpErrorHandler'] = function ($c) {
+$container['phpErrorHandler'] = function ($c) {        
     return function (Slim\Http\Request $request, $response, $exception) use ($c) {
         if ($request->isXhr()) {
             $dados = [

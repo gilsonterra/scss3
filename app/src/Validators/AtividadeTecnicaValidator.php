@@ -9,18 +9,27 @@ final class AtividadeTecnicaValidator extends BaseValidator
 {
     public function valid($data)
     {
-        $errors = [];
-        $messages = [
-            'relato'      => 'Campo obrigatório.',
-            //'ramal.notEmpty' => 'Campo obrigatório.',
-            //'ramal.intVal'   => 'Campo deve ser número.',            
-            //'ramal.length'   => 'Campo deve ter 4 caracteres.'
-        ];
-
         try {
-            v::key('relato', v::stringType()->notEmpty())
-                 //->key('ramal', v::intVal()->notEmpty()->length(4, 4))
-                 ->assert($data);
+            $errors = [];
+            $messages = [
+                'data_cadastro.notEmpty' => 'Campo obrigatório.',
+                'data_cadastro.date'     => 'Formato da data é inválido (DD/MM/AAAA).',
+                'data_cadastro.max'      => 'A data do cadastro não pode ser maior que hoje.',
+                'fk_local'               => 'Campo obrigatório.',
+                'fk_acompanhamento'      => 'Campo obrigatório.',
+                'relato'                 => 'Campo obrigatório.',
+            ];
+
+            v::key('data_cadastro', v::notEmpty()->date('d/m/Y'))->assert($data);
+
+            $data['data_cadastro'] = \DateTime::createFromFormat('d/m/Y', $data['data_cadastro']);
+            $dataAtual = new \DateTime();
+            
+            v::key('data_cadastro', v::date()->max($dataAtual, true))
+                ->key('fk_local', v::stringType()->notEmpty())
+                ->key('fk_acompanhamento', v::stringType()->notEmpty())
+                ->key('relato', v::stringType()->notEmpty())
+                ->assert($data);
         } catch (NestedValidationException $e) {
             $messagesException = $e->findMessages($messages);
             $errors = $this->createArrayMessage($data, $messagesException);

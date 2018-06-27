@@ -12,7 +12,6 @@ class AcompanhamentoCategoria extends Model
 
     public function acompanhamentoItem()
     {
-        return $this->hasMany('App\Models\AcompanhamentoItem', 'fk_categoria_acompanhamento')
-            ->orderBy('descricao', 'ASC');
+        return $this->hasMany('App\Models\AcompanhamentoItem', 'fk_categoria_acompanhamento')->orderBy('descricao', 'ASC');
     }
 }

@@ -13,6 +13,9 @@
                 noResultsText: 'Nenhum resultado encontrado',
                 noChoicesText: 'Nenhuma opção',
                 removeItemButton: true,
+                addItemText: function (value) {
+                    return 'Clique para adicionar <b>"${value}"</b>';
+                }
             };
             var choices = new Choices('.js-choice', options);
             choices.ajax(tag.opts.source);

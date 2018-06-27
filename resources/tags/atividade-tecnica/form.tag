@@ -16,7 +16,7 @@
                     <div class="column col-2 col-md-12">
                         <div class="form-group { errors.data_cadastro ? 'has-error' : '' }">
                             <label class="form-label" for="data_cadastro">Data Cadastro</label>
-                            <input type="text" name="data_cadastro" maxlength="10" value="{ dados.data_cadastro || APP.dataAtualPtBr() }" class="form-input date"
+                            <input type="text" name="data_cadastro" id="data_cadastro" maxlength="10" value="{ dados.data_cadastro || APP.dataAtualPtBr() }" class="form-input date"
                                 required>
                             <div class="form-input-hint" if="{ errors.data_cadastro }" each="{ e in errors.data_cadastro }">- { e }</div>
                         </div>
@@ -74,6 +74,7 @@
 
         function onMount() {                        
             _buscaAcompanhamentoCategoria();
+            VMasker(document.getElementById('data_cadastro')).maskPattern('99/99/9999');
         }
 
         function _buscaAcompanhamentoCategoria() {

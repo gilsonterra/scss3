@@ -41,14 +41,4 @@ final class PacienteEntrevistaValidator extends BaseValidator
         
         return $errors;
     }
-
-    protected function _createAndValidateDate($date)
-    {
-        $dateObject = \DateTime::createFromFormat('d/m/Y', $date);
-        if ($dateObject->format('d/m/Y') != $date) {
-            $dateObject = null;
-        }
-
-        return $dateObject;
-    }
 }

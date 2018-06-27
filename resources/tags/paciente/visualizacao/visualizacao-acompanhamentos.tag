@@ -52,6 +52,9 @@
                             </div>
                         </td>
                     </tr>
+                    <tr if="{ acompanhamentos && acompanhamentos.length == 0 }">
+                        <td colspan="6">Nenhum acompanhamento encontrado.</td>
+                    </tr>
                 </tbody>
             </table>
         </div>

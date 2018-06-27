@@ -2,6 +2,9 @@
 
 namespace App\Validators;
 
+use Respect\Validation\Validator as v;
+use Respect\Validation\Exceptions\NestedValidationException;
+
 abstract class BaseValidator
 {
     public function createArrayMessage(array $data, $messagesException)
@@ -18,5 +21,15 @@ abstract class BaseValidator
         }
 
         return $errors;
+    }
+
+    protected function _createAndValidateDate($date)
+    {
+        $dateObject = \DateTime::createFromFormat('d/m/Y', $date);
+        if ($dateObject->format('d/m/Y') != $date) {
+            $dateObject = null;
+        }
+
+        return $dateObject;
     }
 }

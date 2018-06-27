@@ -107,4 +107,12 @@ $container['App\Controllers\AtividadeTecnicaController'] = function ($container)
     return new App\Controllers\AtividadeTecnicaController($container, $repository, $validator);
 };
 
+$container['App\Controllers\RelatorioAcompanhamentoAnualController'] = function ($container) {    
+    $model = new App\Models\ViewRelAnalitico();  
+    $modelItem = new App\Models\AcompanhamentoItem();  
+    $repository = new App\Repositories\RelatorioAcompanhamentoAnualRepository($model, $modelItem);        
+    
+    return new App\Controllers\RelatorioAcompanhamentoAnualController($container, $repository);
+};
+
 

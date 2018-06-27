@@ -73,6 +73,9 @@
                             </div>
                         </td>
                     </tr>
+                    <tr if="{ entrevistas && entrevistas.length == 0 }">
+                        <td colspan="5">Nenhuma entrevista encontrada.</td>
+                    </tr>
                 </tbody>
             </table>
         </div>

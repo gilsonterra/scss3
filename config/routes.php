@@ -111,6 +111,14 @@ $app->group('/atividade-tecnica', function () {
 ->add(new AdministrativoMiddleware($app->getContainer()))
 ->add(new AuthMiddleware($app->getContainer()));
 
+
+$app->group('/relatorio-acompanhamento-anual', function () {
+    $this->get('/index[/]', 'App\Controllers\RelatorioAcompanhamentoAnualController:indexView'); 
+    $this->post('/buscar[/]', 'App\Controllers\RelatorioAcompanhamentoAnualController:fetchAll');
+})
+->add(new AuthMiddleware($app->getContainer()));
+
+
 $app->get('/info', function () {
     phpinfo();
 });
