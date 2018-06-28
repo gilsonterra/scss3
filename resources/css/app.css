@@ -467,3 +467,33 @@ fieldset {
 }
 
 /*=====  End of Choices  ======*/
+
+/*===============================
+=            Print            =
+===============================*/
+
+@media print {
+  body {
+    font-size: 10px;
+  }
+  .btn,
+  .container-menu {
+    display: none !important;
+  }
+  .card {
+    border: none;
+    margin: none;
+    padding: none;
+  }
+  .table td,
+  .table th {
+    padding: 3px !important;
+  }
+  .form-input, .form-select {
+    border: none !important;
+    padding: none !important;
+    margin: none !important;
+  }
+}
+
+/*=====  End of Print  ======*/

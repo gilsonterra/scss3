@@ -5,7 +5,9 @@
             <div class="card-title h3">
                 <div class="float-left">Estátistica Acompanhamento Anual</div>
                 <div class="float-right">
-                    <a href="" class="btn btn-primary">Imprimir</a>
+                    <button type="button" class="btn btn-primary" onclick="window.print();">                        
+                        Imprimir
+                    </button>
                 </div>
             </div>
         </div>
@@ -26,34 +28,39 @@
                             </div>
                         </div>
                         <div class="column col-4 col-md-12">
-                            <button type="submit" class="btn btn-primary" style="margin-top:30px">Pesquisar</button>
+                            <button type="submit" class="btn btn-secondary" style="margin-top:31px">
+                                <i class="icon icon-search"></i>
+                                Pesquisar
+                            </button>
                         </div>
                     </div>
                 </form>
             </div>
+
             <span if="{ grid && grid.length <= 0 }">
                 Use o filtro para pesquisar.
             </span>
 
-            <table show="{ grid && grid.length > 0 }" class="table">
-                <tbody each="{ g in grid }">
-                    {console.log(g)}
+            <table show="{ grid && grid.length > 0 }" class="table table-hover" each="{ g in grid }">
+                <thead>
                     <tr class="bg-dark">
                         <th>{ g.descricao }</th>
-                        <th>Jan</th>
-                        <th>Fev</th>
-                        <th>Mar</th>
-                        <th>Abr</th>
-                        <th>Mai</th>
-                        <th>Jun</th>
-                        <th>Jul</th>
-                        <th>Ago</th>
-                        <th>Set</th>
-                        <th>Out</th>
-                        <th>Nov</th>
-                        <th>Dez</th>
-                        <th>Total</th>
+                        <th class="mes">Jan</th>
+                        <th class="mes">Fev</th>
+                        <th class="mes">Mar</th>
+                        <th class="mes">Abr</th>
+                        <th class="mes">Mai</th>
+                        <th class="mes">Jun</th>
+                        <th class="mes">Jul</th>
+                        <th class="mes">Ago</th>
+                        <th class="mes">Set</th>
+                        <th class="mes">Out</th>
+                        <th class="mes">Nov</th>
+                        <th class="mes">Dez</th>
+                        <th class="mes">Total</th>
                     </tr>
+                </thead>
+                <tbody>
                     <tr each="{ d in g.acompanhamento_item }">
                         <td>{ d.item }</td>
                         <td>
@@ -92,14 +99,62 @@
                         <td>
                             <span class="{ d.mes_12 == 0 ? 'text-gray' : 'text-dark' }">{ d.mes_12 }</span>
                         </td>
-                        <td>
+                        <td class="bg-secondary text-right">
                             <b class="{ d.total_anual == 0 ? 'text-gray' : 'text-dark' }">{ d.total_anual }</b>
+                        </td>
+                    </tr>
+                    <tr class="bg-secondary">
+                        <td><b>TOTAL</b></td>
+                        <td>
+                            <b class="{ g.totalizadores.mes_1 == 0 ? 'text-gray' : 'text-dark' }">{ g.totalizadores.mes_1 }</b>
+                        </td>
+                        <td>
+                            <b class="{ g.totalizadores.mes_2 == 0 ? 'text-gray' : 'text-dark' }">{ g.totalizadores.mes_2 }</b>
+                        </td>
+                        <td>
+                            <b class="{ g.totalizadores.mes_3 == 0 ? 'text-gray' : 'text-dark' }">{ g.totalizadores.mes_3 }</b>
+                        </td>
+                        <td>
+                            <b class="{ g.totalizadores.mes_4 == 0 ? 'text-gray' : 'text-dark' }">{ g.totalizadores.mes_4 }</b>
+                        </td>
+                        <td>
+                            <b class="{ g.totalizadores.mes_5 == 0 ? 'text-gray' : 'text-dark' }">{ g.totalizadores.mes_5 }</b>
+                        </td>
+                        <td>
+                            <b class="{ g.totalizadores.mes_6 == 0 ? 'text-gray' : 'text-dark' }">{ g.totalizadores.mes_6 }</b>
+                        </td>
+                        <td>
+                            <b class="{ g.totalizadores.mes_7 == 0 ? 'text-gray' : 'text-dark' }">{ g.totalizadores.mes_7 }</b>
+                        </td>
+                        <td>
+                            <b class="{ g.totalizadores.mes_8 == 0 ? 'text-gray' : 'text-dark' }">{ g.totalizadores.mes_8 }</b>
+                        </td>
+                        <td>
+                            <b class="{ g.totalizadores.mes_9 == 0 ? 'text-gray' : 'text-dark' }">{ g.totalizadores.mes_9 }</b>
+                        </td>
+                        <td>
+                            <b class="{ g.totalizadores.mes_10 == 0 ? 'text-gray' : 'text-dark' }">{ g.totalizadores.mes_10 }</b>
+                        </td>
+                        <td>
+                            <b class="{ g.totalizadores.mes_11 == 0 ? 'text-gray' : 'text-dark' }">{ g.totalizadores.mes_11 }</b>
+                        </td>
+                        <td>
+                            <b class="{ g.totalizadores.mes_12 == 0 ? 'text-gray' : 'text-dark' }">{ g.totalizadores.mes_12 }</b>
+                        </td>
+                        <td class="text-right">
+                            <b class="{ g.totalizadores.total_anual == 0 ? 'text-gray' : 'text-dark' }">{ g.totalizadores.total_anual }</b>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
+
+    <style media="all">
+        .mes{
+            width: 50px;
+        }
+    </style>
 
     <script>
         var tag = this;
@@ -113,8 +168,10 @@
 
         tag.mixin('ListagemMixin', {
             urlFetch: tag.url + '/buscar',
-            callbackBeforeRequest: function(){
-                tag.update({'loading': true});
+            callbackBeforeRequest: function () {
+                tag.update({
+                    'loading': true
+                });
                 return true;
             }
         });
