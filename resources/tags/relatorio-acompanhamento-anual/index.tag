@@ -18,7 +18,7 @@
                         <div class="column col-2 col-md-12">
                             <div class="form-group { errors.descricao ? 'has-error' : '' }">
                                 <label class="form-label" for="descricao">Ano</label>
-                                <input type="text" name="ano" maxlength="4" value="{ dados.ano }" class="form-input" required>
+                                <input type="text" id="ano" placeholder="AAAA" name="ano" maxlength="4" value="{ dados.ano }" class="form-input" required>
                                 <div class="form-input-hint" if="{ errors.ano }" each="{ e in errors.ano }">- { e }</div>
                             </div>
                         </div>
@@ -37,9 +37,9 @@
                 </form>
             </div>
 
-            <span if="{ grid && grid.length <= 0 }">
+            <div class="container" if="{ grid && grid.length <= 0 }">
                 Use o filtro para pesquisar.
-            </span>
+            </div>
 
             <table show="{ grid && grid.length > 0 }" class="table table-hover" each="{ g in grid }">
                 <thead>
@@ -165,6 +165,11 @@
         tag.dados = opts.dados || {};
         tag.session = APP.getSessiononSubmit
         tag.onSearch = onSearch;
+        tag.on('mount', onMount);
+
+        function onMount(){
+            VMasker(document.getElementById('ano')).maskPattern('9999');
+        }
 
         tag.mixin('ListagemMixin', {
             urlFetch: tag.url + '/buscar',
