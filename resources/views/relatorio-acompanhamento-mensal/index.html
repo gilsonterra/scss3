@@ -1,0 +1,12 @@
+{% extends "base.html" %} 
+
+{% block content %}
+<relatorio-acompanhamento-mensal grid="{ JSON.parse('{{ grid | json_encode }}') }"></relatorio-acompanhamento-mensal>
+{% endblock %} 
+
+{% block js %}
+<script src="{{ base_url }}/js/vanilla-masker.min.js"></script>
+<script src="{{ base_url }}/js/listagem-mixin.js"></script>
+<script src="{{ base_url }}/tags/form-select-locais-sessao.js"></script>
+<script src="{{ base_url }}/tags/relatorio-acompanhamento-mensal/index.js"></script>
+{% endblock %}

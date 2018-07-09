@@ -15,6 +15,7 @@ class Profissional extends Model
     public function locais(){
         return $this->belongsToMany('App\Models\Local', 'tbl_prof_x_local', 'cod_profissional', 'cod_local')
             ->where('tbl_prof_x_local.status', '=', 1)
+            ->where('tbl_local.status', '=', 1)
             ->orderBy('tbl_local.descricao');
     }
 }

@@ -118,6 +118,12 @@ $app->group('/relatorio-acompanhamento-anual', function () {
 })
 ->add(new AuthMiddleware($app->getContainer()));
 
+$app->group('/relatorio-acompanhamento-mensal', function () {
+    $this->get('/index[/]', 'App\Controllers\RelatorioAcompanhamentoMensalController:indexView'); 
+    $this->post('/buscar[/]', 'App\Controllers\RelatorioAcompanhamentoMensalController:fetchAll');
+})
+->add(new AuthMiddleware($app->getContainer()));
+
 
 $app->get('/info', function () {
     phpinfo();

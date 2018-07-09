@@ -108,11 +108,13 @@ $container['App\Controllers\AtividadeTecnicaController'] = function ($container)
 };
 
 $container['App\Controllers\RelatorioAcompanhamentoAnualController'] = function ($container) {    
-    $model = new App\Models\ViewRelAnalitico();  
-    $modelItem = new App\Models\AcompanhamentoItem();  
-    $repository = new App\Repositories\RelatorioAcompanhamentoAnualRepository($model, $modelItem);        
-    
+    $repository = new App\Repositories\RelatorioAcompanhamentoAnualRepository();            
     return new App\Controllers\RelatorioAcompanhamentoAnualController($container, $repository);
+};
+
+$container['App\Controllers\RelatorioAcompanhamentoMensalController'] = function ($container) {    
+    $repository = new App\Repositories\RelatorioAcompanhamentoMensalRepository();            
+    return new App\Controllers\RelatorioAcompanhamentoMensalController($container, $repository);
 };
 
 

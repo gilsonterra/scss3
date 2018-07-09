@@ -5,7 +5,7 @@
             <div class="card-title h3">
                 <div class="float-left">Estátistica Acompanhamento Anual</div>
                 <div class="float-right">
-                    <button type="button" class="btn btn-primary" onclick="window.print();">                        
+                    <button type="button" class="btn btn-primary" onclick="window.print();">
                         Imprimir
                     </button>
                 </div>
@@ -104,7 +104,9 @@
                         </td>
                     </tr>
                     <tr class="bg-secondary">
-                        <td><b>TOTAL</b></td>
+                        <td>
+                            <b>TOTAL</b>
+                        </td>
                         <td>
                             <b class="{ g.totalizadores.mes_1 == 0 ? 'text-gray' : 'text-dark' }">{ g.totalizadores.mes_1 }</b>
                         </td>
@@ -151,8 +153,12 @@
     </div>
 
     <style media="all">
-        .mes{
+        .mes {
             width: 50px;
+        }
+
+        .table {
+            font-size: 12px !important;
         }
     </style>
 
@@ -164,10 +170,9 @@
         tag.errors = opts.errors || {};
         tag.dados = opts.dados || {};
         tag.session = APP.getSessiononSubmit
-        tag.onSearch = onSearch;
         tag.on('mount', onMount);
 
-        function onMount(){
+        function onMount() {
             VMasker(document.getElementById('ano')).maskPattern('9999');
         }
 
@@ -180,16 +185,5 @@
                 return true;
             }
         });
-
-        function onSearch(event) {
-            event.preventDefault();
-            var form = event.target;
-            var data = Serialize.toJson(form);
-
-            Request.post(tag.url + '/buscar/', JSON.stringify(data),
-                function (json) {
-                    console.log(json);
-                });
-        }
     </script>
 </relatorio-acompanhamento-anual>
